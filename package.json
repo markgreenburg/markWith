@@ -1,0 +1,27 @@
+{
+  "name": "markwith",
+  "version": "1.0.0",
+  "description": "collaborative markup editor",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/markgreenburg/markwith.git"
+  },
+  "keywords": [
+    "markup",
+    "markdown",
+    "collaboration",
+    "concurrent",
+    "edit",
+    "sockets.io"
+  ],
+  "author": "Mark Greenburg",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/markgreenburg/markwith/issues"
+  },
+  "homepage": "https://github.com/markgreenburg/markwith#readme"
+}
