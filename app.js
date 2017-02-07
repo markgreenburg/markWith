@@ -9,7 +9,7 @@ const app = express();
 // Load routers
 const client = require('./routes/client');
 const api = require('./routes/api');
-const user = require('./user');
+const user = require('./routes/user');
 
 // Set view directory and view engine to handlebars
 app.set('views', path.join(__dirname, 'views'));
@@ -26,3 +26,5 @@ app.use('/user', user);
 app.listen(3000, () => {
     console.log('listening on *:3000');
 });
+
+

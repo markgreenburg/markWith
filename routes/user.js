@@ -9,3 +9,5 @@ router.get('/register', (req, res) => {
 router.get('/login', (req, res) => {
     res.sendFile(__dirname + '/login.html');
 });
+
+module.exports = router;
