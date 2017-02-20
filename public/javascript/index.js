@@ -39,7 +39,11 @@ window.onload = () => {
              // Replace textPad text with text from server
              textPad.value = data.newText;
              // Set cursor index based on server data
-             textPad.setSelectionRange(newCursorIndex, newCursorIndex);
+             if (cursorIndex >= data.cursor) {
+                textPad.setSelectionRange(newCursorIndex, newCursorIndex);
+             } else {
+                 textPad.setSelectionRange(cursorIndex, cursorIndex);
+             }
              // Re-render markdown
              updateMarkdown();
          });
