@@ -4,13 +4,19 @@ window.onload = () => {
     const socket = io();
     const textPad = document.getElementById("text-pad");
     const textMarkdown = document.getElementById("markdown-target");
+    let emitCursorIndex = 0;
 
-    /**
-     * Markdown converter
-     */
+     /* Markdown converter */
     const updateMarkdown = () => {
         textMarkdown.innerHTML = marked(textPad.value); // from CDN
     };
+
+     /* Cursor tracking (for emitters) */
+
+    // Track emitter's pre-change cursor position
+    textPad.addEventListener('keydown', (event) => {
+        emitCursorIndex = textPad.selectionStart;
+    });
 
     /**
      * Socket.io
@@ -30,10 +36,9 @@ window.onload = () => {
          // Listen for text change broadcasts from socket server and replace
          // raw text. Move cursor to correct index.
          socket.on("text changed", (data) => {
-             // Grab the current cursor position
-             console.log(data);
+             // Grab the local cursor position
              const cursorIndex = textPad.selectionStart;
-             // Compare text length to determine cursor
+             // Compare text length to determine cursor diff
              const changeLength = data.newText.length - textPad.value.length;
              const newCursorIndex = cursorIndex + changeLength;
              // Replace textPad text with text from server
@@ -51,15 +56,12 @@ window.onload = () => {
          /* Emiters */
 
          // Broadcast local text changes to the server and re-render markdown
-         textPad.oninput = () => {
-             // Get the cursor position BEFORE insertion
-             const cursorIndex = textPad.selectionStart - 1;
-             const cursorStart = (cursorIndex >= 0 ? cursorIndex : 0);
+         textPad.addEventListener("input", () => {
              socket.emit("text changed", {
                  newText: textPad.value, 
-                 cursor: cursorStart
+                 cursor: emitCursorIndex
              });
              updateMarkdown();
-         }
+         });
      });
 }
