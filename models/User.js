@@ -7,7 +7,7 @@
 //     otherStuff: "etc..."
 // };
 
-module.exports = function User (fName, lName, profilePic email, password, createdAt, lastLogin) {
+module.exports = function User (fName, lName, profilePic, email, password, createdAt, lastLogin) {
     this.fName = fName;
     this.lName = lName;
     this.email = email;
