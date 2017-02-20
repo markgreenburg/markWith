@@ -31,18 +31,19 @@ io.on("connection", (socket) => {
     if (io.sockets.connected[socket.id]) {
         io.sockets.connected[socket.id].emit("populate editor", text);
     }
-    // When new text changes received, broadcast new text to all sockets except 
+    // When new text changes received, broadcast new text to all sockets except
     // originator
-    socket.on("text changed", (newText) => {
+    socket.on("text changed", (data) => {
         // Copy the changes to server
-        text = newText;
-        // Emit server's version back to everyone else
-        socket.broadcast.emit("text changed", text);
+        text = data.newText;
+        // Emit server's version and insertion index back to everyone else
+        socket.broadcast.emit("text changed", {
+            newText: text,
+            cursor: data.cursor
+        });
     });
 });
 
 http.listen(port, () => {
     console.log('listening on *:3000');
 });
-
-
