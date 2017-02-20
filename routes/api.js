@@ -1,4 +1,6 @@
 'use strict';
+const User = require("../models/User");
+const Document = require("../models/Document");
 
 /**
  * API routes; mounted at /api
