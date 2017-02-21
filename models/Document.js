@@ -9,8 +9,8 @@ const documentSchema = new Schema({
     owners: { type: Array, required: true },
     collaborators: { type: Array, required: true },
     docState: {
-        fDate: { type: Timestamp, required: true },
-        tDate: { type: Timestamp, required: true }
+        fDate: { type: Date, required: true },
+        tDate: { type: Date, required: true }
         }
     });
 
