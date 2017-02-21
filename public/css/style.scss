@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css?family=Mukta+Vaani|Roboto');
+
+$navblue: #0f4a7e;
+
+html, body, div.container-fluid {
+    height: 100%;
+    font-family: 'Roboto', sans-serif;
+
+}
+
+#navbar {
+    padding: 10px;
+    background-color: $navblue;
+    background: -moz-linear-gradient(351deg, rgba(49,55,66,1) 0%, rgba(64,72,87,1) 100%); /* ff3.6+ */
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%, rgba(49,55,66,1)), color-stop(100%, rgba(64,72,87,1))); /* safari4+,chrome */
+    background: -webkit-linear-gradient(351deg, rgba(49,55,66,1) 0%, rgba(64,72,87,1) 100%); /* safari5.1+,chrome10+ */
+    background: -o-linear-gradient(351deg, rgba(49,55,66,1) 0%, rgba(64,72,87,1) 100%); /* opera 11.10+ */
+    background: -ms-linear-gradient(351deg, rgba(49,55,66,1) 0%, rgba(64,72,87,1) 100%); /* ie10+ */
+    background: linear-gradient(99deg, rgba(49,55,66,1) 0%, rgba(64,72,87,1) 100%); /* w3c */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#313742', endColorstr='#404857',GradientType=1 ); /* ie6-9 */
+    font-family: 'Mukta Vaani', sans-serif;
+
+    a {
+        color: #eee;
+    }
+}
+
+#mynavbar-content{
+    float: right;
+    }
+
+div.header-row {
+    height: 10%;
+    text-align: center;
+}
+
+div.content-row {
+    height: 90%;
+}
+
+div.text-pad {
+    height: 100%;
+}
+
+textarea#text-pad {
+    width: 100%;
+    height: 100%;
+    /*border: none;*/
+    overflow: auto;
+    resize: none;
+}
