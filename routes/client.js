@@ -18,14 +18,14 @@ router.get('/user/login', (req, res, next) => {
     res.render('login');
 });
 // Documents main page
-router.get('/user/documents', (req, res, next) =>{
+router.get('/user/documents/:userid', (req, res, next) =>{
     res.render('dashboard')
 });
 // Profile edit page
 router.get('/user/profile', (req, res, next) => {
     res.render('profile')
 });
-// Document/Editing page 
+// Document/Editing page
 router.get('/documents/:id', (req, res, next) => {
     res.render('docscreen')
 });
