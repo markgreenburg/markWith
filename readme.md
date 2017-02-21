@@ -16,6 +16,7 @@ to take care of dependencies
 
 #### To-Do ####
 Lots of things on the to-do list. Eventually will include:
+* [Mark] Take care of routing with namespaces
 * Share documents with collaborators
 * Save documents (likely using Mongo on the backend)
 * Periodic document auto-save

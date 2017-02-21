@@ -6,7 +6,7 @@ const Schema = mongoose.Schema;
 
 const documentSchema = new Schema({
     docName: { type: String, required: true },
-    collaborators: { type: String, required: true },
+    collaborators: { type: Array, required: true },
     createdAt: { type: Date, required: true },
     lastUpdated: { type: Date, required: true, default: Date.now }
     });
