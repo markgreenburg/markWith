@@ -9,25 +9,25 @@ const router = require('express').Router();
 router.get('/', (req, res, next) => {
     res.render('index');
 });
-
+// Sign up page
 router.get('/user/signup', (req, res, next) => {
-
+    res.render('signup');
 });
-
+// Login page
 router.get('/user/login', (req, res, next) => {
-
+    res.render('login');
 });
-
+// Documents main page
 router.get('/user/documents', (req, res, next) =>{
-
+    res.render('dashboard')
 });
-
+// Profile edit page
 router.get('/user/profile', (req, res, next) => {
-
+    res.render('profile')
 });
-
+// Document/Editing page 
 router.get('/documents/:id', (req, res, next) => {
-
+    res.render('docscreen')
 });
 
 
