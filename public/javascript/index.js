@@ -1,5 +1,3 @@
-// 1. Get starting cursor position on input, send index to server to rebroadcast
-
 window.onload = () => {
     const socket = io();
     const textPad = document.getElementById("text-pad");
@@ -11,17 +9,14 @@ window.onload = () => {
         textMarkdown.innerHTML = marked(textPad.value); // from CDN
     };
 
-     /* Cursor tracking (for emitters) */
-
-    // Track emitter's pre-change cursor position
-    textPad.addEventListener('keydown', (event) => {
+    /* Track emitter's pre-change cursor position */
+    textPad.addEventListener('keydown', () => {
         emitCursorIndex = textPad.selectionStart;
     });
 
     /**
      * Socket.io
      */
-     // Ensure connection happens first
      socket.on("connect", () => {
 
         /* Listeners */
@@ -38,13 +33,12 @@ window.onload = () => {
          socket.on("text changed", (data) => {
              // Grab the local cursor position
              const cursorIndex = textPad.selectionStart;
-             // Compare text length to determine cursor diff
-             const changeLength = data.newText.length - textPad.value.length;
-             const newCursorIndex = cursorIndex + changeLength;
              // Replace textPad text with text from server
              textPad.value = data.newText;
              // Set cursor index based on server data
              if (cursorIndex >= data.cursor) {
+                const changeLength = data.newText.length - textPad.value.length;
+                const newCursorIndex = cursorIndex + changeLength;
                 textPad.setSelectionRange(newCursorIndex, newCursorIndex);
              } else {
                  textPad.setSelectionRange(cursorIndex, cursorIndex);
