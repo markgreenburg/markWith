@@ -1,6 +1,7 @@
 'use strict';
-const User = require("../models/User");
-const Document = require("../models/Document");
+const db = require("../models/db");
+const uuid = require("uuid/v4");
+const config = require("../config");
 
 /**
  * API routes; mounted at /api
@@ -8,8 +9,37 @@ const Document = require("../models/Document");
 
 const router = require('express').Router();
 
-/* View all and create new documents */
-router.route('/documents')
+/* Auth checker */
+const checkAuth = (req, res, next) => {
+    console.log(req.signedCookies.authCookie);
+    const cookie = req.signedCookies.authCookie;
+    const session = req.session;
+    if (session.userId == cookie.userId && session.token == cookie.token) {
+        next();
+    }
+    res.status(401)
+    res.json({
+        "message": "Not authorized",
+        "data": {},
+        "success": false
+    });
+};
+
+router.post('/test', checkAuth, (req, res, next) => {
+    res.json({
+        "message": "authorized",
+        "data": {
+            "sessionUserId": req.session.userId,
+            "sessionEmail": req.session.email,
+            "sessionToken": req.session.token,
+            "cookie": req.signedCookies.authCookie
+        },
+        "success": true
+    });
+});
+
+/* View all and create new documents - tied to user */
+router.route('/documents/:userId')
     .get()
     .post();
 
@@ -17,15 +47,99 @@ router.route('/documents')
 router.route('/documents/:id')
     .get()
 
-
 /* Create account for new user */
 router.post('/user/register', (req, res) => {
-    // Create an account and respond
+    const newUser = new db.User({
+        fName: req.body.fName,
+        lName: req.body.lName,
+        email: req.body.email,
+        password: req.body.password
+    });
+    newUser.save()
+        .then((result) => {
+            console.log('got a result');
+            res.json({
+                "message": "User created",
+                "data": {
+                    "fName": result.fName,
+                    "lName": result.lName,
+                    "email": result.email,
+                    "createdAt": result.createdAt,
+                    "lastModified": result.lastModified
+                },
+                "success": true
+            });
+        })
+        .catch((err) => {
+            console.log(err);
+            res.json({
+                "message": "User creation failed",
+                "data": err,
+                "success": false
+            });
+        });
 });
 
 /* Log in existing user */
 router.post('/user/login', (req, res) => {
-    // Log user in and respond
+    db.User.findOne({ email: req.body.email })
+        // Found matching user
+        .then((result) => {
+            result.comparePassword(req.body.password, (err, match) => {
+                if (err) {
+                    // something went wrong with bcrypt
+                    res.status(401)
+                        .json({
+                            "message": "Could not log in",
+                            "data": {},
+                            "success": false
+                        });
+                } else if (match == true) {
+                    // correct password
+                    const token = uuid();
+                    const authInfo = {
+                        token: token,
+                        email: result.email,
+                        userId: result._id
+                    };
+                    // set the session
+                    req.session.token = authInfo.token;
+                    req.session.userId = authInfo.userId;
+                    req.session.email = authInfo.email;
+                    // set the cookie
+                    res.cookie('authCookie', authInfo, config.cookieOptions);
+                    // send response
+                    res.status(200)
+                        .json({
+                            "message": "Login successful",
+                            "data": {
+                                "token": authInfo.token,
+                                "userId": authInfo.userId,
+                                "email": authInfo.email
+                            },
+                            "success": true
+                        });
+                } else if (match == false) {
+                    // wrong password
+                    res.status(401)
+                        .json({
+                            "message": "Could not log in",
+                            "data": {},
+                            "success": false
+                        });
+                }
+            });
+        })
+        // User doesn't exist or something went wrong with DB
+        .catch((err) => {
+            console.log(err);
+            res.status(401)
+                .json({
+                    "message": "Could not log in",
+                    "data": {},
+                    "success": false
+                });
+        });
 });
 
 module.exports = router;
