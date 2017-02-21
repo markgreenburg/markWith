@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/markgreenburg/markwith#readme",
   "dependencies": {
+    "bcrypt": "^1.0.2",
     "express": "^4.14.1",
     "hbs": "^4.0.1",
     "http": "0.0.0",
