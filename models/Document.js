@@ -8,8 +8,10 @@ const documentSchema = new Schema({
     docName: { type: String, required: true },
     owners: { type: Array, required: true },
     collaborators: { type: Array, required: true },
-    createdAt: { type: Date, required: true },
-    lastUpdated: { type: Date, required: true, default: Date.now }
+    docState: {
+        fDate: { type: Timestamp, required: true },
+        tDate: { type: Timestamp, required: true }
+        }
     });
 
 module.exports = mongoose.model('Doc', documentSchema);
