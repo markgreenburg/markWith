@@ -62,14 +62,19 @@ router.get('/documents', checkAuth, (req, res) => {
 // });
 
 /* Create new document route, will modifiy/merge just a working version */
+<<<<<<< HEAD
 router.post('/documents/create', checkAuth, (req, res) => {
     let email = req.session.email;
     let newDoc = new db.Doc({owners: email});
+=======
+router.post('/documents/create', (req, res) => {
+    let newDoc = new db.Doc();
+>>>>>>> 8f688e399b49181724d8a05d4a82a5af7fdfc36e
     newDoc.save(function(err) {
         if (err)
             throw err;
         else
-            console.log('new document created successfully...');
+            console.log(res);
     });
 });
 
@@ -79,17 +84,30 @@ router.route('/documents/:userId')
     .post();
 
 /* New Document get route, again will revisit */
+<<<<<<< HEAD
 router.get('/documents/create', checkAuth, (req, res) => {
+=======
+router.get('/documents/create', (req, res) => {
+>>>>>>> 8f688e399b49181724d8a05d4a82a5af7fdfc36e
     res.render('doc_template', {session: req.session});
 });
 
 /* Also putting get route in api with post, may revisit */
+<<<<<<< HEAD
 router.get('/documents/:id', checkAuth, (req, res) => {
     res.render('doc_screen', { session: req.session });
 })
 
 /* Also putting get document id route in api with post, may revisit */
 router.post('/documents/:id', checkAuth, (req, res) => {
+=======
+// router.get('/documents/:id', (req, res) => {
+//     res.render('doc_screen', { session: req.session, myDoc: myDoc });
+// })
+
+/* Also putting get document id route in api with post, may revisit */
+router.post('/documents/:id', (req, res) => {
+>>>>>>> 8f688e399b49181724d8a05d4a82a5af7fdfc36e
     var documentId = req.params.id;
     db.Doc.findOne({_id: documentId})
     .then((results) => { // returns empty array if no results
@@ -146,6 +164,64 @@ router.post('/user/register', (req, res) => {
         });
 });
 
+/* Update existing user info */
+router.post("/user/update", checkAuth, (req, res) => {
+    db.User.findOne({_id: req.session.userId})
+        .then((userToUpdate) => {
+            if (userToUpdate) {
+                if (req.body.fName) {
+                    userToUpdate.fName = req.body.fName;
+                } if (req.body.lName) {
+                    userToUpdate.lName = req.body.lName;
+                } if (req.body.email) {
+                    userToUpdate.email = req.body.email;
+                } if (req.body.password) {
+                    userToUpdate.password = req.body.password
+                }
+                userToUpdate.save()
+                    .then((updatedUser) => {
+                        res.status(200)
+                            .json({
+                                "message": "Updated user",
+                                "data": {
+                                    "fName": updatedUser.fName,
+                                    "lName": updatedUser.lName,
+                                    "email": updatedUser.email,
+                                    "createdAt": updatedUser.createdAt,
+                                    "lastModified": updatedUser.lastModified
+                                },
+                                "success": true
+                            });
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        res.status(500)
+                            .json({
+                                "message": "Server error - user update failed",
+                                "data": err,
+                                "success": false
+                            });
+                    });
+            } else {
+                res.status(200)
+                    .json({
+                        "message": "Could not find user",
+                        "data": {},
+                        "success": false
+                    });
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(500)
+                .json({
+                    "message": "Server error - user update failed",
+                    "data": err,
+                    "success": false
+                });
+        });
+});
+
 /* Log in existing user */
 router.post('/user/login', (req, res) => {
     db.User.findOne({ email: req.body.email })
@@ -168,11 +244,10 @@ router.post('/user/login', (req, res) => {
                         email: result.email,
                         userId: result._id
                     };
-                    // set the session
+                    // set the session and cookie
                     req.session.token = authInfo.token;
                     req.session.userId = authInfo.userId;
                     req.session.email = authInfo.email;
-                    // set the cookie
                     res.cookie('authCookie', authInfo, config.cookieOptions);
                     // send response
                     res.status(200)

@@ -1,5 +1,5 @@
 /**
- * Configs
+ * Configs for localhost testing ONLY
  */
 
 const sessionSecret = '771112af-4670-430c-9173-09fdd6801743';
