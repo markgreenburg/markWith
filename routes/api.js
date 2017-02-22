@@ -10,7 +10,7 @@ const router = require('express').Router();
 
 /* Auth checker */
 const checkAuth = (req, res, next) => {
-    const cookie = (req.signedCookies.authCookie ? 
+    const cookie = (req.signedCookies.authCookie ?
             req.signedCookies.authCookie : {});
     const session = (req.session ? req.session : {});
     const sessionUserId = (session.userId ? session.userId : null);
@@ -35,9 +35,8 @@ const checkAuth = (req, res, next) => {
  */
 /* View all documents accessible by session user */
 router.get('/documents', checkAuth, (req, res) => {
-    const regularExpression = new RegExp("/" + req.session.email + "/");
-    db.Doc.find( {$or: [{owners: regularExpression}, 
-            {collabs: regularExpression}]})
+    const regularExpression = new RegExp(".*" + req.session.email + ".*");
+    db.Doc.find( {$or: [{owners: regularExpression}, {collabs: regularExpression}]})
         .then((results) => { // returns empty array if no results
                 res.status(200)
                     .json({
@@ -63,8 +62,14 @@ router.get('/documents', checkAuth, (req, res) => {
 // });
 
 /* Create new document route, will modifiy/merge just a working version */
+<<<<<<< HEAD
+router.post('/documents/create', checkAuth, (req, res) => {
+    let email = req.session.email;
+    let newDoc = new db.Doc({owners: email});
+=======
 router.post('/documents/create', (req, res) => {
     let newDoc = new db.Doc();
+>>>>>>> 8f688e399b49181724d8a05d4a82a5af7fdfc36e
     newDoc.save(function(err) {
         if (err)
             throw err;
@@ -79,27 +84,48 @@ router.route('/documents/:userId')
     .post();
 
 /* New Document get route, again will revisit */
+<<<<<<< HEAD
+router.get('/documents/create', checkAuth, (req, res) => {
+=======
 router.get('/documents/create', (req, res) => {
+>>>>>>> 8f688e399b49181724d8a05d4a82a5af7fdfc36e
     res.render('doc_template', {session: req.session});
 });
 
 /* Also putting get route in api with post, may revisit */
+<<<<<<< HEAD
+router.get('/documents/:id', checkAuth, (req, res) => {
+    res.render('doc_screen', { session: req.session });
+})
+
+/* Also putting get document id route in api with post, may revisit */
+router.post('/documents/:id', checkAuth, (req, res) => {
+=======
 // router.get('/documents/:id', (req, res) => {
 //     res.render('doc_screen', { session: req.session, myDoc: myDoc });
 // })
 
 /* Also putting get document id route in api with post, may revisit */
 router.post('/documents/:id', (req, res) => {
+>>>>>>> 8f688e399b49181724d8a05d4a82a5af7fdfc36e
     var documentId = req.params.id;
-    db.Doc.findOne({_id: documentId}).exec(function(myDoc) {
-        if (myDoc) {
-            res.json(myDoc);
-        }
-        else {
-            res.json({
-                message: "This document does not exist."
-            })
-        }
+    db.Doc.findOne({_id: documentId})
+    .then((results) => { // returns empty array if no results
+            res.status(200)
+                .json({
+                    "message": "Document search succeeded",
+                    "data": results,
+                    "success": true
+                });
+    })
+    .catch((err) => {
+        console.log(err);
+        res.status(500)
+            .json({
+                "message": "Server error - could not complete your request",
+                "data": err,
+                "success": false
+            });
     });
 });
 
