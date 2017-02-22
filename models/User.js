@@ -13,11 +13,15 @@ const userSchema = new Schema({
     password: { type: String, required: true },
     createdAt: { type: Date, required: true, default: Date.now },
     lastModified: { type: Date, required: true, default: Date.now }
-    });
+});
 
 // Define bcrypt middleware for hashing passwords
 userSchema.pre('save', function (next) {
     const self = this;
+    // Don't hash password if it hasn't been modified
+    if (!self.isModified('password')) {
+        return next();
+    }
     const saltRounds = 10;
     bcrypt.hash(self.password, saltRounds, function (err, hash) {
         if (err) {
