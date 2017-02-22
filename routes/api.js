@@ -161,7 +161,7 @@ router.post('/user/login', (req, res) => {
                             "data": {},
                             "success": false
                         });
-                } else if (match == true) {
+                } else if (match === true) {
                     // correct password
                     const token = uuid();
                     const authInfo = {
@@ -186,7 +186,7 @@ router.post('/user/login', (req, res) => {
                             },
                             "success": true
                         });
-                } else if (match == false) {
+                } else if (match === false) {
                     // wrong password
                     res.status(401)
                         .json({
