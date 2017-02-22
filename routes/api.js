@@ -62,14 +62,10 @@ router.get('/documents', checkAuth, (req, res) => {
 // });
 
 /* Create new document route, will modifiy/merge just a working version */
-<<<<<<< HEAD
+
 router.post('/documents/create', checkAuth, (req, res) => {
     let email = req.session.email;
     let newDoc = new db.Doc({owners: email});
-=======
-router.post('/documents/create', (req, res) => {
-    let newDoc = new db.Doc();
->>>>>>> 8f688e399b49181724d8a05d4a82a5af7fdfc36e
     newDoc.save(function(err) {
         if (err)
             throw err;
@@ -84,30 +80,27 @@ router.route('/documents/:userId')
     .post();
 
 /* New Document get route, again will revisit */
-<<<<<<< HEAD
-router.get('/documents/create', checkAuth, (req, res) => {
-=======
+
 router.get('/documents/create', (req, res) => {
->>>>>>> 8f688e399b49181724d8a05d4a82a5af7fdfc36e
+
     res.render('doc_template', {session: req.session});
 });
 
 /* Also putting get route in api with post, may revisit */
-<<<<<<< HEAD
+
 router.get('/documents/:id', checkAuth, (req, res) => {
     res.render('doc_screen', { session: req.session });
 })
 
 /* Also putting get document id route in api with post, may revisit */
 router.post('/documents/:id', checkAuth, (req, res) => {
-=======
+
 // router.get('/documents/:id', (req, res) => {
 //     res.render('doc_screen', { session: req.session, myDoc: myDoc });
 // })
 
 /* Also putting get document id route in api with post, may revisit */
 router.post('/documents/:id', (req, res) => {
->>>>>>> 8f688e399b49181724d8a05d4a82a5af7fdfc36e
     var documentId = req.params.id;
     db.Doc.findOne({_id: documentId})
     .then((results) => { // returns empty array if no results
