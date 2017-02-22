@@ -2,11 +2,21 @@
 // Dependencies & server setup
 const express = require('express');
 const app = express();
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const http = require('http').Server(app);
+const db = require('./models/db');
 const io = require('socket.io')(http);
 const path = require('path');
 const port = process.env.PORT || 3000;
-// const mongoose = require('mongoose');
+
+const config = require('./config');
+const session = require('express-session');
+const sess = {
+    secret: config.sessionSecret,
+    cookie: {maxAge: 1000 * 60 * 60 * 24} //24 hours
+};
+
 // Test socket.io collab implementation with a global
 let text = "";
 
@@ -18,9 +28,14 @@ const api = require('./routes/api');
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
+// Ensure session and cookie parser are both using same secret
+app.use(cookieParser(config.sessionSecret));
+app.use(session(sess));
+
 // Set static path to public
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(bodyParser.json());
 // Mount router middleware
 app.use('/', client);
 app.use('/api', api);

@@ -26,12 +26,16 @@
   "homepage": "https://github.com/markgreenburg/markwith#readme",
   "dependencies": {
     "bcrypt": "^1.0.2",
+    "body-parser": "^1.16.1",
+    "cookie-parser": "^1.4.3",
     "express": "^4.14.1",
+    "express-session": "^1.15.1",
     "hbs": "^4.0.1",
     "http": "0.0.0",
     "marked": "^0.3.6",
     "mongoose": "^4.8.1",
     "path": "^0.12.7",
-    "socket.io": "^1.7.3"
+    "socket.io": "^1.7.3",
+    "uuid": "^3.0.1"
   }
 }
