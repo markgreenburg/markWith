@@ -1,59 +1,13 @@
-'use strict';
-<<<<<<< HEAD
-const config = require("../models/Config");
-const User = require("../models/User");
-const Document = require("../models/Document");
-=======
-const db = require("../models/db");
-const uuid = require("uuid/v4");
-const config = require("../config");
->>>>>>> origin/master
-
 /**
  * API routes; mounted at /api
  */
+'use strict';
 
+const db = require("../models/db");
+const uuid = require("uuid/v4");
+const config = require("../config");
 const router = require('express').Router();
 
-<<<<<<< HEAD
-/* View all and create new documents */
-router.post('/documents', (req, res, next) {
-    mongoose.connect(Config.mongoConfig.db);
-    var regularExpression = new RegExp("/" + req.session.email + "/");
-    Doc.find( {$or: [{owners: regularExpression}, {collabs: regularExpression}]}).exec(function(myDocs){
-        if (myDocs) {
-        console.log(myDocs);
-        var myDocuments = [];
-        for (var i = 0; i < myDocs.length; i++) {
-            myDocuments.push(myDocs[i]);
-        }
-    res.json(myDocuments);
-    }
-    else {
-        res.json({
-            message: "You have no current documents."
-        })
-    }
-    });
-});
-
-/* Putting get documents route in api for documents, may revisit */
-router.get('/documents', (req, res, next) {
-    res.render('docs_dashboard', {myDocuments: myDocuments});
-});
-
-/* Create new document route, will modifiy/merge just a working version */
-router.post('/documents/create', (req, res, next) {
-    mongoose.connect(Config.mongoConfig.db);
-    let newDoc = new Doc();
-    newDoc.save(function(err) {
-        if (err)
-            throw err;
-        else
-            console.log('new document created successfully...');
-    });
-});
-=======
 /* Auth checker */
 const checkAuth = (req, res, next) => {
     const cookie = (req.signedCookies.authCookie ? 
@@ -64,8 +18,8 @@ const checkAuth = (req, res, next) => {
     const cookieUserId = (cookie.userId ? cookie.userId : null);
     const cookieToken = (cookie.token ? cookie.token : null);
     if (sessionUserId && sessionToken && cookieUserId && cookieToken) {
-        if (sessionUserId == cookieUserId && sessionToken == cookieToken) {
-        next();
+        if (sessionUserId === cookieUserId && sessionToken === cookieToken) {
+            return next();
         }
     }
     res.status(401)
@@ -76,17 +30,55 @@ const checkAuth = (req, res, next) => {
     });
 };
 
-/* Test Route - tests checkAuth */
-router.post('/test', checkAuth, (req, res) => {
-    res.json({
-        "message": "authorized",
-        "data": {
-            "sessionUserId": req.session.userId,
-            "sessionEmail": req.session.email,
-            "sessionToken": req.session.token,
-            "cookie": req.signedCookies.authCookie
-        },
-        "success": true
+/**
+ * Document routes
+ */
+/* View all documents accessible by session user */
+router.get('/documents', checkAuth, (req, res) => {
+    const regularExpression = new RegExp("/" + req.session.email + "/");
+    db.Doc.find( {$or: [{owners: regularExpression}, 
+            {collabs: regularExpression}]})
+        .then((results) => {
+            if (results && results.length > 0) {
+                res.status(200)
+                    .json({
+                        "message": "Found documents for user",
+                        "data": results,
+                        "success": true
+                    });
+            } else {
+                res.status(200)
+                    .json({
+                        "message": "Found no documents for user",
+                        "data": [],
+                        "success": true
+                    });
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(500)
+                .json({
+                    "message": "Server error - could not complete your request",
+                    "data": err,
+                    "success": false
+                });
+        });
+});
+
+/* Putting get documents route in api for documents, may revisit */
+// router.get('/documents', (req, res, next) => {
+//     res.render('docs_dashboard', {myDocuments: myDocuments});
+// });
+
+/* Create new document route, will modifiy/merge just a working version */
+router.post('/documents/create', (req, res, next) => {
+    let newDoc = new db.Doc();
+    newDoc.save(function(err) {
+        if (err)
+            throw err;
+        else
+            console.log('new document created successfully...');
     });
 });
 
@@ -94,23 +86,21 @@ router.post('/test', checkAuth, (req, res) => {
 router.route('/documents/:userId')
     .get()
     .post();
->>>>>>> origin/master
 
 /* New Document get route, again will revisit */
-router.get('/documents/create', (req, res, next) {
-    res.render('doc_template', session: req.session);
+router.get('/documents/create', (req, res, next) => {
+    res.render('doc_template', {session: req.session});
 });
 
 /* Also putting get route in api with post, may revisit */
-router.get('/documents/:id', (req, res, next) {
+router.get('/documents/:id', (req, res, next) => {
     res.render('doc_screen', { session: req.session, myDoc: myDoc });
 })
 
 /* Also putting get document id route in api with post, may revisit */
 router.post('/documents/:id', (req, res, next) => {
-    mongoose.connect(Config.mongoConfig.db);
     var documentId = req.params.id;
-    Doc.findOne({_id: documentId}).exec(function(myDoc) {
+    db.Doc.findOne({_id: documentId}).exec(function(myDoc) {
         if (myDoc) {
             res.json(myDoc);
         }
@@ -120,9 +110,11 @@ router.post('/documents/:id', (req, res, next) => {
             })
         }
     });
-
 });
 
+/**
+ * Account routes
+ */
 /* Create account for new user */
 router.post('/user/register', (req, res) => {
     const newUser = new db.User({

@@ -24,6 +24,7 @@ router.get('/user/login', (req, res, next) => {
         res.redirect('/users/documents');
     } else {
         res.render('login', {session: req.session});
+    }
 });
 
 // Serve all user documents main page

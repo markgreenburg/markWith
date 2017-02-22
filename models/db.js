@@ -40,9 +40,9 @@ mongoose.connection.on('disconnected', () => {
 });
 
 const User = require('./User');
-const Document = require('./Document');
+const Doc = require('./Document');
 
 module.exports = {
     User: User,
-    Document: Document
+    Doc: Doc
 };
