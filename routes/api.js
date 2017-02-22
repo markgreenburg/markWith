@@ -34,7 +34,7 @@ const checkAuth = (req, res, next) => {
  * Document routes
  */
 /* View all documents accessible by session user */
-router.get('/documents', checkAuth, (req, res) => {
+router.post('/documents', checkAuth, (req, res) => {
     const regularExpression = new RegExp(".*" + req.session.email + ".*");
     db.Doc.find( {$or: [{owners: regularExpression}, {collabs: regularExpression}]})
         .then((results) => { // returns empty array if no results
@@ -56,11 +56,6 @@ router.get('/documents', checkAuth, (req, res) => {
         });
 });
 
-/* Putting get documents route in api for documents, may revisit */
-// router.get('/documents', (req, res, next) => {
-//     res.render('docs_dashboard', {myDocuments: myDocuments});
-// });
-
 /* Create new document route, will modifiy/merge just a working version */
 
 router.post('/documents/create', checkAuth, (req, res) => {
@@ -79,28 +74,14 @@ router.route('/documents/:userId')
     .get()
     .post();
 
-/* New Document get route, again will revisit */
-
-router.get('/documents/create', (req, res) => {
-
-    res.render('doc_template', {session: req.session});
-});
 
 /* Also putting get route in api with post, may revisit */
-
-router.get('/documents/:id', checkAuth, (req, res) => {
-    res.render('doc_screen', { session: req.session });
-})
-
-/* Also putting get document id route in api with post, may revisit */
-router.post('/documents/:id', checkAuth, (req, res) => {
-
-// router.get('/documents/:id', (req, res) => {
-//     res.render('doc_screen', { session: req.session, myDoc: myDoc });
+// router.get('/documents/:id', checkAuth, (req, res) => {
+//     res.render('doc_screen', { session: req.session });
 // })
 
-/* Also putting get document id route in api with post, may revisit */
-router.post('/documents/:id', (req, res) => {
+/* Individual document post */
+router.post('/documents/:id', docAuth, (req, res) => {
     var documentId = req.params.id;
     db.Doc.findOne({_id: documentId})
     .then((results) => { // returns empty array if no results
