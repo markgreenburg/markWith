@@ -6,15 +6,18 @@ const Schema = mongoose.Schema;
 
 // Document Schema
 const documentSchema = new Schema({
-    docName: { type: String, required: true },
-    owners: { type: Array, required: true },
+    docName: { type: String, required: true, default: "untitled" },
+    owners: { type: Array, required: true, default: ["req.session.email"] },
     collaborators: { type: Array, required: true },
-    docState: {
-        fDate: { type: Timestamp, required: true },
-        tDate: { type: Timestamp, required: true }
+    content: String,
+    history: {
+        fDate: { type: Date, required: true, default: new Date();  },
+        tDate: { type: Date, required: true, default: ISODate(); },
+        content: { type: String, required: true }
         },
-    createdAt: { type: Date, required: true },
-    lastModified: { type: Date, required: true, default: Date.now }
+    createdAt: { type: Date, required: true, default: new Date(); },
+    // ObjectId("id").getTimestamp() --> internal timestamp of file
+    lastModified: { type: Date, required: true, default: new Date(); }
     });
 
-module.exports = mongoose.model('Doc', documentSchema);
+module.exports = mongoose.model('Doc', userSchema);

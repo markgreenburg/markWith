@@ -36,4 +36,15 @@ userSchema.methods.comparePassword = (typedPassword, callback) => {
         });
 }
 
+const createUser = (req, res, next) => {
+    let newUser = new User();
+    newUser.fName = req.body.fName;
+    newUser.lName = req.body.lName;
+    newUser.email = req.body.email;
+    newUser.password = req.body.password;
+    newUser.createdAt = new Date();
+    newUser.lastUpdated = newUser.createdAt;
+};
+
+
 module.exports = mongoose.model('User', userSchema);
