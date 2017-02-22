@@ -11,21 +11,27 @@ const router = require('express').Router();
 
 /* Auth checker */
 const checkAuth = (req, res, next) => {
-    console.log(req.signedCookies.authCookie);
-    const cookie = req.signedCookies.authCookie;
-    const session = req.session;
-    if (session.userId == cookie.userId && session.token == cookie.token) {
+    if (!req.session || !req.signedCookies.authCookie) {
+        res.status(401)
+            .json({
+                "message": "Not authorized",
+                "data": {},
+                "success": false
+            });
+    } else if (req.session.userId == req.signedCookies.authCookie.userId
+            && req.session.token == req.signedCookies.authCookie.token) {
         next();
     }
     res.status(401)
-    res.json({
+        .json({
         "message": "Not authorized",
         "data": {},
         "success": false
     });
 };
 
-router.post('/test', checkAuth, (req, res, next) => {
+/* Test Route - tests checkAuth */
+router.post('/test', checkAuth, (req, res) => {
     res.json({
         "message": "authorized",
         "data": {
