@@ -11,16 +11,17 @@ const router = require('express').Router();
 
 /* Auth checker */
 const checkAuth = (req, res, next) => {
-    if (!req.session || !req.signedCookies.authCookie) {
-        res.status(401)
-            .json({
-                "message": "Not authorized",
-                "data": {},
-                "success": false
-            });
-    } else if (req.session.userId == req.signedCookies.authCookie.userId
-            && req.session.token == req.signedCookies.authCookie.token) {
+    const cookie = (req.signedCookies.authCookie ? 
+            req.signedCookies.authCookie : {});
+    const session = (req.session ? req.session : {});
+    const sessionUserId = (session.userId ? session.userId : null);
+    const sessionToken = (session.token ? session.token : null);
+    const cookieUserId = (cookie.userId ? cookie.userId : null);
+    const cookieToken = (cookie.token ? cookie.token : null);
+    if (sessionUserId && sessionToken && cookieUserId && cookieToken) {
+        if (sessionUserId == cookieUserId && sessionToken == cookieToken) {
         next();
+        }
     }
     res.status(401)
         .json({
@@ -63,7 +64,6 @@ router.post('/user/register', (req, res) => {
     });
     newUser.save()
         .then((result) => {
-            console.log('got a result');
             res.json({
                 "message": "User created",
                 "data": {
