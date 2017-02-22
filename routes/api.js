@@ -24,10 +24,10 @@ const checkAuth = (req, res, next) => {
     }
     res.status(401)
         .json({
-        "message": "Not authorized",
-        "data": {},
-        "success": false
-    });
+            "message": "Not authorized",
+            "data": {},
+            "success": false
+        });
 };
 
 /**
