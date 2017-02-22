@@ -5,7 +5,6 @@ const app = express();
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const http = require('http').Server(app);
-const db = require('./models/db');
 const io = require('socket.io')(http);
 const path = require('path');
 const port = process.env.PORT || 3000;

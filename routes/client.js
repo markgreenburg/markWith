@@ -6,11 +6,11 @@
 const router = require('express').Router();
 
 /* Home Page */
-router.get('/', (req, res, next) => {
+router.get('/', (req, res) => {
     res.render('index');
 });
 // Registration page
-router.get('/user/register', (req, res, next) => {
+router.get('/user/register', (req, res) => {
     if (req.session.token) {
       res.redirect('/user/documents');
   } else {
@@ -19,7 +19,7 @@ router.get('/user/register', (req, res, next) => {
 });
 
 /* Login page */
-router.get('/user/login', (req, res, next) => {
+router.get('/user/login', (req, res) => {
     if (req.session.token) {
         res.redirect('/users/documents');
     } else {
@@ -32,15 +32,13 @@ router.get('/user/login', (req, res, next) => {
 //         res.render('documents', { session: req.session, myDocs: myDocs });
 // });
 /* Profile edit page */
-router.get('/user/profile', (req, res, next) => {
+router.get('/user/profile', (req, res) => {
     res.render('profile', { session: req.session });
 });
 /* Document/Editing page */
-router.get('/documents/:id', (req, res, next) => {
-    res.render('doc_screen', { session: req.session, myDoc: myDoc });
-});
-
-
+// router.get('/documents/:id', (req, res) => {
+//     res.render('doc_screen', { session: req.session, myDoc: myDoc });
+// });
 
 // View a document
 // router.get('/documents/:id', (req, res, next) => {

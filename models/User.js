@@ -11,25 +11,33 @@ const userSchema = new Schema({
     lName: {type: String, required: true },
     email: {type: String, required: true, unique: true },
     password: { type: String, required: true },
-    createdAt: { type: Date, required: true, default: Date.now },
-    lastModified: { type: Date, required: true, default: Date.now }
+    createdAt: { type: Date, required: true, default: Date.now() },
+    lastModified: { type: Date, required: true, default: Date.now() }
 });
 
-// Define bcrypt middleware for hashing passwords
+// Define bcrypt middleware for hashing new and changed passwords
 userSchema.pre('save', function (next) {
     const self = this;
-    // Don't hash password if it hasn't been modified
     if (!self.isModified('password')) {
-        return next();
+        next();
+    } else {
+        const saltRounds = 10;
+        bcrypt.hash(self.password, saltRounds, function (err, hash) {
+            if (err) {
+                next(err);
+            } else {
+                self.password = hash;
+                next();
+            }
+        });
     }
-    const saltRounds = 10;
-    bcrypt.hash(self.password, saltRounds, function (err, hash) {
-        if (err) {
-            return next(err);
-        }
-        self.password = hash;
-        return next();
-    });
+});
+
+// Define middleware for updating lastUpdated timestamps
+userSchema.pre('save', function (next) {
+    const self = this;
+    self.lastModified = Date.now();
+    next();
 });
 
 userSchema.methods.comparePassword = function (typedPassword, callback) {
