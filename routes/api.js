@@ -138,6 +138,7 @@ router.post('/user/register', (req, res) => {
         });
 });
 
+/* Update existing user info */
 router.post("/user/update", checkAuth, (req, res) => {
     db.User.findOne({_id: req.session.userId})
         .then((userToUpdate) => {
