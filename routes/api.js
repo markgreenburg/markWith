@@ -166,16 +166,16 @@ router.post("/user/update", checkAuth, (req, res) => {
                                 },
                                 "success": true
                             });
-                })
-                .catch((err) => {
-                    console.log(err);
-                    res.status(500)
-                        .json({
-                            "message": "Server error - user update failed",
-                            "data": err,
-                            "success": false
-                        });
-                });
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        res.status(500)
+                            .json({
+                                "message": "Server error - user update failed",
+                                "data": err,
+                                "success": false
+                            });
+                    });
             } else {
                 res.status(200)
                     .json({
