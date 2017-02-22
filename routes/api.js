@@ -209,4 +209,10 @@ router.post('/user/login', (req, res) => {
         });
 });
 
+/* To-Do: */
+/* Update User (incl. password) */
+/* - What method to use, ensure rehashing happens only if necessary */
+/* Log Out */
+/* Delete User */
+
 module.exports = router;
