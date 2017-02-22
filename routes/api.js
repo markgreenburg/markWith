@@ -257,10 +257,39 @@ router.post('/user/login', (req, res) => {
         });
 });
 
+/* Log out a user */
+router.post('/user/logout', (req, res) => {
+    req.session.destroy();
+    res.status(200)
+        .json({
+            "message": "User logged out",
+            "data": {},
+            "success": true
+        });
+});
+
+router.post('/user/delete', (req, res) => {
+    db.User.remove({ _id: req.session.userId })
+        .then(() => {
+            req.session.destroy();
+            res.status(200)
+                .json({
+                    "message": "User removed",
+                    "data": {},
+                    "success": true
+                });
+        })
+        .catch((err) => {
+            console.log(err);
+            req.statusCode(500)
+                .json({
+                    "message": "Server error: could not delete user",
+                    "data": err,
+                    "success": false
+                });
+        });
+});
+
 /* To-Do: */
-/* Update User (incl. password) */
-/* - What method to use, ensure rehashing happens only if necessary */
-/* Log Out */
-/* Delete User */
 
 module.exports = router;
