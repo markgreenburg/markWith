@@ -38,22 +38,13 @@ router.get('/documents', checkAuth, (req, res) => {
     const regularExpression = new RegExp("/" + req.session.email + "/");
     db.Doc.find( {$or: [{owners: regularExpression}, 
             {collabs: regularExpression}]})
-        .then((results) => {
-            if (results && results.length > 0) {
+        .then((results) => { // returns empty array if no results
                 res.status(200)
                     .json({
-                        "message": "Found documents for user",
+                        "message": "Document search succeeded",
                         "data": results,
                         "success": true
                     });
-            } else {
-                res.status(200)
-                    .json({
-                        "message": "Found no documents for user",
-                        "data": [],
-                        "success": true
-                    });
-            }
         })
         .catch((err) => {
             console.log(err);
