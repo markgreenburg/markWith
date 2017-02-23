@@ -10,7 +10,6 @@ html, body, div.container-fluid {
   padding-right: 10%;
   font-family: 'Inconsolata', monospace;
   font-size: 1.2em;
-  background-color: #0f4a7e;
   background: #232526;
   /* fallback for old browsers */
   background: -webkit-linear-gradient(to left, #232526, #414345);
@@ -19,6 +18,9 @@ html, body, div.container-fluid {
   /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
   #navbar a {
     color: #eee; }
+  #navbar a:hover {
+    background: none;
+    text-decoration: underline; }
 
 #mynavbar-content {
   float: right; }
@@ -40,7 +42,9 @@ textarea#text-pad {
 
 #markdown, #markdown-target {
   position: absolute;
+  padding: 15px;
   left: 50vw;
+  width: 100%;
   overflow: hidden;
   text-overflow: clip;
   word-wrap: break-word;
@@ -53,8 +57,10 @@ textarea#text-pad {
   margin-left: 30px; }
 
 .navbar-text {
-  color: #ccc;
-  font-style: italic; }
+  color: #b7b7b7;
+  font-style: italic;
+  text-align: center;
+  padding-right: 5vw; }
 
 div.header-row {
   height: 10%;
@@ -114,9 +120,9 @@ a {
   background: #222;
   background: #232526;
   /* fallback for old browsers */
-  background: -webkit-linear-gradient(to left, #232526, #414345);
+  background: -webkit-linear-gradient(to right, #232526, #414345);
   /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to left, #232526, #414345);
+  background: linear-gradient(to right, #232526, #414345);
   /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   overflow-y: auto;
   transition: width 0.3s ease;
@@ -139,11 +145,6 @@ a {
   right: 0;
   height: 100%;
   width: 4px; }
-
-#logout {
-  position: fixed;
-  margin-bottom: 0;
-  width: inherit; }
 
 .content {
   padding: 100px 20px 20px 20px;
@@ -189,6 +190,7 @@ a {
 
 .site-nav-right {
   position: fixed;
+  text-align: center;
   top: 0;
   right: 0;
   width: 0;
@@ -211,9 +213,10 @@ a {
     color: #fff; }
   .site-nav-right a {
     display: block;
-    color: white;
+    color: #e5e5e5;
     padding: 15px; }
   .site-nav-right ul {
+    color: #e5e5e5;
     list-style: none;
     text-align: center; }
   .site-nav-right li {
@@ -230,8 +233,7 @@ a {
   top: 0;
   right: 0;
   height: 100%;
-  width: 4px;
-  background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.4)); }
+  width: 4px; }
 
 .content {
   padding: 100px 20px 20px 20px;
@@ -252,6 +254,13 @@ a {
 #site-nav-right:target + .page-wrap-right .right-header {
   width: 80%;
   left: 20%; }
+
+#delete-document {
+  position: fixed;
+  padding-left: 2vw;
+  bottom: 0; }
+  #delete-document a:hover {
+    background: red; }
 
 .tabordion {
   display: block;
