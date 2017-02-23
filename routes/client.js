@@ -33,7 +33,7 @@ router.get('/documents', db.User.clientAuth, (req, res) => {
 
 /* Document Editor */
 router.get('/documents/:docId', db.User.clientAuth, (req, res) => {
-    res.render('editor', {document: req.params.docId});
+    res.render('editor', {documentId: req.params.docId});
 });
 
 module.exports = router;

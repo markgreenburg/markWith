@@ -2,6 +2,7 @@ window.onload = () => {
     const socket = io();
     const textPad = document.getElementById("text-pad");
     const textMarkdown = document.getElementById("markdown-target");
+    const room = document.getElementById("docId").value;
     let emitCursorIndex = 0;
 
      /* Markdown converter */
@@ -19,17 +20,13 @@ window.onload = () => {
      */
      socket.on("connect", () => {
         // Join a test room, e.g. spec'd by path
-        socket.emit("room", "test-room");
+        socket.emit("room", room);
         /* Listeners */
-
-        // test
-        socket.on("joined super special room", (room) => {
-            console.log("successfully joined super special room: " + room);
-        });
 
          // Get current text once connected, bring textpad into focus
          socket.on("populate editor", (currentText) => {
-             textPad.value = currentText;
+             console.log(currentText.content);
+             textPad.value = currentText.content;
              updateMarkdown();
              textPad.focus();
          });
@@ -59,7 +56,8 @@ window.onload = () => {
          textPad.addEventListener("input", () => {
              socket.emit("text changed", {
                  newText: textPad.value, 
-                 cursor: emitCursorIndex
+                 cursor: emitCursorIndex,
+                 docId: room
              });
              updateMarkdown();
          });

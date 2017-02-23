@@ -1,0 +1,20 @@
+<div class="container-fluid">
+    <div class="row header-row">
+        <div class="col-xs-12 header">
+            <h1>Realtime Markdown Editor</h1>
+            <input id="docId" value="{{documentId}}" style="display: none"/>
+        </div>
+    </div>
+    <div class="row content-row">
+        <div class="col-sm-6 col-xs-12 text-pad">
+            <textarea id="text-pad"></textarea>
+        </div>
+        <div class="col-sm-6 col-xs-12 markdown">
+            <div id="markdown-target"></div>
+        </div>
+    </div>
+</div>
+<!-- Socket.io handler -->
+    <script src='/socket.io/socket.io.js'></script>
+    <!-- Client JS and custom Socket events -->
+    <script src="/javascript/editor.js"></script>
