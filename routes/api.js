@@ -1,11 +1,13 @@
+'use strict';
+
 /**
  * API routes; mounted at /api
  */
-'use strict';
-
+const router = require('express').Router();
 const db = require("../models/db");
 const uuid = require("uuid/v4");
 const config = require("../config");
+
 const router = require('express').Router();
 var ObjectId = require('mongodb').ObjectID;
 
@@ -30,6 +32,7 @@ const checkAuth = (req, res, next) => {
             "success": false
         });
 };
+
 
 /* Doc checker, sets permission levels */
 var isOwner = false;
@@ -74,7 +77,7 @@ const docAuth = (req, res, next) => {
  * Document routes
  */
 /* View all documents accessible by session user */
-router.post('/documents', checkAuth, (req, res) => {
+router.post('/documents', db.User.apiAuth, (req, res) => {
     const regularExpression = new RegExp(".*" + req.session.email + ".*");
     db.Doc.find( {$or: [{owners: regularExpression}, {collabs: regularExpression}]})
         .then((results) => { // returns empty array if no results
@@ -100,6 +103,11 @@ router.post('/documents', checkAuth, (req, res) => {
 router.post('/documents/create', checkAuth, (req, res) => {
     let email = req.session.email;
     let newDoc = new db.Doc({owners: email});
+
+router.post('/documents/create', db.User.apiAuth, (req, res) => {
+    let userId = req.session.userId;
+    let newDoc = new db.Doc({owners: userId});
+
     newDoc.save(function(err) {
         if (err)
             throw err;
@@ -109,17 +117,22 @@ router.post('/documents/create', checkAuth, (req, res) => {
 });
 
 /* Individual document post */
+
 router.post('/documents/:id', checkAuth, docAuth, (req, res) => {
+
+router.post('/documents/:id', (req, res) => {
+
     var documentId = req.params.id;
     if (isOwner || isCollab) {
     db.Doc.findOne({_id: documentId})
-    .then((results) => { // returns empty array if no results
+    .then((result) => { // returns empty array if no results
             res.status(200)
                 .json({
-                    "message": "Document search succeeded",
-                    "data": results,
+                    "message": "Search completed successfully",
+                    "data": (result ? result : {}),
                     "success": true
                 });
+
     })
 
     .catch((err) => {
@@ -186,12 +199,15 @@ router.post('/documents/update/:id', checkAuth, docAuth, (req, res) => {
                         "success": false
                     });
             }
+
         })
         .catch((err) => {
             console.log(err);
             res.status(500)
                 .json({
+
                     "message": "Server error - document update failed",
+                    "message": "Server error - could not complete your request",
                     "data": err,
                     "success": false
                 });
@@ -278,12 +294,14 @@ router.post('/documents/remove/:id', checkAuth, docAuth, (req, res) => {
             "success": false
         })
     }
+
 });
 
 
 /**
- * Account routes
+ * User / account routes
  */
+
 /* Create account for new user */
 router.post('/user/register', (req, res) => {
     const newUser = new db.User({
@@ -316,8 +334,30 @@ router.post('/user/register', (req, res) => {
         });
 });
 
+/* Get user info */
+router.get('/user', db.User.apiAuth, (req, res) => {
+    db.User.findOne({_id: req.session.userId})
+        .then((result) => {
+            res.status(200)
+                .json({
+                    "message": "Search completed successfully",
+                    "data": (result ? result : {}),
+                    "success": true
+                });
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(500)
+                .json({
+                    "message": "Server error - could not complete your request",
+                    "data": err,
+                    "success": false
+                });
+        });
+});
+
 /* Update existing user info */
-router.post("/user/update", checkAuth, (req, res) => {
+router.post("/user/update", db.User.apiAuth, (req, res) => {
     db.User.findOne({_id: req.session.userId})
         .then((userToUpdate) => {
             if (userToUpdate) {
@@ -467,7 +507,5 @@ router.post('/user/delete', (req, res) => {
                 });
         });
 });
-
-/* To-Do: */
 
 module.exports = router;

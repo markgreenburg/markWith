@@ -41,6 +41,13 @@ app.use('/api', api);
 
 // When user connects to socket
 io.on("connection", (socket) => {
+    // Let client join whatever room they request
+    socket.on("room", (room) => {
+        // Do some auth here against session
+        socket.join(room);
+        socket.emit("joined super special room", room);
+    });
+
     // Pre-populate client's editor with most recent text
     if (io.sockets.connected[socket.id]) {
         io.sockets.connected[socket.id].emit("populate editor", text);

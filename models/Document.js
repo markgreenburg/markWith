@@ -11,7 +11,7 @@ const documentSchema = new Schema({
     collabs: { type: Array, required: true, default: "" },
     contents: { type: String, default: ""},
     history: {
-        fDate: { type: Date, required: true, default: Date.now  },
+        fDate: { type: Date, required: true, default: Date.now()  },
         tDate: { type: Date, required: true,
                 default: new Date().toISOString() },
         contents: { type: String, default: "" }
