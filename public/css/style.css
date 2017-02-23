@@ -11,20 +11,12 @@ html, body, div.container-fluid {
   font-family: 'Inconsolata', monospace;
   font-size: 1.2em;
   background-color: #0f4a7e;
-  background: -moz-linear-gradient(351deg, #313742 0%, #404857 100%);
-  /* ff3.6+ */
-  background: -webkit-gradient(linear, left top, right top, color-stop(0%, #313742), color-stop(100%, #404857));
-  /* safari4+,chrome */
-  background: -webkit-linear-gradient(351deg, #313742 0%, #404857 100%);
-  /* safari5.1+,chrome10+ */
-  background: -o-linear-gradient(351deg, #313742 0%, #404857 100%);
-  /* opera 11.10+ */
-  background: -ms-linear-gradient(351deg, #313742 0%, #404857 100%);
-  /* ie10+ */
-  background: linear-gradient(99deg, #313742 0%, #404857 100%);
-  /* w3c */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#313742', endColorstr='#404857',GradientType=1 );
-  /* ie6-9 */ }
+  background: #232526;
+  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to left, #232526, #414345);
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to left, #232526, #414345);
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
   #navbar a {
     color: #eee; }
 
