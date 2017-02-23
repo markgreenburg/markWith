@@ -200,12 +200,13 @@ a {
   overflow-y: auto;
   transition: width 0.3s ease;
   white-space: nowrap; }
-
-.site-nav-right a {
-  display: block;
-  border-bottom: 1px solid #666;
-  color: white;
-  padding: 34px; }
+  .site-nav-right a {
+    display: block;
+    border-bottom: 1px solid #666;
+    color: white;
+    padding: 34px; }
+  .site-nav-right ul, .site-nav-right li {
+    color: white; }
 
 .site-nav-right a:hover,
 .site-nav-right a:focus {

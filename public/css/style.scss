@@ -35,11 +35,6 @@ html, body, div.container-fluid {
     float: right;
     }
 
-// div.header-row {
-//     height: 10%;
-//     text-align: center;
-// }
-
 div.content-row {
     height: 90%;
 }
@@ -102,7 +97,7 @@ textarea#text-pad {
 }
 
 // =======================
-//     TEST NONSENSE
+//     LEFT NAV
 // =======================
 body {
   margin: 0;
@@ -250,15 +245,18 @@ a {
   overflow-y: auto;
   transition: width 0.3s ease;
   white-space: nowrap;
-  // text-transform: uppercase;
-}
 
-.site-nav-right a {
-  display: block;
-  border-bottom: 1px solid #666;
-  color: white;
-  padding: 34px;
-}
+  a {
+      display: block;
+      border-bottom: 1px solid #666;
+      color: white;
+      padding: 34px;
+  }
+
+  ul, li {
+      color: white;
+  }
+ }
 
 .site-nav-right a:hover,
 .site-nav-right a:focus {
@@ -300,6 +298,7 @@ a {
   width: 80%;
   left: 20%;
 }
+
 
 
 // ==============================
