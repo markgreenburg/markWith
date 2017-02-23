@@ -34,7 +34,7 @@ const checkAuth = (req, res, next) => {
  * Document routes
  */
 /* View all documents accessible by session user */
-router.get('/documents', checkAuth, (req, res) => {
+router.post('/documents', checkAuth, (req, res) => {
     const regularExpression = new RegExp(".*" + req.session.email + ".*");
     db.Doc.find( {$or: [{owners: regularExpression}, {collabs: regularExpression}]})
         .then((results) => { // returns empty array if no results
@@ -56,11 +56,6 @@ router.get('/documents', checkAuth, (req, res) => {
         });
 });
 
-/* Putting get documents route in api for documents, may revisit */
-// router.get('/documents', (req, res, next) => {
-//     res.render('docs_dashboard', {myDocuments: myDocuments});
-// });
-
 /* Create new document route, will modifiy/merge just a working version */
 // router.post('/documents/create', checkAuth, (req, res) => {
 //     let email = req.session.email;
@@ -75,6 +70,17 @@ router.get('/documents', checkAuth, (req, res) => {
 //             console.log(res);
 //     });
 // });
+
+router.post('/documents/create', checkAuth, (req, res) => {
+    let email = req.session.email;
+    let newDoc = new db.Doc({owners: email});
+    newDoc.save(function(err) {
+        if (err)
+            throw err;
+        else
+            console.log(res);
+    });
+});
 
 /* View all and create new documents - tied to user */
 router.route('/documents/:userId')
@@ -127,14 +133,12 @@ router.route('/documents/:userId')
 //     });
 // });
 
-/**
- * Account routes
- */
 
-/* Get account info */
-router.get('/user', checkAuth, (req, res) => {
-    db.User.findOne({_id: req.session.userId})
-        .then((result) => {
+/* Individual document post */
+router.post('/documents/:id', docAuth, (req, res) => {
+    var documentId = req.params.id;
+    db.Doc.findOne({_id: documentId})
+    .then((results) => { // returns empty array if no results
             res.status(200)
                 .json({
                     "message": "Search completed successfully",
@@ -152,6 +156,10 @@ router.get('/user', checkAuth, (req, res) => {
                 });
         });
 });
+
+/**
+ * User / account routes
+ */
 
 /* Create account for new user */
 router.post('/user/register', (req, res) => {
@@ -182,6 +190,28 @@ router.post('/user/register', (req, res) => {
                 "data": err,
                 "success": false
             });
+        });
+});
+
+/* Get user info */
+router.get('/user', checkAuth, (req, res) => {
+    db.User.findOne({_id: req.session.userId})
+        .then((result) => {
+            res.status(200)
+                .json({
+                    "message": "Search completed successfully",
+                    "data": (result ? result : {}),
+                    "success": true
+                });
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(500)
+                .json({
+                    "message": "Server error - could not complete your request",
+                    "data": err,
+                    "success": false
+                });
         });
 });
 

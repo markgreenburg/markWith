@@ -11,13 +11,13 @@ const documentSchema = new Schema({
     collaborators: { type: Array, required: true, default: "" },
     content: { type: String, default: ""},
     history: {
-        fDate: { type: Date, required: true, default: new Date()  },
+        fDate: { type: Date, required: true, default: Date.now  },
         tDate: { type: Date, required: true,
                 default: new Date().toISOString() },
         content: { type: String, default: "" }
     },
     createdAt: { type: Date, required: true, default: Date.now }
-
+    lastModified: { type: Date, required: true, default: Date.now }
 });
 
 const Doc = mongoose.model('Doc', documentSchema);
