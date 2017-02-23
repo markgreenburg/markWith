@@ -175,9 +175,12 @@ router.post('/documents/:id', (req, res) => {
     }
 });
 
-/* Update Route for Document */
+/* Update Route for Document:
+Made some modifications, making add_collab and remove_collab false and then planning to use the Ajax request to turn these true based on event.  isOwner and isCollab will take care of docAuthorization but it is async so it will need to be passed via callback function  */
 router.post('/documents/update/:id', checkAuth, docAuth, (req, res) => {
     var documentId = req.params.id;
+    var add_collab = false;
+    var remove_collab = false;
     if (isCollab) {
     db.Doc.findOne({_id: documentId})
         .then((docToUpdate) => {
@@ -185,11 +188,11 @@ router.post('/documents/update/:id', checkAuth, docAuth, (req, res) => {
                 if (req.body.contents) {
                     docToUpdate.contents = req.body.contents;
                 }
-                if (add_collab) {
-                if (req.body.collabs) {
-                    docToUpdate.collabs = req.body.collabs;
-                    }
-            }
+                if (remove_collab) {
+                    var index = docToUpdate.collabs.indexOf(req.session.userId);
+                    docToUpdate.collabs = docToUpdate.collabs.splice(index,1);
+                }
+
                 docToUpdate.save()
                     .then((updatedDoc) => {
                         res.status(200)
@@ -245,15 +248,14 @@ router.post('/documents/update/:id', checkAuth, docAuth, (req, res) => {
                     if (req.body.contents) {
                         docToUpdate.contents = req.body.contents;
                     }
-                    if (req.body.collabs) {
-                        if (add_collab) {
+                    if (add_collab) {
                         docToUpdate.collabs = docToUpdate.collabs.push(req.body.collabs);
-                        }
-                        if (remove_collab) {
+                    }
+                    if (remove_collab) {
                             var index = docToUpdate.collabs.indexOf(req.body.collabs);
                             docToUpdate.collabs = docToUpdate.collabs.splice(index,1);
-                        }
                     }
+
                     docToUpdate.save()
                         .then((updatedDoc) => {
                             res.status(200)
