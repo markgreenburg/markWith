@@ -12,8 +12,6 @@ var ObjectId = require('mongodb').ObjectID;
 /* Doc checker, sets permission levels */
 var isOwner = false;
 var isCollab = false;
-var add_collab = false;
-var remove_collab = false;
 const docAuth = (req, res, next) => {
     var documentId = req.params.id;
     const regularExpression = new RegExp(".*" + req.session.email + ".*");
@@ -25,7 +23,6 @@ const docAuth = (req, res, next) => {
                         console.log("checking if collab");
                         if (results) {
                             isCollab = true;
-                            remove_collab = true;
                             next();
                         }
                     })
@@ -33,8 +30,6 @@ const docAuth = (req, res, next) => {
             } else {
                 console.log("user should be an owners");
                 isOwner = true;
-                add_collab = true;
-                remove_collab = true;
                 return next();
             }
             res.status(401)
@@ -131,18 +126,12 @@ router.post('/documents/:id', db.User.apiAuth, (req, res) => {
 Made some modifications, making add_collab and remove_collab false and then planning to use the Ajax request to turn these true based on event.  isOwner and isCollab will take care of docAuthorization but it is async so it will need to be passed via callback function  */
 router.post('/documents/update/:id', checkAuth, docAuth, (req, res) => {
     var documentId = req.params.id;
-    var add_collab = false;
-    var remove_collab = false;
     if (isCollab) {
     db.Doc.findOne({_id: documentId})
         .then((docToUpdate) => {
             if (docToUpdate) {
                 if (req.body.contents) {
                     docToUpdate.contents = req.body.contents;
-                }
-                if (remove_collab) {
-                    var index = docToUpdate.collabs.indexOf(req.session.userId);
-                    docToUpdate.collabs = docToUpdate.collabs.splice(index,1);
                 }
 
                 docToUpdate.save()
@@ -152,7 +141,6 @@ router.post('/documents/update/:id', checkAuth, docAuth, (req, res) => {
                                 "message": "Updated document",
                                 "data": {
                                     "contents": updatedDoc.contents,
-                                    "collabs": updatedCollab.collabs,
                                     "lastModified": updatedDoc.lastModified
                                 },
                                 "success": true
@@ -200,13 +188,6 @@ router.post('/documents/update/:id', checkAuth, docAuth, (req, res) => {
                     if (req.body.contents) {
                         docToUpdate.contents = req.body.contents;
                     }
-                    if (add_collab) {
-                        docToUpdate.collabs = docToUpdate.collabs.push(req.body.collabs);
-                    }
-                    if (remove_collab) {
-                            var index = docToUpdate.collabs.indexOf(req.body.collabs);
-                            docToUpdate.collabs = docToUpdate.collabs.splice(index,1);
-                    }
 
                     docToUpdate.save()
                         .then((updatedDoc) => {
@@ -216,7 +197,6 @@ router.post('/documents/update/:id', checkAuth, docAuth, (req, res) => {
                                     "data": {
                                         "docName": updatedDoc.docName,
                                         "contents": updatedDoc.contents,
-                                        "collabs": updatedDoc.collabs,
                                         "lastModified": updatedDoc.lastModified
                                     },
                                     "success": true
@@ -252,6 +232,14 @@ router.post('/documents/update/:id', checkAuth, docAuth, (req, res) => {
 
 
     }
+});
+
+router.post('/documents/update/:id/add_collab', db.User.apiAuth, docAuth, (req, res) => {
+    var documentId = req.params.id;
+});
+
+router.post('/documents/update/:id/remove_collab', db.User.apiAuth, docAuth, (req, res) => {
+    var documentId = req.params.id;
 });
 
 router.post('/documents/remove/:id', db.User.apiAuth, docAuth, (req, res) => {
