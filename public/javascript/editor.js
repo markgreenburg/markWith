@@ -1,5 +1,5 @@
 window.onload = () => {
-    const socket = io();
+    const socket = io(); // defined in script include
     const textPad = document.getElementById("text-pad");
     const textMarkdown = document.getElementById("markdown-target");
     const room = document.getElementById("docId").value;
@@ -7,9 +7,8 @@ window.onload = () => {
 
      /* Markdown converter */
     const updateMarkdown = () => {
-        textMarkdown.innerHTML = marked(textPad.value); // from CDN
+        textMarkdown.innerHTML = marked(textPad.value); // definition from CDN
     };
-
 
     /* Track emitter's pre-change cursor position */
     textPad.addEventListener('keydown', () => {

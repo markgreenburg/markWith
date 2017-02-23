@@ -1,7 +1,6 @@
 /**
  * Configs for localhost testing ONLY
  */
-
 const sessionSecret = '771112af-4670-430c-9173-09fdd6801743';
 
 const cookieOptions = {
@@ -14,10 +13,16 @@ const mongoConfig = {
     db: 'mongodb://localhost/markwith'
 };
 
-module.exports = {mongoConfig: mongoConfig};
+const testUser = {
+    _id: "58af57e20556e59b6e4fe176",
+    fName: "Test",
+    lName: "User",
+    email: "test@user.com"
+};
 
 module.exports = {
     sessionSecret: sessionSecret,
     cookieOptions: cookieOptions,
-    mongoConfig: mongoConfig
+    mongoConfig: mongoConfig,
+    testUser: testUser
 };

@@ -129,7 +129,7 @@ router.post('/documents/:id', db.User.apiAuth, (req, res) => {
 
 /* Update Route for Document:
 Made some modifications, making add_collab and remove_collab false and then planning to use the Ajax request to turn these true based on event.  isOwner and isCollab will take care of docAuthorization but it is async so it will need to be passed via callback function  */
-router.post('/documents/update/:id', checkAuth, docAuth, (req, res) => {
+router.post('/documents/update/:id', db.User.apiAuth, docAuth, (req, res) => {
     var documentId = req.params.id;
     var add_collab = false;
     var remove_collab = false;
@@ -290,6 +290,7 @@ router.post('/user/register', (req, res) => {
             res.json({
                 "message": "User created",
                 "data": {
+                    "id": result._id,
                     "fName": result.fName,
                     "lName": result.lName,
                     "email": result.email,
