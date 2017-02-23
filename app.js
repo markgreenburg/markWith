@@ -58,7 +58,7 @@ io.on("connection", (socket) => {
                             docName: "",
                             owners: [],
                             collaborators: [],
-                            content: "Sorry, document not found"
+                            contents: "Sorry, document not found"
                         };
                     }
                     socket.emit("populate editor", text);
@@ -69,7 +69,7 @@ io.on("connection", (socket) => {
                         docName: "",
                         owners: [],
                         collaborators: [],
-                        content: err
+                        contents: err
                     };
                     socket.emit("populate editor", text);
                 });
@@ -83,12 +83,12 @@ io.on("connection", (socket) => {
         // Copy the changes to db
         // To-Do: Write old content to history?
         db.Doc.findByIdAndUpdate(data.docId, 
-                { $set: { content: data.newText}},
+                { $set: { contents: data.newText}},
                 { new: true })
             // send updated doc back to other sockets in same room
             .then((newDocument) => {
                 socket.to(room).broadcast.emit("text changed", {
-                    newText: newDocument.content,
+                    newText: newDocument.contents,
                     cursor: data.cursor
                 });
             })

@@ -1,6 +1,5 @@
 <div class="container-fluid">
-    <div class="row content-row">
-    <nav class="site-nav" id="site-nav">
+    <div class="row content-row">    <nav class="site-nav" id="site-nav">
         <a href="/"><h2>//markWith</h2></a>
         <a href="#">Documents</a>
         <a href="/profile">Settings</a>
@@ -14,11 +13,6 @@
     </a>
           <a href="#" class="close-menu"><i class="fa fa-cog" aria-hidden="true"></i>
     </a>
-    <div class="row header-row">
-        <div class="col-xs-12 header">
-            <input id="docId" value="{{documentId}}" style="display: none"/>
-        </div>
-    </div>
         </header>
 
         <div class="col-sm-6 text-pad">
@@ -30,14 +24,14 @@
     </div>
 </div>
     <nav class="site-nav-right" id="site-nav-right">
-    <a href="/"><h2>//markWith</h2></a>
-    <p>
-        <ul>Collaborators
-        <li>person a</li>
-        <li>person b</li>
-        </ul>
-    </p>
-  </nav>
+        <a href="/"><h2>//markWith</h2></a>
+            <p>
+                <ul>Collaborators
+                <li><a href="#">person a</a></li>
+                <li><a href="#">person b</a></li>
+                </ul>
+            </p>
+    </nav>
   <div class="page-wrap-right">
       <header class="right-header">
         <a href="#site-nav-right">&#9776;</a>
@@ -46,7 +40,10 @@
 </div>
 
 </div>
-<!-- Socket.io handler -->
-    <script src='/socket.io/socket.io.js'></script>
-    <!-- Client JS and custom Socket events -->
-    <script src="/javascript/editor.js"></script>
+<!-- </div> -->
+
+<!-- <script>
+$("label").on('click', function(){
+  $("nav").toggle();
+});
+</script> -->

@@ -1,1 +1,56 @@
-<div>Registration Page Goes Here!</div>
+<div class="container-fluid" id="account-signup-container">
+    <div class="row signup-form-header-row">
+        <div class="col-xs-12 signup-form-header">
+            <h3>Sign Up</h3>
+        </div>
+    </div>
+     <div class="row messages">
+        <div class="col-xs-8">
+            <ul id="messages-list">
+                <li id="message"></li>
+            </ul>
+        </div>
+    </div>
+    <br />
+    <div class="row signup-form-content-row">
+        <div class="col-xs-8 signup-form-content">
+            <form class="signup-form">
+                <label>First Name</label>
+                <div class="form-group first-name">
+                    <input type="text" id="first-name" name="first-name" placeholder="First Name" minlength="2" required>
+                </div>
+                <label>Last Name</label>
+                <div class="form-group last-name">
+                    <input type="text" id="last-name" name="last-name" placeholder="Last Name" minlength="2" required>
+                </div>
+                <label>Email Address</label>
+                <div class="form-group email">
+                    <input type="email"  id="email"name="email" placeholder="Email" minlength="5" required>
+                </div>
+                <label>Password</label>
+                <div class="form-group password">
+                    <input type="password" id="password" name="password" placeholder="Password" minlength="6" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$" required>
+                    <label>(must user upper, lower, and numbers)</label>
+                </div>
+                <label>Confirm Password</label>
+                <div class="form-group password-confirm">
+                    <input type="password" name="password-confirm" placeholder="Confirm Password" minlength="6" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$" oninput="check(this)" required>
+                    <script language='javascript' type='text/javascript'>
+                        function check(input) {
+                            if (input.value != document.getElementById('password').value) {
+                                input.setCustomValidity('Passwords must match');
+                            } else {
+                                input.setCustomValidity('');
+                            }
+                        }
+                    </script>
+                </div>
+                <br />
+                <button type="submit" class="btn btn-primary">Create Account</button>
+            </form>
+        </div>
+    </div>
+    <br />
+
+</div>
+</div>

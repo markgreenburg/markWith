@@ -7,22 +7,27 @@
     <!-- App stylesheet -->
     <link rel="stylesheet" href="/css/style.css" />
   </head>
-  <body><div id="navbar" class="navbar navbar-default">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <!-- //ADD HAMBURGER HERE -->
-                    <a class="navbar-brand" href="/"><p>// markWith</p></a>
-                </div>
+  <body>
+      <div id="navbar" class="navbar">
+          <div class="navbar-brand">
+              <a href="/">//markWith</a></div>
                 <div id="mynavbar-content">
                     <ul class="nav navbar-nav">
                         <li class="active">
+                            <li>
+                                <p class="navbar-text">Editing "Crunch Party" as Mark Otto</p></li>
+                            </li>
                             <li><a href="/">Login/Signup</a></li>
-                            <li><a href="/products">Projects</a></li>
+                            <li><a href="#">Documents</a></li>
                         </li>
+                        <li><a href="#"><i class="fa fa-file-o" aria-hidden="true"></i></a></li>
                     </ul>
                 </div>
-            </div>
+
         </div>
+
+<!-- <div class="page-wrap page-wrap-right"> -->
+
     {{{body}}}
     <!-- Minified JQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -30,6 +35,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js"></script>
     <!-- Latest compiled and minified Bootstrap JS -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <script>
+    $("label").on('click', function(){
+      $("#right-nav").toggle();
+    });
+    </script>
+
   </body>
 
 </html>
