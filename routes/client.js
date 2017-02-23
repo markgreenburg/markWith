@@ -4,6 +4,7 @@
  * Client-side routes; mounted at / (root)
  */
 const router = require('express').Router();
+const db = require("../models/db");
 
 /* Home Page */
 router.get('/', (req, res) => {
@@ -20,10 +21,15 @@ router.get('/user/login', (req, res) => {
     res.render('login');
 });
 
+/* Account Profile */
+router.get('/user/account', db.User.checkAuth, (req, res) => {
+    res.render('account');
+});
+
 /* Documents store */
-router.get('/documents', (req, res) => {
-    
-})
+router.get('/documents', db.User.checkAuth, (req, res) => {
+    res.render('documents');
+});
 
 // router.get('/user/documents/', (req, res, next) =>{
 //         res.render('documents', { session: req.session, myDocs: myDocs });
