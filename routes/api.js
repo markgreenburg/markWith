@@ -14,7 +14,7 @@ var isOwner = false;
 var isCollab = false;
 const docAuth = (req, res, next) => {
     var documentId = req.params.id;
-    const regularExpression = new RegExp(".*" + req.session.email + ".*");
+    const regularExpression = new RegExp(".*" + req.session.userId + ".*");
     db.Doc.findOne({ $and: [ { "_id": ObjectId(documentId)}, {owners: regularExpression}]})
         .then((results) => {
             if (!results) {
@@ -92,7 +92,7 @@ router.post('/documents/create', db.User.apiAuth, (req, res) => {
 });
 
 /* Individual document post */
-router.post('/documents/:id', db.User.apiAuth, (req, res) => {
+router.post('/documents/:id', db.User.apiAuth, docAuth, (req, res) => {
     var documentId = req.params.id;
     if (isOwner || isCollab) {
     db.Doc.findOne({_id: documentId})
@@ -124,7 +124,7 @@ router.post('/documents/:id', db.User.apiAuth, (req, res) => {
 
 /* Update Route for Document:
 Made some modifications, making add_collab and remove_collab false and then planning to use the Ajax request to turn these true based on event.  isOwner and isCollab will take care of docAuthorization but it is async so it will need to be passed via callback function  */
-router.post('/documents/update/:id', checkAuth, docAuth, (req, res) => {
+router.post('/documents/update/:id', db.User.apiAuth, docAuth, (req, res) => {
     var documentId = req.params.id;
     if (isCollab) {
     db.Doc.findOne({_id: documentId})
@@ -234,12 +234,88 @@ router.post('/documents/update/:id', checkAuth, docAuth, (req, res) => {
     }
 });
 
+/*  Add collaborator route */
 router.post('/documents/update/:id/add_collab', db.User.apiAuth, docAuth, (req, res) => {
     var documentId = req.params.id;
+    if (owner) {
+    db.User.findOne({email: req.body.email}).exec(function(err,user){
+        console.log(user)
+        var collab_id = user._id;
+        console.log(collab_id);
+        db.Doc.findOne({_id: documentId})
+            .then((docToUpdate) => {
+                if (docToUpdate) {
+                        docToUpdate.collabs.push(collab_id);
+                    docToUpdate.save()
+                        .then((updatedDoc) => {
+                            res.status(200)
+                                .json({
+                                    "message": "Updated document",
+                                    "data": {
+                                        "collabs": updatedDoc.collabs,
+                                        "lastModified": updatedDoc.lastModified
+                                    },
+                                    "success": true
+                                });
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                            res.status(500)
+                                .json({
+                                    "message": "Server error - document update failed",
+                                    "data": err,
+                                    "success": false
+                                });
+                        });
+                }
+
+
+})
+});
+}
 });
 
+/*  Add collaborator route */
 router.post('/documents/update/:id/remove_collab', db.User.apiAuth, docAuth, (req, res) => {
     var documentId = req.params.id;
+    db.User.findOne({email: req.body.email}).exec(function(err,user){
+        console.log(user)
+        var collab_id = user._id;
+        console.log(collab_id);
+        console.log(typeof collab_id);
+        db.Doc.findOne({_id: documentId})
+            .then((docToUpdate) => {
+                if (docToUpdate) {
+                    console.log(collab_id);
+                    console.log(typeof collab_id);
+                        var index = docToUpdate.collabs.indexOf(collab_id);
+                        docToUpdate.collabs.splice(index,1);
+                    docToUpdate.save()
+                        .then((updatedDoc) => {
+                            res.status(200)
+                                .json({
+                                    "message": "Updated document",
+                                    "data": {
+                                        "collabs": updatedDoc.collabs,
+                                        "lastModified": updatedDoc.lastModified
+                                    },
+                                    "success": true
+                                });
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                            res.status(500)
+                                .json({
+                                    "message": "Server error - document update failed",
+                                    "data": err,
+                                    "success": false
+                                });
+                        });
+                }
+
+
+})
+});
 });
 
 router.post('/documents/remove/:id', db.User.apiAuth, docAuth, (req, res) => {
