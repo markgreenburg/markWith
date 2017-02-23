@@ -7,6 +7,7 @@ const db = require("../models/db");
 const uuid = require("uuid/v4");
 const config = require("../config");
 const router = require('express').Router();
+var ObjectId = require('mongodb').ObjectID;
 
 /* Auth checker */
 const checkAuth = (req, res, next) => {
@@ -29,6 +30,45 @@ const checkAuth = (req, res, next) => {
             "success": false
         });
 };
+
+/* Doc checker, sets permission levels */
+var isOwner = false;
+var isCollab = false;
+var add_collab = false;
+var remove_collab = false;
+const docAuth = (req, res, next) => {
+    var documentId = req.params.id;
+    const regularExpression = new RegExp(".*" + req.session.email + ".*");
+    db.Doc.findOne({ $and: [ { "_id": ObjectId(documentId)}, {owners: regularExpression}]}).then((results) => {console.log("results:");console.log(results);});
+    db.Doc.findOne({ $and: [ { "_id": ObjectId(documentId)}, {owners: regularExpression}]}).then((results) =>{
+        if(!results){
+            db.Doc.findOne({ $and: [ { "_id": ObjectId(documentId)}, {collabs: regularExpression}]}).then((results) =>{
+                console.log("checking if collab");
+                if(results){
+                    isCollab = true;
+                    remove_collab = true;
+                    next();
+                }
+            });
+        } else {
+            console.log("user should be an owners");
+            isOwner = true;
+            add_collab = true;
+            remove_collab = true;
+             return next();
+        }
+        res.status(401)
+            .json({
+                "message": "Not authorized",
+                "data": {},
+                "success": false
+            });
+    });
+
+
+    // next();
+}
+
 
 /**
  * Document routes
@@ -57,7 +97,6 @@ router.post('/documents', checkAuth, (req, res) => {
 });
 
 /* Create new document route, will modifiy/merge just a working version */
-
 router.post('/documents/create', checkAuth, (req, res) => {
     let email = req.session.email;
     let newDoc = new db.Doc({owners: email});
@@ -69,20 +108,10 @@ router.post('/documents/create', checkAuth, (req, res) => {
     });
 });
 
-/* View all and create new documents - tied to user */
-router.route('/documents/:userId')
-    .get()
-    .post();
-
-
-/* Also putting get route in api with post, may revisit */
-// router.get('/documents/:id', checkAuth, (req, res) => {
-//     res.render('doc_screen', { session: req.session });
-// })
-
 /* Individual document post */
-router.post('/documents/:id', docAuth, (req, res) => {
+router.post('/documents/:id', checkAuth, docAuth, (req, res) => {
     var documentId = req.params.id;
+    if (isOwner || isCollab) {
     db.Doc.findOne({_id: documentId})
     .then((results) => { // returns empty array if no results
             res.status(200)
@@ -92,6 +121,7 @@ router.post('/documents/:id', docAuth, (req, res) => {
                     "success": true
                 });
     })
+
     .catch((err) => {
         console.log(err);
         res.status(500)
@@ -101,7 +131,155 @@ router.post('/documents/:id', docAuth, (req, res) => {
                 "success": false
             });
     });
+}
+    else {
+        res.json({
+            "message": "Sorry, you are not authorized to view this file",
+            "data": {},
+            "success": false
+        });
+    }
 });
+
+/* Update Route for Document */
+router.post('/documents/update/:id', checkAuth, docAuth, (req, res) => {
+    var documentId = req.params.id;
+    if (isCollab) {
+    db.Doc.findOne({_id: documentId})
+        .then((docToUpdate) => {
+            if (docToUpdate) {
+                if (req.body.contents) {
+                    docToUpdate.contents = req.body.contents;
+                }
+                if (add_collab) {
+                if (req.body.collabs) {
+                    docToUpdate.collabs = req.body.collabs;
+                    }
+            }
+                docToUpdate.save()
+                    .then((updatedDoc) => {
+                        res.status(200)
+                            .json({
+                                "message": "Updated document",
+                                "data": {
+                                    "contents": updatedDoc.contents,
+                                    "collabs": updatedCollab.collabs,
+                                    "lastModified": updatedDoc.lastModified
+                                },
+                                "success": true
+                            });
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        res.status(500)
+                            .json({
+                                "message": "Server error - document update failed",
+                                "data": err,
+                                "success": false
+                            });
+                    });
+            } else {
+                res.status(200)
+                    .json({
+                        "message": "Could not find document",
+                        "data": {},
+                        "success": false
+                    });
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(500)
+                .json({
+                    "message": "Server error - document update failed",
+                    "data": err,
+                    "success": false
+                });
+        });
+    }
+
+    else if (isOwner) {
+        db.Doc.findOne({_id: documentId})
+            .then((docToUpdate) => {
+                if (docToUpdate) {
+                    if (req.body.docName) {
+                        docToUpdate.docName = req.body.docName;
+                    }
+                    if (req.body.contents) {
+                        docToUpdate.contents = req.body.contents;
+                    }
+                    if (req.body.collabs) {
+                        if (add_collab) {
+                        docToUpdate.collabs = docToUpdate.collabs.push(req.body.collabs);
+                        }
+                        if (remove_collab) {
+                            var index = docToUpdate.collabs.indexOf(req.body.collabs);
+                            docToUpdate.collabs = docToUpdate.collabs.splice(index,1);
+                        }
+                    }
+                    docToUpdate.save()
+                        .then((updatedDoc) => {
+                            res.status(200)
+                                .json({
+                                    "message": "Updated user",
+                                    "data": {
+                                        "docName": updatedDoc.docName,
+                                        "contents": updatedDoc.contents,
+                                        "collabs": updatedDoc.collabs,
+                                        "lastModified": updatedDoc.lastModified
+                                    },
+                                    "success": true
+                                });
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                            res.status(500)
+                                .json({
+                                    "message": "Server error - document update failed",
+                                    "data": err,
+                                    "success": false
+                                });
+                        });
+                } else {
+                    res.status(200)
+                        .json({
+                            "message": "Could not find document",
+                            "data": {},
+                            "success": false
+                        });
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+                res.status(500)
+                    .json({
+                        "message": "Server error - document update failed",
+                        "data": err,
+                        "success": false
+                    });
+            });
+
+
+    }
+});
+
+router.post('/documents/remove/:id', checkAuth, docAuth, (req, res) => {
+    var documentId = req.params.id;
+    if (isOwner) {
+        db.Doc.findOne({_id: documentId}).remove().exec()
+                res.json({
+                        "message": "Document sucessfully deleted",
+                        "success": true
+    });
+}
+    else {
+        res.json({
+            "message": "Sorry, you are not authorized to delete this file",
+            "success": false
+        })
+    }
+});
+
 
 /**
  * Account routes
