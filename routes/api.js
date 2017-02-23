@@ -35,14 +35,24 @@ router.post('/documents', db.User.apiAuth, (req, res) => {
 });
 
 router.post('/documents/create', db.User.apiAuth, (req, res) => {
-    let userId = req.session.userId;
-    let newDoc = new db.Doc({owners: userId});
-    newDoc.save(function(err) {
-        if (err)
-            throw err;
-        else
-            console.log(res);
-    });
+    const newDoc = new db.Doc({owners: [req.session.userId]});
+    newDoc.save()
+        .then((result) => {
+            res.status(200)
+                .json({
+                    "message": "Document created successfully",
+                    "data": result,
+                    "success": true
+                });
+        })
+        .catch((err) => {
+            res.status(500)
+                .json({
+                    "message": "Server error - could not create document",
+                    "data": err,
+                    "success": false
+                });
+        });
 });
 
 /* Individual document post */
