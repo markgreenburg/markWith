@@ -49,6 +49,27 @@ userSchema.methods.comparePassword = function (typedPassword, callback) {
         });
 }
 
+userSchema.statics.checkAuth = (req, res, next, callback) => {
+    const cookie = (req.signedCookies.authCookie ?
+            req.signedCookies.authCookie : {});
+    const session = (req.session ? req.session : {});
+    const sessionUserId = (session.userId ? session.userId : null);
+    const sessionToken = (session.token ? session.token : null);
+    const cookieUserId = (cookie.userId ? cookie.userId : null);
+    const cookieToken = (cookie.token ? cookie.token : null);
+    if (sessionUserId && sessionToken && cookieUserId && cookieToken) {
+        if (sessionUserId === cookieUserId && sessionToken === cookieToken) {
+            return next();
+        }
+    }
+    res.status(401)
+        .json({
+            "message": "Not authorized",
+            "data": {},
+            "success": false
+        });
+};
+
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;

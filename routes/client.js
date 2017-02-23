@@ -1,4 +1,5 @@
 'use strict';
+const axios = require('axios');
 
 /**
  * Client-side routes; mounted at / (root)
@@ -7,31 +8,37 @@ const router = require('express').Router();
 
 /* Home Page */
 router.get('/', (req, res) => {
-    res.render('index');
+    res.render('home');
 });
-// Registration page
+
+/* Registration page */
 router.get('/user/register', (req, res) => {
-    if (req.session.token) {
-      res.redirect('/user/documents');
-  } else {
-      res.render('signup', {session: req.session});
-  }
-});
+    res.render('register');
+  });
 
 /* Login page */
 router.get('/user/login', (req, res) => {
-    if (req.session.token) {
-        res.redirect('/users/documents');
-    } else {
-        res.render('login', {session: req.session});
-    }
+    res.render('login');
 });
 
-// Serve all user documents main page
+/* Documents store */
+router.get('/documents', (req, res) => {
+    // Get documents for user
+    // Render page with found documents
+    axios.get('/api/documents')
+        .then((response) => {
+            // render the documents store with the documents returned from db
+        })
+        .catch((err) => {
+            //
+        })
+})
+
 // router.get('/user/documents/', (req, res, next) =>{
 //         res.render('documents', { session: req.session, myDocs: myDocs });
 // });
 /* Profile edit page */
+
 router.get('/user/profile', (req, res) => {
     res.render('profile', { session: req.session });
 });

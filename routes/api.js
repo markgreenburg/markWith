@@ -1,8 +1,8 @@
+'use strict';
+
 /**
  * API routes; mounted at /api
  */
-'use strict';
-
 const db = require("../models/db");
 const uuid = require("uuid/v4");
 const config = require("../config");
@@ -62,21 +62,19 @@ router.get('/documents', checkAuth, (req, res) => {
 // });
 
 /* Create new document route, will modifiy/merge just a working version */
-<<<<<<< HEAD
-router.post('/documents/create', checkAuth, (req, res) => {
-    let email = req.session.email;
-    let newDoc = new db.Doc({owners: email});
-=======
-router.post('/documents/create', (req, res) => {
-    let newDoc = new db.Doc();
->>>>>>> 8f688e399b49181724d8a05d4a82a5af7fdfc36e
-    newDoc.save(function(err) {
-        if (err)
-            throw err;
-        else
-            console.log(res);
-    });
-});
+// router.post('/documents/create', checkAuth, (req, res) => {
+//     let email = req.session.email;
+//     let newDoc = new db.Doc({owners: email});
+
+// router.post('/documents/create', (req, res) => {
+//     let newDoc = new db.Doc();
+//     newDoc.save(function(err) {
+//         if (err)
+//             throw err;
+//         else
+//             console.log(res);
+//     });
+// });
 
 /* View all and create new documents - tied to user */
 router.route('/documents/:userId')
@@ -84,54 +82,77 @@ router.route('/documents/:userId')
     .post();
 
 /* New Document get route, again will revisit */
-<<<<<<< HEAD
-router.get('/documents/create', checkAuth, (req, res) => {
-=======
-router.get('/documents/create', (req, res) => {
->>>>>>> 8f688e399b49181724d8a05d4a82a5af7fdfc36e
-    res.render('doc_template', {session: req.session});
-});
+// <<<<<<< HEAD
+// router.get('/documents/create', checkAuth, (req, res) => {
+// =======
+// router.get('/documents/create', (req, res) => {
+// >>>>>>> 8f688e399b49181724d8a05d4a82a5af7fdfc36e
+//     res.render('doc_template', {session: req.session});
+// });
 
-/* Also putting get route in api with post, may revisit */
-<<<<<<< HEAD
-router.get('/documents/:id', checkAuth, (req, res) => {
-    res.render('doc_screen', { session: req.session });
-})
+// /* Also putting get route in api with post, may revisit */
+// <<<<<<< HEAD
+// router.get('/documents/:id', checkAuth, (req, res) => {
+//     res.render('doc_screen', { session: req.session });
+// })
 
-/* Also putting get document id route in api with post, may revisit */
-router.post('/documents/:id', checkAuth, (req, res) => {
-=======
+// /* Also putting get document id route in api with post, may revisit */
+// router.post('/documents/:id', checkAuth, (req, res) => {
+// =======
 // router.get('/documents/:id', (req, res) => {
 //     res.render('doc_screen', { session: req.session, myDoc: myDoc });
 // })
 
 /* Also putting get document id route in api with post, may revisit */
-router.post('/documents/:id', (req, res) => {
->>>>>>> 8f688e399b49181724d8a05d4a82a5af7fdfc36e
-    var documentId = req.params.id;
-    db.Doc.findOne({_id: documentId})
-    .then((results) => { // returns empty array if no results
-            res.status(200)
-                .json({
-                    "message": "Document search succeeded",
-                    "data": results,
-                    "success": true
-                });
-    })
-    .catch((err) => {
-        console.log(err);
-        res.status(500)
-            .json({
-                "message": "Server error - could not complete your request",
-                "data": err,
-                "success": false
-            });
-    });
-});
+// router.post('/documents/:id', (req, res) => {
+// >>>>>>> 8f688e399b49181724d8a05d4a82a5af7fdfc36e
+//     var documentId = req.params.id;
+//     db.Doc.findOne({_id: documentId})
+//     .then((results) => { // returns empty array if no results
+//             res.status(200)
+//                 .json({
+//                     "message": "Document search succeeded",
+//                     "data": results,
+//                     "success": true
+//                 });
+//     })
+//     .catch((err) => {
+//         console.log(err);
+//         res.status(500)
+//             .json({
+//                 "message": "Server error - could not complete your request",
+//                 "data": err,
+//                 "success": false
+//             });
+//     });
+// });
 
 /**
  * Account routes
  */
+
+/* Get account info */
+router.get('/user', checkAuth, (req, res) => {
+    db.User.findOne({_id: req.session.userId})
+        .then((result) => {
+            res.status(200)
+                .json({
+                    "message": "Search completed successfully",
+                    "data": (result ? result : {}),
+                    "success": true
+                });
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(500)
+                .json({
+                    "message": "Server error - could not complete your request",
+                    "data": err,
+                    "success": false
+                });
+        });
+});
+
 /* Create account for new user */
 router.post('/user/register', (req, res) => {
     const newUser = new db.User({

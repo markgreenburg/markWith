@@ -18,8 +18,14 @@ window.onload = () => {
      * Socket.io
      */
      socket.on("connect", () => {
-
+        // Join a test room, e.g. spec'd by path
+        socket.emit("room", "test-room");
         /* Listeners */
+
+        // test
+        socket.on("joined super special room", (room) => {
+            console.log("successfully joined super special room: " + room);
+        });
 
          // Get current text once connected, bring textpad into focus
          socket.on("populate editor", (currentText) => {
