@@ -4,7 +4,8 @@
         <a href="/"><h2>//markWith</h2></a>
         <a href="/account">Documents</a>
         <a href="/account">Settings</a>
-        <a href="#">Logout</a>
+
+        <div id="logout"><a href="#">Logout</a></div>
       </nav>
 
       <div class="page-wrap">
@@ -35,13 +36,16 @@
     <p>
         <ul><h4>Collaborators</h4>
         <!-- // Add collaborators, specify Owner -->
-        <li><a href="#">markotto@whateverman.net (You)</a></li>
-        <li><a href="#">kim@radiostatssss.com</a></li>
-        <li><a href="#">mikewallace@lol.com</a></li>
+        <li><a href="#"><i id="remove-collab" class="fa fa-minus" aria-hidden="true"></i> markotto@whateverman.net (You)</a></li>
+        <li><a href="#"><i id="remove-collab" class="fa fa-minus" aria-hidden="true"></i> kim@radiostatssss.com</a></li>
+        <li>
+<a href="#"><i id="remove-collab" class="fa fa-minus" aria-hidden="true"></i> mikewallace@lol.com</a></li>
+        <li><a href="#"><i id="remove-collab" class="fa fa-plus" aria-hidden="true"></i> Add new collaborator</a></li>
         </ul>
     </p>
     <div id="delete-document">
-        <a href="#">Delete this document</a>
+        <a href="#"><i class="fa fa-times" aria-hidden="true"></i>
+ Delete this document</a>
     </div>
   </nav>
 
