@@ -40,8 +40,31 @@ userSchema.pre('save', function (next) {
     next();
 });
 
-// Define static method for protecting authenticated routes
-userSchema.statics.checkAuth = (req, res, next) => {
+// Define static method for protecting authenticated API routes
+// userSchema.statics.apiAuth = (req, res, next) => {
+//     const cookie = (req.signedCookies.authCookie ?
+//             req.signedCookies.authCookie : {});
+//     const session = (req.session ? req.session : {});
+//     const sessionUserId = (session.userId ? session.userId : null);
+//     const sessionToken = (session.token ? session.token : null);
+//     const cookieUserId = (cookie.userId ? cookie.userId : null);
+//     const cookieToken = (cookie.token ? cookie.token : null);
+//     if (sessionUserId && sessionToken && cookieUserId && cookieToken) {
+//         if (sessionUserId === cookieUserId && sessionToken === cookieToken) {
+//             return next();
+//         }
+//     }
+//     res.status(401)
+//         .json({
+//             "message": "Not authorized",
+//             "data": {},
+//             "success": false
+//         });
+// }
+
+// Define generic helper method that validates authentication. Returns
+// true if auth succeeded or else false
+const authChecker = (req) => {
     const cookie = (req.signedCookies.authCookie ?
             req.signedCookies.authCookie : {});
     const session = (req.session ? req.session : {});
@@ -51,8 +74,29 @@ userSchema.statics.checkAuth = (req, res, next) => {
     const cookieToken = (cookie.token ? cookie.token : null);
     if (sessionUserId && sessionToken && cookieUserId && cookieToken) {
         if (sessionUserId === cookieUserId && sessionToken === cookieToken) {
-            return next();
+            return true;
         }
+    }
+    return false;
+};
+
+// Define a static method that responds to API auth confirmation requests
+userSchema.statics.apiAuth = (req, res, next) => {
+    if (authChecker(req) === true) {
+        return next();
+    }
+    res.status(401)
+        .json({
+            "message": "Not authorized",
+            "data": {},
+            "success": false
+        });
+}
+
+// Define a static method that responds to client auth confirmation requests
+userSchema.statics.clientAuth = (req, res, next) => {
+    if (authChecker(req) === true) {
+        return next();
     }
     res.status(401)
         .json({

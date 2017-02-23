@@ -3,16 +3,16 @@
 /**
  * API routes; mounted at /api
  */
+const router = require('express').Router();
 const db = require("../models/db");
 const uuid = require("uuid/v4");
 const config = require("../config");
-const router = require('express').Router();
 
 /**
  * Document routes
  */
 /* View all documents accessible by session user */
-router.post('/documents', db.User.checkAuth, (req, res) => {
+router.post('/documents', db.User.apiAuth, (req, res) => {
     const regularExpression = new RegExp(".*" + req.session.email + ".*");
     db.Doc.find( {$or: [{owners: regularExpression}, {collabs: regularExpression}]})
         .then((results) => { // returns empty array if no results
@@ -35,7 +35,7 @@ router.post('/documents', db.User.checkAuth, (req, res) => {
 });
 
 /* Create new document route, will modifiy/merge just a working version */
-// router.post('/documents/create', checkAuth, (req, res) => {
+// router.post('/documents/create', apiAuth, (req, res) => {
 //     let email = req.session.email;
 //     let newDoc = new db.Doc({owners: email});
 
@@ -49,7 +49,7 @@ router.post('/documents', db.User.checkAuth, (req, res) => {
 //     });
 // });
 
-router.post('/documents/create', db.User.checkAuth, (req, res) => {
+router.post('/documents/create', db.User.apiAuth, (req, res) => {
     let email = req.session.email;
     let newDoc = new db.Doc({owners: email});
     newDoc.save(function(err) {
@@ -67,7 +67,7 @@ router.route('/documents/:userId')
 
 /* New Document get route, again will revisit */
 // <<<<<<< HEAD
-// router.get('/documents/create', checkAuth, (req, res) => {
+// router.get('/documents/create', apiAuth, (req, res) => {
 // =======
 // router.get('/documents/create', (req, res) => {
 // >>>>>>> 8f688e399b49181724d8a05d4a82a5af7fdfc36e
@@ -76,12 +76,12 @@ router.route('/documents/:userId')
 
 // /* Also putting get route in api with post, may revisit */
 // <<<<<<< HEAD
-// router.get('/documents/:id', checkAuth, (req, res) => {
+// router.get('/documents/:id', apiAuth, (req, res) => {
 //     res.render('doc_screen', { session: req.session });
 // })
 
 // /* Also putting get document id route in api with post, may revisit */
-// router.post('/documents/:id', checkAuth, (req, res) => {
+// router.post('/documents/:id', apiAuth, (req, res) => {
 // =======
 // router.get('/documents/:id', (req, res) => {
 //     res.render('doc_screen', { session: req.session, myDoc: myDoc });
@@ -172,7 +172,7 @@ router.post('/user/register', (req, res) => {
 });
 
 /* Get user info */
-router.get('/user', db.User.checkAuth, (req, res) => {
+router.get('/user', db.User.apiAuth, (req, res) => {
     db.User.findOne({_id: req.session.userId})
         .then((result) => {
             res.status(200)
@@ -194,7 +194,7 @@ router.get('/user', db.User.checkAuth, (req, res) => {
 });
 
 /* Update existing user info */
-router.post("/user/update", db.User.checkAuth, (req, res) => {
+router.post("/user/update", db.User.apiAuth, (req, res) => {
     db.User.findOne({_id: req.session.userId})
         .then((userToUpdate) => {
             if (userToUpdate) {
