@@ -98,12 +98,7 @@ userSchema.statics.clientAuth = (req, res, next) => {
     if (authChecker(req) === true) {
         return next();
     }
-    res.status(401)
-        .json({
-            "message": "Not authorized",
-            "data": {},
-            "success": false
-        });
+    res.redirect('/user/login');
 }
 
 userSchema.methods.comparePassword = function (typedPassword, callback) {
