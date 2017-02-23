@@ -15,7 +15,7 @@ const userSchema = new Schema({
     lastModified: { type: Date, required: true, default: Date.now() }
 });
 
-// Define bcrypt middleware for hashing new and changed passwords
+/* Define bcrypt middleware for hashing new and changed passwords */
 userSchema.pre('save', function (next) {
     const self = this;
     if (!self.isModified('password')) {
@@ -33,37 +33,25 @@ userSchema.pre('save', function (next) {
     }
 });
 
-// Define middleware for updating lastUpdated timestamps
+/* Define middleware for updating lastUpdated timestamps */
 userSchema.pre('save', function (next) {
     const self = this;
     self.lastModified = Date.now();
     next();
 });
 
-// Define static method for protecting authenticated API routes
-// userSchema.statics.apiAuth = (req, res, next) => {
-//     const cookie = (req.signedCookies.authCookie ?
-//             req.signedCookies.authCookie : {});
-//     const session = (req.session ? req.session : {});
-//     const sessionUserId = (session.userId ? session.userId : null);
-//     const sessionToken = (session.token ? session.token : null);
-//     const cookieUserId = (cookie.userId ? cookie.userId : null);
-//     const cookieToken = (cookie.token ? cookie.token : null);
-//     if (sessionUserId && sessionToken && cookieUserId && cookieToken) {
-//         if (sessionUserId === cookieUserId && sessionToken === cookieToken) {
-//             return next();
-//         }
-//     }
-//     res.status(401)
-//         .json({
-//             "message": "Not authorized",
-//             "data": {},
-//             "success": false
-//         });
-// }
+/* Define a method for comparing plaintext password to stored hash */
+userSchema.methods.comparePassword = function (typedPassword, callback) {
+        bcrypt.compare(typedPassword, this.password, (err, match) => {
+            if (err) {
+                return callback(err);
+            }
+            callback(null, match);
+        });
+}
 
-// Define generic helper method that validates authentication. Returns
-// true if auth succeeded or else false
+/* Define generic helper function that validates authentication. Returns
+ true if auth succeeded or else false */
 const authChecker = (req) => {
     const cookie = (req.signedCookies.authCookie ?
             req.signedCookies.authCookie : {});
@@ -80,7 +68,7 @@ const authChecker = (req) => {
     return false;
 };
 
-// Define a static method that responds to API auth confirmation requests
+/* Define a static method that responds to API auth confirmation requests */
 userSchema.statics.apiAuth = (req, res, next) => {
     if (authChecker(req) === true) {
         return next();
@@ -93,21 +81,12 @@ userSchema.statics.apiAuth = (req, res, next) => {
         });
 }
 
-// Define a static method that responds to client auth confirmation requests
+/* Define a static method that responds to client auth confirmation requests */
 userSchema.statics.clientAuth = (req, res, next) => {
     if (authChecker(req) === true) {
         return next();
     }
     res.redirect('/user/login');
-}
-
-userSchema.methods.comparePassword = function (typedPassword, callback) {
-        bcrypt.compare(typedPassword, this.password, (err, match) => {
-            if (err) {
-                return callback(err);
-            }
-            callback(null, match);
-        });
 }
 
 const User = mongoose.model('User', userSchema);

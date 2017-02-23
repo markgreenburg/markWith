@@ -34,24 +34,9 @@ router.post('/documents', db.User.apiAuth, (req, res) => {
         });
 });
 
-/* Create new document route, will modifiy/merge just a working version */
-// router.post('/documents/create', apiAuth, (req, res) => {
-//     let email = req.session.email;
-//     let newDoc = new db.Doc({owners: email});
-
-// router.post('/documents/create', (req, res) => {
-//     let newDoc = new db.Doc();
-//     newDoc.save(function(err) {
-//         if (err)
-//             throw err;
-//         else
-//             console.log(res);
-//     });
-// });
-
 router.post('/documents/create', db.User.apiAuth, (req, res) => {
-    let email = req.session.email;
-    let newDoc = new db.Doc({owners: email});
+    let userId = req.session.userId;
+    let newDoc = new db.Doc({owners: userId});
     newDoc.save(function(err) {
         if (err)
             throw err;
@@ -59,58 +44,6 @@ router.post('/documents/create', db.User.apiAuth, (req, res) => {
             console.log(res);
     });
 });
-
-/* View all and create new documents - tied to user */
-router.route('/documents/:userId')
-    .get()
-    .post();
-
-/* New Document get route, again will revisit */
-// <<<<<<< HEAD
-// router.get('/documents/create', apiAuth, (req, res) => {
-// =======
-// router.get('/documents/create', (req, res) => {
-// >>>>>>> 8f688e399b49181724d8a05d4a82a5af7fdfc36e
-//     res.render('doc_template', {session: req.session});
-// });
-
-// /* Also putting get route in api with post, may revisit */
-// <<<<<<< HEAD
-// router.get('/documents/:id', apiAuth, (req, res) => {
-//     res.render('doc_screen', { session: req.session });
-// })
-
-// /* Also putting get document id route in api with post, may revisit */
-// router.post('/documents/:id', apiAuth, (req, res) => {
-// =======
-// router.get('/documents/:id', (req, res) => {
-//     res.render('doc_screen', { session: req.session, myDoc: myDoc });
-// })
-
-/* Also putting get document id route in api with post, may revisit */
-// router.post('/documents/:id', (req, res) => {
-// >>>>>>> 8f688e399b49181724d8a05d4a82a5af7fdfc36e
-//     var documentId = req.params.id;
-//     db.Doc.findOne({_id: documentId})
-//     .then((results) => { // returns empty array if no results
-//             res.status(200)
-//                 .json({
-//                     "message": "Document search succeeded",
-//                     "data": results,
-//                     "success": true
-//                 });
-//     })
-//     .catch((err) => {
-//         console.log(err);
-//         res.status(500)
-//             .json({
-//                 "message": "Server error - could not complete your request",
-//                 "data": err,
-//                 "success": false
-//             });
-//     });
-// });
-
 
 /* Individual document post */
 router.post('/documents/:id', (req, res) => {
@@ -344,7 +277,5 @@ router.post('/user/delete', (req, res) => {
                 });
         });
 });
-
-/* To-Do: */
 
 module.exports = router;
