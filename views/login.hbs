@@ -1,1 +1,32 @@
-<div>Login Page Goes Here!</div>
+<div class="container-fluid" id="account-login-container">
+    <div class="row login-form-header-row">
+        <div class="col-xs-12 login-form-header">
+            <h3>Log In</h3>
+        </div>
+    </div>
+    <div class="row messages">
+        <div class="col-xs-12">
+            <ul id="messages-list">
+                <li id="message"></li>
+            </ul>
+        </div>
+    </div>
+    <div class="row login-form-content-row">
+        <div class="col-xs-12 login-form-content">
+            <form class="login">
+                <div class="form-group email">
+                    <input id="email-login" type="text" name="email" placeholder="email" minlength="2" required>
+                </div>
+                <div class="form-group password">
+                    <input id="password-login" type="password" name="password" placeholder="Password" minlength="6" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Log In</button>
+            </form>
+        </div>
+        <div class="col-xs-12 create-account-link">
+            <a href="/user/register">Create an account</a>
+        </div>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="../javascript/login.js"></script>
