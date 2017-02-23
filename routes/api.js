@@ -8,28 +8,6 @@ const uuid = require("uuid/v4");
 const config = require("../config");
 const router = require('express').Router();
 
-/* Auth checker */
-// const checkAuth = (req, res, next) => {
-//     const cookie = (req.signedCookies.authCookie ?
-//             req.signedCookies.authCookie : {});
-//     const session = (req.session ? req.session : {});
-//     const sessionUserId = (session.userId ? session.userId : null);
-//     const sessionToken = (session.token ? session.token : null);
-//     const cookieUserId = (cookie.userId ? cookie.userId : null);
-//     const cookieToken = (cookie.token ? cookie.token : null);
-//     if (sessionUserId && sessionToken && cookieUserId && cookieToken) {
-//         if (sessionUserId === cookieUserId && sessionToken === cookieToken) {
-//             return next();
-//         }
-//     }
-//     res.status(401)
-//         .json({
-//             "message": "Not authorized",
-//             "data": {},
-//             "success": false
-//         });
-// };
-
 /**
  * Document routes
  */
@@ -135,7 +113,7 @@ router.route('/documents/:userId')
 
 
 /* Individual document post */
-router.post('/documents/:id', docAuth, (req, res) => {
+router.post('/documents/:id', (req, res) => {
     var documentId = req.params.id;
     db.Doc.findOne({_id: documentId})
     .then((result) => { // returns empty array if no results
