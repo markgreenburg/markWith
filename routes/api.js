@@ -8,6 +8,71 @@ const db = require("../models/db");
 const uuid = require("uuid/v4");
 const config = require("../config");
 
+const router = require('express').Router();
+var ObjectId = require('mongodb').ObjectID;
+
+/* Auth checker */
+const checkAuth = (req, res, next) => {
+    const cookie = (req.signedCookies.authCookie ?
+            req.signedCookies.authCookie : {});
+    const session = (req.session ? req.session : {});
+    const sessionUserId = (session.userId ? session.userId : null);
+    const sessionToken = (session.token ? session.token : null);
+    const cookieUserId = (cookie.userId ? cookie.userId : null);
+    const cookieToken = (cookie.token ? cookie.token : null);
+    if (sessionUserId && sessionToken && cookieUserId && cookieToken) {
+        if (sessionUserId === cookieUserId && sessionToken === cookieToken) {
+            return next();
+        }
+    }
+    res.status(401)
+        .json({
+            "message": "Not authorized",
+            "data": {},
+            "success": false
+        });
+};
+
+
+/* Doc checker, sets permission levels */
+var isOwner = false;
+var isCollab = false;
+var add_collab = false;
+var remove_collab = false;
+const docAuth = (req, res, next) => {
+    var documentId = req.params.id;
+    const regularExpression = new RegExp(".*" + req.session.email + ".*");
+    db.Doc.findOne({ $and: [ { "_id": ObjectId(documentId)}, {owners: regularExpression}]}).then((results) => {console.log("results:");console.log(results);});
+    db.Doc.findOne({ $and: [ { "_id": ObjectId(documentId)}, {owners: regularExpression}]}).then((results) =>{
+        if(!results){
+            db.Doc.findOne({ $and: [ { "_id": ObjectId(documentId)}, {collabs: regularExpression}]}).then((results) =>{
+                console.log("checking if collab");
+                if(results){
+                    isCollab = true;
+                    remove_collab = true;
+                    next();
+                }
+            });
+        } else {
+            console.log("user should be an owners");
+            isOwner = true;
+            add_collab = true;
+            remove_collab = true;
+             return next();
+        }
+        res.status(401)
+            .json({
+                "message": "Not authorized",
+                "data": {},
+                "success": false
+            });
+    });
+
+
+    // next();
+}
+
+
 /**
  * Document routes
  */
@@ -34,20 +99,52 @@ router.post('/documents', db.User.apiAuth, (req, res) => {
         });
 });
 
+/* Create new document route, will modifiy/merge just a working version */
+router.post('/documents/create', checkAuth, (req, res) => {
+    let email = req.session.email;
+    let newDoc = new db.Doc({owners: email});
+
 router.post('/documents/create', db.User.apiAuth, (req, res) => {
+<<<<<<< HEAD
     let userId = req.session.userId;
     let newDoc = new db.Doc({owners: userId});
+
     newDoc.save(function(err) {
         if (err)
             throw err;
         else
             console.log(res);
     });
+=======
+    const newDoc = new db.Doc({owners: [req.session.userId]});
+    newDoc.save()
+        .then((result) => {
+            res.status(200)
+                .json({
+                    "message": "Document created successfully",
+                    "data": result,
+                    "success": true
+                });
+        })
+        .catch((err) => {
+            res.status(500)
+                .json({
+                    "message": "Server error - could not create document",
+                    "data": err,
+                    "success": false
+                });
+        });
+>>>>>>> 90fac4b268989818d2c211ec1311d77ac192dc73
 });
 
 /* Individual document post */
+
+router.post('/documents/:id', checkAuth, docAuth, (req, res) => {
+
 router.post('/documents/:id', (req, res) => {
+
     var documentId = req.params.id;
+    if (isOwner || isCollab) {
     db.Doc.findOne({_id: documentId})
     .then((result) => { // returns empty array if no results
             res.status(200)
@@ -56,17 +153,171 @@ router.post('/documents/:id', (req, res) => {
                     "data": (result ? result : {}),
                     "success": true
                 });
+
+    })
+
+    .catch((err) => {
+        console.log(err);
+        res.status(500)
+            .json({
+                "message": "Server error - could not complete your request",
+                "data": err,
+                "success": false
+            });
+    });
+}
+    else {
+        res.json({
+            "message": "Sorry, you are not authorized to view this file",
+            "data": {},
+            "success": false
+        });
+    }
+});
+
+/* Update Route for Document */
+router.post('/documents/update/:id', checkAuth, docAuth, (req, res) => {
+    var documentId = req.params.id;
+    if (isCollab) {
+    db.Doc.findOne({_id: documentId})
+        .then((docToUpdate) => {
+            if (docToUpdate) {
+                if (req.body.contents) {
+                    docToUpdate.contents = req.body.contents;
+                }
+                if (add_collab) {
+                if (req.body.collabs) {
+                    docToUpdate.collabs = req.body.collabs;
+                    }
+            }
+                docToUpdate.save()
+                    .then((updatedDoc) => {
+                        res.status(200)
+                            .json({
+                                "message": "Updated document",
+                                "data": {
+                                    "contents": updatedDoc.contents,
+                                    "collabs": updatedCollab.collabs,
+                                    "lastModified": updatedDoc.lastModified
+                                },
+                                "success": true
+                            });
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        res.status(500)
+                            .json({
+                                "message": "Server error - document update failed",
+                                "data": err,
+                                "success": false
+                            });
+                    });
+            } else {
+                res.status(200)
+                    .json({
+                        "message": "Could not find document",
+                        "data": {},
+                        "success": false
+                    });
+            }
+
         })
         .catch((err) => {
             console.log(err);
             res.status(500)
                 .json({
+
+                    "message": "Server error - document update failed",
                     "message": "Server error - could not complete your request",
                     "data": err,
                     "success": false
                 });
         });
+    }
+
+    else if (isOwner) {
+        db.Doc.findOne({_id: documentId})
+            .then((docToUpdate) => {
+                if (docToUpdate) {
+                    if (req.body.docName) {
+                        docToUpdate.docName = req.body.docName;
+                    }
+                    if (req.body.contents) {
+                        docToUpdate.contents = req.body.contents;
+                    }
+                    if (req.body.collabs) {
+                        if (add_collab) {
+                        docToUpdate.collabs = docToUpdate.collabs.push(req.body.collabs);
+                        }
+                        if (remove_collab) {
+                            var index = docToUpdate.collabs.indexOf(req.body.collabs);
+                            docToUpdate.collabs = docToUpdate.collabs.splice(index,1);
+                        }
+                    }
+                    docToUpdate.save()
+                        .then((updatedDoc) => {
+                            res.status(200)
+                                .json({
+                                    "message": "Updated user",
+                                    "data": {
+                                        "docName": updatedDoc.docName,
+                                        "contents": updatedDoc.contents,
+                                        "collabs": updatedDoc.collabs,
+                                        "lastModified": updatedDoc.lastModified
+                                    },
+                                    "success": true
+                                });
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                            res.status(500)
+                                .json({
+                                    "message": "Server error - document update failed",
+                                    "data": err,
+                                    "success": false
+                                });
+                        });
+                } else {
+                    res.status(200)
+                        .json({
+                            "message": "Could not find document",
+                            "data": {},
+                            "success": false
+                        });
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+                res.status(500)
+                    .json({
+                        "message": "Server error - document update failed",
+                        "data": err,
+                        "success": false
+                    });
+            });
+
+
+    }
 });
+
+router.post('/documents/remove/:id', checkAuth, docAuth, (req, res) => {
+    var documentId = req.params.id;
+    if (isOwner) {
+        db.Doc.findOne({_id: documentId}).remove().exec()
+                res.json({
+                        "message": "Document sucessfully deleted",
+                        "success": true
+    });
+}
+    else {
+        res.json({
+            "message": "Sorry, you are not authorized to delete this file",
+            "success": false
+        })
+    }
+
+});
+
 
 /**
  * User / account routes

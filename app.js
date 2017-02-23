@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const path = require('path');
+const db = require("./models/db");
 const port = process.env.PORT || 3000;
 
 const config = require('./config');
@@ -15,9 +16,6 @@ const sess = {
     secret: config.sessionSecret,
     cookie: {maxAge: 1000 * 60 * 60 * 24} //24 hours
 };
-
-// Test socket.io collab implementation with a global
-let text = "";
 
 // Load routers
 const client = require('./routes/client');
@@ -39,29 +37,68 @@ app.use(bodyParser.json());
 app.use('/', client);
 app.use('/api', api);
 
+/**
+ * Socket Server
+ */
+
 // When user connects to socket
 io.on("connection", (socket) => {
-    // Let client join whatever room they request
+    // Let client join room represented by doc ID
     socket.on("room", (room) => {
-        // Do some auth here against session
-        socket.join(room);
-        socket.emit("joined super special room", room);
+        socket.join(room, () => {
+            // Send new connection the current doc content
+            db.Doc.findOne({_id: room})
+                .then((result) => {
+                    let text = {};
+                    if (result) {
+                        text = result;
+                    } else {
+                        // To-Do: Create new doc if one doesn't exist?
+                        text = {
+                            docName: "",
+                            owners: [],
+                            collaborators: [],
+                            content: "Sorry, document not found"
+                        };
+                    }
+                    socket.emit("populate editor", text);
+                })
+                .catch((err) => {
+                    console.log(err);
+                    const text = {
+                        docName: "",
+                        owners: [],
+                        collaborators: [],
+                        content: err
+                    };
+                    socket.emit("populate editor", text);
+                });
+        });
     });
 
-    // Pre-populate client's editor with most recent text
-    if (io.sockets.connected[socket.id]) {
-        io.sockets.connected[socket.id].emit("populate editor", text);
-    }
     // When new text changes received, broadcast new text to all sockets except
     // originator
     socket.on("text changed", (data) => {
-        // Copy the changes to server
-        text = data.newText;
-        // Emit server's version and insertion index back to everyone else
-        socket.broadcast.emit("text changed", {
-            newText: text,
-            cursor: data.cursor
-        });
+        const room = data.docId;
+        // Copy the changes to db
+        // To-Do: Write old content to history?
+        db.Doc.findByIdAndUpdate(data.docId, 
+                { $set: { content: data.newText}},
+                { new: true })
+            // send updated doc back to other sockets in same room
+            .then((newDocument) => {
+                socket.to(room).broadcast.emit("text changed", {
+                    newText: newDocument.content,
+                    cursor: data.cursor
+                });
+            })
+            .catch((err) => {
+                socket.to(room).broadcast.emit("text changed", {
+                    newText: "Warning - last change not saved. Please reload" 
+                            + "your browser. Err: " + err,
+                    cursor: data.cursor
+                });
+            });
     });
 });
 
