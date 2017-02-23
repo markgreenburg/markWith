@@ -333,4 +333,8 @@ i a:hover {
 .update-form {
   padding-left: 20px; }
 
+#messages-list {
+  display: none;
+  list-style: none; }
+
 /*# sourceMappingURL=style.css.map */
