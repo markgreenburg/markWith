@@ -10,6 +10,7 @@ window.onload = () => {
         textMarkdown.innerHTML = marked(textPad.value); // from CDN
     };
 
+
     /* Track emitter's pre-change cursor position */
     textPad.addEventListener('keydown', () => {
         emitCursorIndex = textPad.selectionStart;
@@ -62,4 +63,20 @@ window.onload = () => {
              updateMarkdown();
          });
      });
+    
+    /* Tab-to-space converter */
+    textPad.addEventListener("keydown", (event) => {
+        if (event.keyCode === 9) {
+            event.preventDefault();
+            const start = textPad.selectionStart;
+            const end = textPad.selectionEnd;
+            const text = textPad.value;
+            textPad.value = text.substring(0, start) 
+                    + "    " // Spaces, not tabs!
+                    + text.substring(end);
+            textPad.setSelectionRange(start + 4, start + 4);
+            // Fire the input eventListener
+            textPad.dispatchEvent(new Event("input"));
+        }
+    });
 }
