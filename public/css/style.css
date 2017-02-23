@@ -112,6 +112,12 @@ a {
   width: 0;
   height: 100%;
   background: #222;
+  background: #232526;
+  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to left, #232526, #414345);
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to left, #232526, #414345);
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   overflow-y: auto;
   transition: width 0.3s ease;
   white-space: nowrap; }
@@ -132,8 +138,7 @@ a {
   top: 0;
   right: 0;
   height: 100%;
-  width: 4px;
-  background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.4)); }
+  width: 4px; }
 
 #logout {
   position: fixed;
@@ -188,17 +193,32 @@ a {
   right: 0;
   width: 0;
   height: 100%;
-  background: #222;
   overflow-y: auto;
   transition: width 0.3s ease;
-  white-space: nowrap; }
-  .site-nav-right a {
+  white-space: nowrap;
+  background: #232526;
+  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #232526, 80% #414345);
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #232526, 80% #414345);
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
+  .site-nav-right h2 {
     display: block;
     border-bottom: 1px solid #666;
     color: white;
     padding: 34px; }
-  .site-nav-right ul, .site-nav-right li {
-    color: white; }
+  .site-nav-right h4 {
+    color: #fff; }
+  .site-nav-right a {
+    display: block;
+    color: white;
+    padding: 15px; }
+  .site-nav-right ul {
+    list-style: none;
+    text-align: center; }
+  .site-nav-right li {
+    font-size: 0.9vw;
+    text-align: left; }
 
 .site-nav-right a:hover,
 .site-nav-right a:focus {
@@ -238,7 +258,7 @@ a {
   font-family: arial, sans-serif;
   margin: auto;
   position: relative;
-  width: 80%; }
+  width: 100%; }
 
 .tabordion input[name="sections"] {
   left: 0;
@@ -248,22 +268,22 @@ a {
 .tabordion section {
   display: block; }
 
-.tabordion section label {
+.tabordion label {
   background: #333;
+  border-radius: 10px;
   cursor: pointer;
   display: block;
   font-size: 1.2em;
   font-weight: bold;
   padding: 15px 20px;
   position: relative;
-  width: 180px;
-  z-index: 100; }
-  .tabordion section label label {
-    color: #fff; }
+  width: 20vw;
+  z-index: 100;
+  color: #fff; }
 
 .tabordion section article {
   display: none;
-  left: 230px;
+  left: 20vw;
   min-width: 300px;
   padding: 0 0 0 21px;
   position: absolute;
@@ -275,40 +295,19 @@ a {
 .tabordion input[name="sections"]:checked ~ article {
   display: block; }
 
-@media (max-width: 533px) {
-  h1 {
-    width: 100%; }
-
-  .tabordion {
-    width: 100%; }
-
-  .tabordion section label {
+#user-settings {
+  width: 100%; }
+  #user-settings h5 {
+    font-size: 0.6em; }
+  #user-settings label {
+    background-color: #fff;
     font-size: 1em;
-    width: 160px; }
+    color: #333;
+    padding: 0; }
+  #user-settings input {
+    width: 40vw; }
 
-  .tabordion section article {
-    left: 200px;
-    min-width: 270px; }
-
-  .tabordion section article:after {
-    bottom: 0;
-    content: "";
-    display: block;
-    left: -199px;
-    position: absolute;
-    top: 0;
-    width: 200px; } }
-@media (max-width: 768px) {
-  h1 {
-    width: 96%; }
-
-  .tabordion {
-    width: 96%; } }
-@media (min-width: 1366px) {
-  h1 {
-    width: 70%; }
-
-  .tabordion {
-    width: 70%; } }
+.update-form {
+  padding-left: 20px; }
 
 /*# sourceMappingURL=style.css.map */
