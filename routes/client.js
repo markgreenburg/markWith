@@ -23,15 +23,7 @@ router.get('/user/login', (req, res) => {
 
 /* Documents store */
 router.get('/documents', (req, res) => {
-    // Get documents for user
-    // Render page with found documents
-    axios.get('/api/documents')
-        .then((response) => {
-            // render the documents store with the documents returned from db
-        })
-        .catch((err) => {
-            //
-        })
+    
 })
 
 // router.get('/user/documents/', (req, res, next) =>{

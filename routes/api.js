@@ -9,32 +9,32 @@ const config = require("../config");
 const router = require('express').Router();
 
 /* Auth checker */
-const checkAuth = (req, res, next) => {
-    const cookie = (req.signedCookies.authCookie ?
-            req.signedCookies.authCookie : {});
-    const session = (req.session ? req.session : {});
-    const sessionUserId = (session.userId ? session.userId : null);
-    const sessionToken = (session.token ? session.token : null);
-    const cookieUserId = (cookie.userId ? cookie.userId : null);
-    const cookieToken = (cookie.token ? cookie.token : null);
-    if (sessionUserId && sessionToken && cookieUserId && cookieToken) {
-        if (sessionUserId === cookieUserId && sessionToken === cookieToken) {
-            return next();
-        }
-    }
-    res.status(401)
-        .json({
-            "message": "Not authorized",
-            "data": {},
-            "success": false
-        });
-};
+// const checkAuth = (req, res, next) => {
+//     const cookie = (req.signedCookies.authCookie ?
+//             req.signedCookies.authCookie : {});
+//     const session = (req.session ? req.session : {});
+//     const sessionUserId = (session.userId ? session.userId : null);
+//     const sessionToken = (session.token ? session.token : null);
+//     const cookieUserId = (cookie.userId ? cookie.userId : null);
+//     const cookieToken = (cookie.token ? cookie.token : null);
+//     if (sessionUserId && sessionToken && cookieUserId && cookieToken) {
+//         if (sessionUserId === cookieUserId && sessionToken === cookieToken) {
+//             return next();
+//         }
+//     }
+//     res.status(401)
+//         .json({
+//             "message": "Not authorized",
+//             "data": {},
+//             "success": false
+//         });
+// };
 
 /**
  * Document routes
  */
 /* View all documents accessible by session user */
-router.post('/documents', checkAuth, (req, res) => {
+router.post('/documents', db.User.checkAuth, (req, res) => {
     const regularExpression = new RegExp(".*" + req.session.email + ".*");
     db.Doc.find( {$or: [{owners: regularExpression}, {collabs: regularExpression}]})
         .then((results) => { // returns empty array if no results
@@ -71,7 +71,7 @@ router.post('/documents', checkAuth, (req, res) => {
 //     });
 // });
 
-router.post('/documents/create', checkAuth, (req, res) => {
+router.post('/documents/create', db.User.checkAuth, (req, res) => {
     let email = req.session.email;
     let newDoc = new db.Doc({owners: email});
     newDoc.save(function(err) {
@@ -138,7 +138,7 @@ router.route('/documents/:userId')
 router.post('/documents/:id', docAuth, (req, res) => {
     var documentId = req.params.id;
     db.Doc.findOne({_id: documentId})
-    .then((results) => { // returns empty array if no results
+    .then((result) => { // returns empty array if no results
             res.status(200)
                 .json({
                     "message": "Search completed successfully",
@@ -194,7 +194,7 @@ router.post('/user/register', (req, res) => {
 });
 
 /* Get user info */
-router.get('/user', checkAuth, (req, res) => {
+router.get('/user', db.User.checkAuth, (req, res) => {
     db.User.findOne({_id: req.session.userId})
         .then((result) => {
             res.status(200)
@@ -216,7 +216,7 @@ router.get('/user', checkAuth, (req, res) => {
 });
 
 /* Update existing user info */
-router.post("/user/update", checkAuth, (req, res) => {
+router.post("/user/update", db.User.checkAuth, (req, res) => {
     db.User.findOne({_id: req.session.userId})
         .then((userToUpdate) => {
             if (userToUpdate) {
