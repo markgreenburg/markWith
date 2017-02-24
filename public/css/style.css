@@ -216,11 +216,28 @@ a {
   /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to right, #232526, 80% #414345);
   /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
+  .site-nav-right form {
+    background-color: none; }
+  .site-nav-right i {
+    display: none;
+    color: #fff; }
+  .site-nav-right input[type="text"] {
+    border: none;
+    background: transparent;
+    color: #fff;
+    margin: auto; }
+  .site-nav-right input:hover {
+    text-decoration: underline; }
+  .site-nav-right input:hover + i {
+    display: block; }
   .site-nav-right h2 {
     display: block;
     border-bottom: 1px solid #666;
     color: white;
     padding: 34px; }
+  .site-nav-right h3 {
+    padding: 20px;
+    margin: auto; }
   .site-nav-right h4 {
     color: #fff;
     padding-left: 20px; }
@@ -239,6 +256,9 @@ a {
   .site-nav-right li {
     font-size: 0.9vw;
     text-align: left; }
+
+#doc-title {
+  text-align: center; }
 
 i a:hover {
   background: none; }
@@ -288,7 +308,7 @@ i a:hover {
 #user-settings {
   padding-left: 5vw; }
   #user-settings h5 {
-    font-size: 0.6em; }
+    font-size: 0.8em; }
   #user-settings label {
     background: #fff;
     font-size: 1em;
@@ -316,7 +336,7 @@ i a:hover {
 .signup-form-content {
   padding-left: 5vw; }
   .signup-form-content h5 {
-    font-size: 0.6em; }
+    font-size: 0.8em; }
   .signup-form-content label {
     background: #fff;
     font-size: 1em;
