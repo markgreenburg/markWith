@@ -554,6 +554,9 @@ i {
 
 }
 
+#about {
+    font-size: 1.2vw;
+}
 // ==============================
 //       H O M E  P A G E
 // ==============================
@@ -581,17 +584,6 @@ i {
     visibility: visible;
 }
 
-
-#try {
-
-        text-align: center;
-
-        button {
-            margin: auto;
-            padding: 1vw 5vw 1vw 5vw;
-        }
-}
-
 .typewriter
 
     h2 {
@@ -617,6 +609,22 @@ i {
 @keyframes blink-caret {
   from, to { border-color: transparent }
   50% { border-color: orange; }
+}
+
+#try {
+
+        text-align: center;
+
+        button {
+            margin: auto;
+            padding: 1vw 5vw 1vw 5vw;
+        }
+}
+
+#about {
+    h1 {
+        font-size: 2.2vw;
+    }
 }
 
 // =============================================

@@ -380,6 +380,9 @@ i a:hover {
 .login-form-content input {
   width: 30vw; }
 
+#about {
+  font-size: 1.2vw; }
+
 .jumbotron {
   color: #fff;
   background-color: #4c4c4c;
@@ -396,12 +399,6 @@ i a:hover {
 
 .typewriter {
   visibility: visible; }
-
-#try {
-  text-align: center; }
-  #try button {
-    margin: auto;
-    padding: 1vw 5vw 1vw 5vw; }
 
 .typewriter
 h2 {
@@ -431,6 +428,15 @@ h2 {
     border-color: transparent; }
   50% {
     border-color: orange; } }
+#try {
+  text-align: center; }
+  #try button {
+    margin: auto;
+    padding: 1vw 5vw 1vw 5vw; }
+
+#about h1 {
+  font-size: 2.2vw; }
+
 .typewriter-sm h2 {
   font-size: 1.8vw;
   overflow: hidden;
