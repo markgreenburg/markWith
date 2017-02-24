@@ -132,18 +132,19 @@ window.onload = () => {
     // Add Collaborator
     $("form#add-collab-form").submit((event) => {
         event.preventDefault();
+        const newCollab = $("input#add-collab").val();
         $.ajax({
             type: "POST",
             url: "/api/documents/update/" + docId + "/add_collab",
             data: {
-                "email": $("input#add-collab").val()
+                "email": newCollab
             },
             encode: true,
             success: (res) => {
                 if (res.success) {
                     $("ul#collab-list").prepend(
                         "<li class='remove-collab'><a href='#'><i class='fa"
-                        + "fa-minus' aria-hidden='true'></i>" + res.data.email
+                        + " fa-minus' aria-hidden='true'></i>" + newCollab
                         + "</a></li>"
                     );
                 } else {
