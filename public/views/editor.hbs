@@ -1,6 +1,8 @@
 
 <!-- //Basically "Editing {{document.name}} as {{user.fname}} + {{user.lname}}" -->
-<div id="document-live" class="navbar-text header-row col-sm-12"><h4>Editing "Crunch Party" as Mark Otto</h4></div>
+<div id="document-live" class="navbar-text header-row col-sm-12">
+    <h4>Editing "<span id="docName">untitled</span>" as Mark Otto</h4>
+</div>
 
 <div class="container-fluid">
     <div class="row content-row">
@@ -35,8 +37,10 @@
     </div>
 </div>
     <nav class="site-nav-right" id="site-nav-right">
-        <!-- // Document Title -->
-    <a href="/"><h2>Crunch Party</h2></a>
+    <!-- // Document Title -->
+    <form id="docName-editable-form">
+        <input id="docName-editable" value="Crunch Party" minlength="1" />
+    </form>
     <p>
         <ul><h4>Collaborators</h4>
         <!-- // Add collaborators, specify Owner -->

@@ -2,13 +2,30 @@ window.onload = () => {
     const socket = io(); // defined in script include
     const textPad = document.getElementById("text-pad");
     const textMarkdown = document.getElementById("markdown-target");
-    const room = document.getElementById("docId").value;
+    const docId = document.getElementById("docId").value;
+    const room = docId;
     let emitCursorIndex = 0;
 
-     /* Markdown converter */
+    /* Updates all references to doc name */
+    const updateName = (newName) => {
+        $("span#docName").html(newName);
+        $("input#docName-editable").val(newName);
+    };
+
+    /* Markdown converter */
     const updateMarkdown = () => {
         textMarkdown.innerHTML = marked(textPad.value); // definition from CDN
     };
+
+    /* Get Doc Info */
+    $.ajax({
+        type: "GET",
+        url: "/api/documents/" + docId,
+        success: (res) => {
+            updateName(res.data.docName);
+            //To-Do: update collabs list
+        }
+    });
 
     /* Track emitter's pre-change cursor position */
     textPad.addEventListener('keydown', () => {
@@ -62,7 +79,7 @@ window.onload = () => {
              updateMarkdown();
          });
      });
-    
+
     /* Tab-to-space converter */
     textPad.addEventListener("keydown", (event) => {
         if (event.keyCode === 9) {
@@ -77,5 +94,17 @@ window.onload = () => {
             // Fire the input eventListener
             textPad.dispatchEvent(new Event("input"));
         }
+    });
+
+    // Update doc name in DB when renamed
+    $("form#docName-editable-form").on("submit", () => {
+        const newName = $("input#docName-editable").val();
+        $.ajax({
+            type: "POST",
+            url: "/api/documents/update/" + docId,
+            data: { "docName": newName },
+            encode: true,
+            success: (response) => updateName(response.data.docName)
+        });
     });
 }
