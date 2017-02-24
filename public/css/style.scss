@@ -78,11 +78,15 @@ textarea#text-pad {
     margin-left: 30px;
 }
 
+#document-live {
+    margin-top: 0;
+}
 .navbar-text {
     color: #b7b7b7;
     font-style: italic;
-    text-align: center;
-    padding-right: 5vw;
+
+    // padding-right: 5vw;
+    z-index: 1001;
 }
 
 div.header-row {
@@ -126,7 +130,7 @@ a {
   // background: #222;
   padding: 5px 0 5px 65px;
   color: white;
-  position: fixed;
+  position: absolute;
   // width: 100%;
   top:0;
   left: 0;
@@ -227,7 +231,7 @@ a {
   // background: #222;
   padding: 5px 0 5px 65px;
   color: white;
-  position: fixed;
+  position: absolute;
   width: 100%;
   top:0;
   right: 0;
@@ -403,6 +407,15 @@ i {
     background-color: #333;
     border: 1px solid #333;
 
+}
+
+
+// ==============================
+//      S E T T I N G S
+// ==============================
+
+#user-documents {
+    padding: 20px 40px 40px 40px;
 }
 
 
