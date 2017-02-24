@@ -375,6 +375,12 @@ i a:hover {
 #description {
   visibility: hidden; }
 
+#intro {
+  text-align: center; }
+  #intro h1 {
+    margin: auto;
+    font-size: 4vw; }
+
 .typewriter {
   visibility: visible; }
 
@@ -384,12 +390,14 @@ i a:hover {
     margin: auto;
     padding: 20px 200px 20px 200px; }
 
-.typewriter h2 {
+.typewriter
+h2 {
   overflow: hidden;
   /* Ensures the content is not revealed until the animation */
+  font-size: 1.6vw;
   border-right: .15em solid orange;
   /* The typwriter cursor */
-  max-width: 60%;
+  max-width: 38vw;
   white-space: nowrap;
   /* Keeps the content on a single line */
   margin: 0 auto;
