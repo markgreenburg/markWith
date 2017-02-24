@@ -126,7 +126,12 @@ router.post('/documents/:id', db.User.apiAuth, docAuth, (req, res) => {
     }
 });
 
+<<<<<<< HEAD
 /* Update Route for Document includes everything except adding and removing collaborators */
+=======
+/* Update Route for Document:
+Made some modifications, making add_collab and remove_collab false and then planning to use the Ajax request to turn these true based on event.  isOwner and isCollab will take care of docAuthorization but it is async so it will need to be passed via callback function  */
+>>>>>>> c5c96047f2499c950de4f23fbece480bf79baffe
 router.post('/documents/update/:id', db.User.apiAuth, docAuth, (req, res) => {
     var documentId = req.params.id;
     if (isCollab) {
@@ -361,6 +366,7 @@ router.post('/user/register', (req, res) => {
             res.json({
                 "message": "User created",
                 "data": {
+                    "id": result._id,
                     "fName": result.fName,
                     "lName": result.lName,
                     "email": result.email,
@@ -462,6 +468,7 @@ router.post("/user/update", db.User.apiAuth, (req, res) => {
 
 /* Log in existing user */
 router.post('/user/login', (req, res) => {
+    console.log(req.body);
     db.User.findOne({ email: req.body.email })
         // Found matching user
         .then((result) => {

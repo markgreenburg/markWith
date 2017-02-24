@@ -5,6 +5,9 @@ html, body, div.container-fluid {
   font-family: 'Inconsolata', monospace;
   background-color: #fff; }
 
+a:hover {
+  background: none; }
+
 #navbar {
   padding: 10px;
   padding-right: 10%;
@@ -15,7 +18,8 @@ html, body, div.container-fluid {
   background: -webkit-linear-gradient(to left, #232526, #414345);
   /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to left, #232526, #414345);
-  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  z-index: 1000; }
   #navbar a {
     color: #eee; }
   #navbar a:hover {
@@ -56,11 +60,13 @@ textarea#text-pad {
 .navbar-brand {
   margin-left: 30px; }
 
+#document-live {
+  margin-top: 0; }
+
 .navbar-text {
-  color: #b7b7b7;
+  color: #363636;
   font-style: italic;
-  text-align: center;
-  padding-right: 5vw; }
+  z-index: 1001; }
 
 div.header-row {
   height: 10%;
@@ -81,8 +87,7 @@ textarea#text-pad {
 
 body {
   margin: 0;
-  background-size: cover;
-  font-family: 'Quicksand', sans-serif; }
+  background-size: cover; }
 
 h1 {
   font-weight: normal; }
@@ -93,12 +98,11 @@ a {
 .main-header {
   padding: 5px 0 5px 65px;
   color: white;
-  position: fixed;
-  width: 100%;
+  position: absolute;
   top: 0;
   left: 0;
   transition: all 0.3s ease;
-  z-index: 100; }
+  z-index: 1001; }
 
 .main-header a {
   position: absolute;
@@ -126,7 +130,8 @@ a {
   /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   overflow-y: auto;
   transition: width 0.3s ease;
-  white-space: nowrap; }
+  white-space: nowrap;
+  z-index: 1001; }
 
 .site-nav a {
   display: block;
@@ -145,6 +150,12 @@ a {
   right: 0;
   height: 100%;
   width: 4px; }
+
+#logout {
+  position: fixed;
+  bottom: 0;
+  border-top: 1px solid #666;
+  width: inherit; }
 
 .content {
   padding: 100px 20px 20px 20px;
@@ -169,12 +180,12 @@ a {
 .right-header {
   padding: 5px 0 5px 65px;
   color: white;
-  position: fixed;
+  position: absolute;
   width: 100%;
   top: 0;
   right: 0;
   transition: all 0.3s ease;
-  z-index: 100; }
+  z-index: 1001; }
 
 .right-header a {
   position: absolute;
@@ -210,22 +221,26 @@ a {
     color: white;
     padding: 34px; }
   .site-nav-right h4 {
-    color: #fff; }
+    color: #fff;
+    padding-left: 20px; }
   .site-nav-right a {
     display: block;
     color: #e5e5e5;
     padding: 15px; }
+  .site-nav-right a:hover {
+    background: none;
+    color: red; }
   .site-nav-right ul {
     color: #e5e5e5;
     list-style: none;
-    text-align: center; }
+    text-align: center;
+    max-width: 2vw; }
   .site-nav-right li {
     font-size: 0.9vw;
     text-align: left; }
 
-.site-nav-right a:hover,
-.site-nav-right a:focus {
-  background: #333; }
+i a:hover {
+  background: none; }
 
 .site-nav-right:after {
   content: "";
@@ -243,10 +258,10 @@ a {
   display: none; }
 
 #site-nav-right:target {
-  width: 20%; }
+  width: 25%; }
 
 #site-nav-right:target + .page-wrap-right {
-  width: 80%; }
+  width: 75%; }
 
 #site-nav-right:target + .page-wrap-right .close-menu-right {
   display: block; }
@@ -260,63 +275,36 @@ a {
   padding-left: 2vw;
   bottom: 0; }
   #delete-document a:hover {
+    color: #e5e5e5;
     background: red; }
 
-.tabordion {
-  display: block;
-  font-family: arial, sans-serif;
-  margin: auto;
-  position: relative;
-  width: 100%; }
+#section2 h2 {
+  color: #333; }
 
-.tabordion input[name="sections"] {
-  left: 0;
-  position: absolute;
-  top: 0; }
-
-.tabordion section {
-  display: block; }
-
-.tabordion label {
-  background: #333;
-  border-radius: 10px;
-  cursor: pointer;
-  display: block;
-  font-size: 1.2em;
-  font-weight: bold;
-  padding: 15px 20px;
-  position: relative;
-  width: 20vw;
-  z-index: 100;
-  color: #fff; }
-
-.tabordion section article {
-  display: none;
-  left: 20vw;
-  min-width: 300px;
-  padding: 0 0 0 21px;
-  position: absolute;
-  top: 0; }
-
-.tabordion input[name="sections"]:checked + label {
-  color: #bbb; }
-
-.tabordion input[name="sections"]:checked ~ article {
-  display: block; }
+.update-form-content {
+  padding-left: 30vw; }
 
 #user-settings {
-  width: 100%; }
+  padding-left: 5vw; }
   #user-settings h5 {
     font-size: 0.6em; }
   #user-settings label {
-    background-color: #fff;
+    background: #fff;
     font-size: 1em;
     color: #333;
     padding: 0; }
   #user-settings input {
-    width: 40vw; }
+    width: 30vw; }
 
-.update-form {
-  padding-left: 20px; }
+.btn-primary {
+  background-color: #333;
+  border: 1px solid #333; }
+
+#user-documents {
+  padding: 20px 40px 40px 40px; }
+
+#messages-list {
+  display: none;
+  list-style: none; }
 
 /*# sourceMappingURL=style.css.map */
