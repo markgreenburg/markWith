@@ -358,6 +358,9 @@ i a:hover {
   .signup-form-content input {
     width: 30vw; }
 
+.signup-form-header {
+  padding-top: 20px; }
+
 #messages-list {
   list-style: none; }
 
