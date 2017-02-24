@@ -2,6 +2,7 @@
 @import url('https://fonts.googleapis.com/css?family=Noto+Serif');
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css');
 
+
 $navblue: #0f4a7e;
 
 html, body, div.container-fluid {
@@ -475,13 +476,13 @@ i {
     padding-top: 20px;
 }
 
-// .login-form-header {
-//     max-width: 20%;
-// }
+.login-form-header {
+    padding-bottom: 20px;
+}
 
 .login-form-content{
     input {
-        width: 50%;
+        width: 60%;
     }
 }
 
@@ -494,6 +495,14 @@ i {
     background-color: rgba(76,76,76,1);
     padding:40px;
 
+}
+
+#description {
+    visibility: hidden;
+}
+
+.typewriter{
+    visibility: visible;
 }
 
 #try {
@@ -522,4 +531,49 @@ i {
 @keyframes blink-caret {
   from, to { border-color: transparent }
   50% { border-color: orange; }
+}
+
+// =============================================
+//             T I N Y  T Y P I N G
+// =============================================
+.typewriter-sm h2 {
+  overflow: hidden; /* Ensures the content is not revealed until the animation */
+  border-right: .15em solid orange; /* The typwriter cursor */
+  max-width: 10%;
+  white-space: nowrap; /* Keeps the content on a single line */
+  margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+  letter-spacing: .15em; /* Adjust as needed */
+  animation:
+    typing-sm 3.5s steps(40),
+    blink-caret-sm .75s step-end infinite;
+}
+
+/* The typing effect */
+@keyframes typing-sm {
+  from { width: 0 }
+  to { width: 40% }
+}
+
+/* The typewriter cursor effect */
+@keyframes blink-caret-sm {
+  from, to { border-color: transparent }
+  50% { border-color: orange; }
+}
+
+// =============================================
+//       M O B I L E  C O N D I T I O N S
+// =============================================
+
+@media only screen and (max-width: 850px) {
+    .typewriter h2 {
+        font-size: 1em;
+    }
+
+    // #description {
+    //     visibility: visible;
+    // }
+    //
+    // #typewriter{
+    //     display: none;
+    // }
 }
