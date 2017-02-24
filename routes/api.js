@@ -392,7 +392,6 @@ router.post("/user/update", db.User.apiAuth, (req, res) => {
 
 /* Log in existing user */
 router.post('/user/login', (req, res) => {
-    console.log("received request");
     console.log(req.body);
     db.User.findOne({ email: req.body.email })
         // Found matching user

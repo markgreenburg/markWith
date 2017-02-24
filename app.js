@@ -33,6 +33,7 @@ app.use(session(sess));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded());
 // Mount router middleware
 app.use('/', client);
 app.use('/api', api);

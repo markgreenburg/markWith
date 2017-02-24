@@ -2,26 +2,24 @@ window.onload = () => {
     $("form.login").submit((event) => {
         event.preventDefault();
         const formData = {
-            "email": $("email-login").value,
-            "password": $("password-login").value
+            "email": $("#email-login").val(),
+            "password": $("#password-login").val()
         };
         $.ajax({
-            method: "POST",
+            type: "POST",
             url: "/api/user/login",
-            data: "'" + formData + "'",
-            dataType: "json",
-            processData: false,
+            "data": formData,
+            "encode": true,
+            // processData: false,
             success: (response) => {
                 if (response.success === true) {
-                    console.log("login successful");
                     window.location.replace("/documents");
                 } else {
-                    console.log("got response but not successful");
                     showLoginError();
                 }
             },
-            "error": () => {
-                console.log("response error");
+            error: (err) => {
+                console.log(err);
                 showLoginError();
             }
         });
