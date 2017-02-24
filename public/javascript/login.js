@@ -2,8 +2,8 @@ window.onload = () => {
     $("form.login").submit((event) => {
         event.preventDefault();
         const formData = {
-            "email": $("#email-login").val(),
-            "password": $("#password-login").val()
+            "email": $("input#email-login").val(),
+            "password": $("input#password-login").val()
         };
         $.ajax({
             type: "POST",
