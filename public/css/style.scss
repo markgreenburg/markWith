@@ -12,6 +12,10 @@ html, body, div.container-fluid {
 
 }
 
+a:hover{
+    background: none;
+}
+
 #navbar {
     padding: 10px;
     padding-right: 10%;
@@ -187,6 +191,13 @@ a {
   // background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.4));
 }
 
+#logout {
+    position: fixed;
+    bottom: 0;
+    border-top: 1px solid #666;
+    width: inherit;
+}
+
 .content {
   padding: 100px 20px 20px 20px;
   max-width: 900px;
@@ -212,6 +223,7 @@ a {
   width: 80%;
   left: 20%;
 }
+
 
 // ==============================
 //         Right Toggle
@@ -267,6 +279,7 @@ a {
 
     h4 {
         color: #fff;
+        padding-left: 20px;
     }
 
     a {
@@ -275,10 +288,17 @@ a {
       padding: 15px;
     }
 
+    a:hover {
+        background: none;
+        color:red;
+    }
+
+
     ul {
         color: #e5e5e5;
         list-style: none;
         text-align: center;
+        max-width: 2vw;
     }
 
     li {
@@ -287,10 +307,16 @@ a {
    }
 }
 
-.site-nav-right a:hover,
-.site-nav-right a:focus {
-  background: #333;
+i {
+    a:hover {
+        background: none;
+    }
 }
+
+// .site-nav-right a:hover,
+// .site-nav-right a:focus {
+//   background: #333;
+// }
 
 .site-nav-right:after {
   content: "";
@@ -311,11 +337,11 @@ a {
 }
 
 #site-nav-right:target {
-  width: 20%;
+  width: 25%;
 }
 
 #site-nav-right:target + .page-wrap-right {
-  width: 80%;
+  width: 75%;
 }
 
 #site-nav-right:target + .page-wrap-right .close-menu-right {
@@ -333,15 +359,15 @@ a {
     bottom: 0;
 
     a:hover {
-        // color: #6f0f0f;
+        color: #e5e5e5;
         background: red;
     }
 }
 
 
-// ==============================
-//         Profile Page
-// ==============================
+// ==================================
+//     A C C O U N T  P A G E
+// ==================================
 
 //**********************
 //      tab menu
@@ -432,4 +458,14 @@ a {
 
 .update-form {
     padding-left: 20px;
+}
+
+
+// ==============================
+//       L O G I N  P A G E
+// ==============================
+
+#messages-list {
+    display: none;
+    list-style: none;
 }

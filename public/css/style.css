@@ -5,6 +5,9 @@ html, body, div.container-fluid {
   font-family: 'Inconsolata', monospace;
   background-color: #fff; }
 
+a:hover {
+  background: none; }
+
 #navbar {
   padding: 10px;
   padding-right: 10%;
@@ -146,6 +149,12 @@ a {
   height: 100%;
   width: 4px; }
 
+#logout {
+  position: fixed;
+  bottom: 0;
+  border-top: 1px solid #666;
+  width: inherit; }
+
 .content {
   padding: 100px 20px 20px 20px;
   max-width: 900px; }
@@ -210,22 +219,26 @@ a {
     color: white;
     padding: 34px; }
   .site-nav-right h4 {
-    color: #fff; }
+    color: #fff;
+    padding-left: 20px; }
   .site-nav-right a {
     display: block;
     color: #e5e5e5;
     padding: 15px; }
+  .site-nav-right a:hover {
+    background: none;
+    color: red; }
   .site-nav-right ul {
     color: #e5e5e5;
     list-style: none;
-    text-align: center; }
+    text-align: center;
+    max-width: 2vw; }
   .site-nav-right li {
     font-size: 0.9vw;
     text-align: left; }
 
-.site-nav-right a:hover,
-.site-nav-right a:focus {
-  background: #333; }
+i a:hover {
+  background: none; }
 
 .site-nav-right:after {
   content: "";
@@ -243,10 +256,10 @@ a {
   display: none; }
 
 #site-nav-right:target {
-  width: 20%; }
+  width: 25%; }
 
 #site-nav-right:target + .page-wrap-right {
-  width: 80%; }
+  width: 75%; }
 
 #site-nav-right:target + .page-wrap-right .close-menu-right {
   display: block; }
@@ -260,6 +273,7 @@ a {
   padding-left: 2vw;
   bottom: 0; }
   #delete-document a:hover {
+    color: #e5e5e5;
     background: red; }
 
 .tabordion {
@@ -318,5 +332,9 @@ a {
 
 .update-form {
   padding-left: 20px; }
+
+#messages-list {
+  display: none;
+  list-style: none; }
 
 /*# sourceMappingURL=style.css.map */
