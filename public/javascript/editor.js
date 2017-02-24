@@ -104,7 +104,28 @@ window.onload = () => {
             url: "/api/documents/update/" + docId,
             data: { "docName": newName },
             encode: true,
-            success: (response) => updateName(response.data.docName)
+            success: (response) => updateName(response.data.docName),
+            error: (err) => console.log(err)
         });
     });
+
+    // Remove collaborator
+    $("li.remove-collab").on('click', "a", (event) => {
+        event.preventDefault();
+        const self = $(event.target);
+        $.ajax({
+            type: "POST",
+            url: "/api/documents/update/" + docId + "/remove_collab",
+            data: {
+                "email": self.text()
+            },
+            encode: true,
+            success: () => {
+                self.parent().hide();
+            },
+            error: (err) => {
+                console.log(err);
+            }
+        })
+    })
 }
