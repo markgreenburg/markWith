@@ -140,11 +140,15 @@ window.onload = () => {
             },
             encode: true,
             success: (res) => {
-                $("ul#collab-list").append(
-                    "<li class='remove-collab'><a href='#'><i class='fa"
-                    + "fa-minus' aria-hidden='true'></i>" + res.data.email
-                    + "</a></li>"
-                );
+                if (res.success) {
+                    $("ul#collab-list").prepend(
+                        "<li class='remove-collab'><a href='#'><i class='fa"
+                        + "fa-minus' aria-hidden='true'></i>" + res.data.email
+                        + "</a></li>"
+                    );
+                } else {
+                    console.log(res);
+                }
             },
             error: (err) => console.log(err)
         });
