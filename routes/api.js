@@ -20,26 +20,30 @@ const docAuth = (req, res, next) => {
             if (!results) {
                 db.Doc.findOne({ $and: [ { "_id": ObjectId(documentId)}, {collabs: regularExpression}]})
                     .then((results) =>{
+                        console.log(results);
                         console.log("checking if collab");
                         if (results) {
                             isCollab = true;
-                            next();
+                            console.log(isCollab);
+                            next();//continue, user is a collab, auth passed
+                        } else {
+                            res.status(403)
+                                .json({
+                                    "message": "Not authorized",
+                                    "data": {},
+                                    "success": false
+                                });
                         }
                     })
-                    .catch((err) => {});
+
             } else {
                 console.log("user should be an owners");
                 isOwner = true;
-                return next();
+                next(); //continue, user is an owner, auth passed
             }
-            res.status(401)
-                .json({
-                    "message": "Not authorized",
-                    "data": {},
-                    "success": false
-                });
+
     })
-    .catch((err) => {});
+
     // next();
 };
 
@@ -47,8 +51,8 @@ const docAuth = (req, res, next) => {
  * Document routes
  */
 /* View all documents accessible by session user */
-router.post('/documents', db.User.apiAuth, (req, res) => {
-    const regularExpression = new RegExp(".*" + req.session.email + ".*");
+router.post('/documents', db.User.apiAuth, docAuth, (req, res) => {
+    const regularExpression = new RegExp(".*" + req.session.userId + ".*");
     db.Doc.find( {$or: [{owners: regularExpression}, {collabs: regularExpression}]})
         .then((results) => { // returns empty array if no results
                 res.status(200)
@@ -122,8 +126,7 @@ router.post('/documents/:id', db.User.apiAuth, docAuth, (req, res) => {
     }
 });
 
-/* Update Route for Document:
-Made some modifications, making add_collab and remove_collab false and then planning to use the Ajax request to turn these true based on event.  isOwner and isCollab will take care of docAuthorization but it is async so it will need to be passed via callback function  */
+/* Update Route for Document includes everything except adding and removing collaborators */
 router.post('/documents/update/:id', db.User.apiAuth, docAuth, (req, res) => {
     var documentId = req.params.id;
     if (isCollab) {
@@ -237,10 +240,10 @@ router.post('/documents/update/:id', db.User.apiAuth, docAuth, (req, res) => {
 /*  Add collaborator route */
 router.post('/documents/update/:id/add_collab', db.User.apiAuth, docAuth, (req, res) => {
     var documentId = req.params.id;
-    if (owner) {
+    if (isOwner) {
     db.User.findOne({email: req.body.email}).exec(function(err,user){
         console.log(user)
-        var collab_id = user._id;
+        var collab_id = user._id.toString();
         console.log(collab_id);
         db.Doc.findOne({_id: documentId})
             .then((docToUpdate) => {
@@ -280,17 +283,21 @@ router.post('/documents/update/:id/remove_collab', db.User.apiAuth, docAuth, (re
     var documentId = req.params.id;
     db.User.findOne({email: req.body.email}).exec(function(err,user){
         console.log(user)
-        var collab_id = user._id;
-        console.log(collab_id);
-        console.log(typeof collab_id);
+        var collab_id = user._id.toString();
         db.Doc.findOne({_id: documentId})
             .then((docToUpdate) => {
                 if (docToUpdate) {
                     console.log(collab_id);
                     console.log(typeof collab_id);
+                    if (isOwner) {
                         var index = docToUpdate.collabs.indexOf(collab_id);
                         docToUpdate.collabs.splice(index,1);
-                    docToUpdate.save()
+                    }
+                    if (isCollab) {
+                        var index = docToUpdate.collabs.indexOf(collab_id);
+                        docToUpdate.collabs.splice(index,1);
+                    }
+                        docToUpdate.save()
                         .then((updatedDoc) => {
                             res.status(200)
                                 .json({
