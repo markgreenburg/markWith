@@ -88,7 +88,6 @@ textarea#text-pad {
     font-style: italic;
 
     // padding-right: 5vw;
-    z-index: 1001;
 }
 
 div.header-row {
@@ -232,7 +231,7 @@ a {
 
 
 // ==============================
-//         Right Toggle
+//       R I G H T  N A V
 // ==============================
 .right-header {
   // background: #222;
@@ -263,6 +262,7 @@ a {
 .site-nav-right {
     position: fixed;
     text-align: center;
+    padding-top: 80px;
     top: 0;
     right: 0;
     width: 0;
@@ -517,8 +517,15 @@ i {
     visibility: visible;
 }
 
+
 #try {
-    padding: 20px 40px 20px 40px;
+
+        text-align: center;
+
+        button {
+            margin: auto;
+            padding: 20px 200px 20px 200px;
+        }
 }
 
 .typewriter h2 {
@@ -551,7 +558,7 @@ i {
 .typewriter-sm h2 {
   overflow: hidden; /* Ensures the content is not revealed until the animation */
   border-right: .15em solid orange; /* The typwriter cursor */
-  max-width: 10%;
+  max-width: 12%;
   white-space: nowrap; /* Keeps the content on a single line */
   margin: 0 auto; /* Gives that scrolling effect as the typing happens */
   letter-spacing: .15em; /* Adjust as needed */
@@ -581,13 +588,13 @@ i {
         font-size: 1em;
     }
 
-    .typewriter-sm {
-        max-width: 12%;
-    }
-
-    .typewriter-sm h2 {
-        font-size: 2.5vw;
-    }
+    // .typewriter-sm {
+    //     max-width: 12%;
+    // }
+    //
+    // .typewriter-sm h2 {
+    //     font-size: 2.5vw;
+    // }
 
     // #description {
     //     visibility: visible;

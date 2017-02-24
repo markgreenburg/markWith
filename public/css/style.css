@@ -66,8 +66,7 @@ textarea#text-pad {
 
 .navbar-text {
   color: #363636;
-  font-style: italic;
-  z-index: 1001; }
+  font-style: italic; }
 
 div.header-row {
   height: 10%;
@@ -203,6 +202,7 @@ a {
 .site-nav-right {
   position: fixed;
   text-align: center;
+  padding-top: 80px;
   top: 0;
   right: 0;
   width: 0;
@@ -356,7 +356,10 @@ i a:hover {
   visibility: visible; }
 
 #try {
-  padding: 20px 40px 20px 40px; }
+  text-align: center; }
+  #try button {
+    margin: auto;
+    padding: 20px 200px 20px 200px; }
 
 .typewriter h2 {
   overflow: hidden;
@@ -389,7 +392,7 @@ i a:hover {
   /* Ensures the content is not revealed until the animation */
   border-right: .15em solid orange;
   /* The typwriter cursor */
-  max-width: 10%;
+  max-width: 12%;
   white-space: nowrap;
   /* Keeps the content on a single line */
   margin: 0 auto;
@@ -412,12 +415,6 @@ i a:hover {
     border-color: orange; } }
 @media only screen and (max-width: 850px) {
   .typewriter h2 {
-    font-size: 1em; }
-
-  .typewriter-sm {
-    max-width: 12%; }
-
-  .typewriter-sm h2 {
-    font-size: 2.5vw; } }
+    font-size: 1em; } }
 
 /*# sourceMappingURL=style.css.map */
