@@ -331,13 +331,22 @@ i a:hover {
 #account-login-container {
   padding-top: 20px; }
 
+.login-form-header {
+  padding-bottom: 20px; }
+
 .login-form-content input {
-  width: 50%; }
+  width: 60%; }
 
 .jumbotron {
   color: #fff;
   background-color: #4c4c4c;
   padding: 40px; }
+
+#description {
+  visibility: hidden; }
+
+.typewriter {
+  visibility: visible; }
 
 #try {
   padding: 20px 40px 20px 40px; }
@@ -368,5 +377,34 @@ i a:hover {
     border-color: transparent; }
   50% {
     border-color: orange; } }
+.typewriter-sm h2 {
+  overflow: hidden;
+  /* Ensures the content is not revealed until the animation */
+  border-right: .15em solid orange;
+  /* The typwriter cursor */
+  max-width: 10%;
+  white-space: nowrap;
+  /* Keeps the content on a single line */
+  margin: 0 auto;
+  /* Gives that scrolling effect as the typing happens */
+  letter-spacing: .15em;
+  /* Adjust as needed */
+  animation: typing-sm 3.5s steps(40), blink-caret-sm 0.75s step-end infinite; }
+
+/* The typing effect */
+@keyframes typing-sm {
+  from {
+    width: 0; }
+  to {
+    width: 40%; } }
+/* The typewriter cursor effect */
+@keyframes blink-caret-sm {
+  from, to {
+    border-color: transparent; }
+  50% {
+    border-color: orange; } }
+@media only screen and (max-width: 850px) {
+  .typewriter h2 {
+    font-size: 1em; } }
 
 /*# sourceMappingURL=style.css.map */
