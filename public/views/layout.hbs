@@ -5,7 +5,7 @@
     <!-- Latest compiled and minified Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <!-- App stylesheet -->
-    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="../css/style.css" />
   </head>
   <body>
       <div id="navbar" class="navbar">
@@ -14,15 +14,13 @@
                 <div id="mynavbar-content">
                     <ul class="nav navbar-nav">
                         <li class="active">
-                            <li>
-                                <p class="navbar-text">Editing "Crunch Party" as Mark Otto</p></li>
-                            </li>
-                            <li><a href="/user/login">Login/Signup</a></li>
-                            <li><a href="/documents">Documents</a></li>
+                            <li><a href="/">Login/Signup</a></li>
+                            <li><a href="#">FAQ</a></li>
                         </li>
                         <li><a href="#"><i class="fa fa-file-o" aria-hidden="true"></i></a></li>
                     </ul>
                 </div>
+
         </div>
 
 <!-- <div class="page-wrap page-wrap-right"> -->
@@ -32,14 +30,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <!-- Minified Marked for realtime markdown conversion -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js"></script>
+    <!-- Socket.io handler -->
+    <script src='/socket.io/socket.io.js'></script>
+    <!-- Client JS and custom Socket events -->
+    <script src="javascript/index.js"></script>
     <!-- Latest compiled and minified Bootstrap JS -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
-    <script>
-    $("label").on('click', function(){
-      $("#right-nav").toggle();
-    });
-    </script>
 
   </body>
 

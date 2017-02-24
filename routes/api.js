@@ -12,39 +12,38 @@ var ObjectId = require('mongodb').ObjectID;
 /* Doc checker, sets permission levels */
 var isOwner = false;
 var isCollab = false;
-var add_collab = false;
-var remove_collab = false;
 const docAuth = (req, res, next) => {
     var documentId = req.params.id;
-    const regularExpression = new RegExp(".*" + req.session.email + ".*");
+    const regularExpression = new RegExp(".*" + req.session.userId + ".*");
     db.Doc.findOne({ $and: [ { "_id": ObjectId(documentId)}, {owners: regularExpression}]})
         .then((results) => {
             if (!results) {
                 db.Doc.findOne({ $and: [ { "_id": ObjectId(documentId)}, {collabs: regularExpression}]})
                     .then((results) =>{
+                        console.log(results);
                         console.log("checking if collab");
                         if (results) {
                             isCollab = true;
-                            remove_collab = true;
-                            next();
+                            console.log(isCollab);
+                            next();//continue, user is a collab, auth passed
+                        } else {
+                            res.status(403)
+                                .json({
+                                    "message": "Not authorized",
+                                    "data": {},
+                                    "success": false
+                                });
                         }
                     })
-                    .catch((err) => {});
+
             } else {
                 console.log("user should be an owners");
                 isOwner = true;
-                add_collab = true;
-                remove_collab = true;
-                return next();
+                next(); //continue, user is an owner, auth passed
             }
-            res.status(401)
-                .json({
-                    "message": "Not authorized",
-                    "data": {},
-                    "success": false
-                });
+
     })
-    .catch((err) => {});
+
     // next();
 };
 
@@ -52,8 +51,8 @@ const docAuth = (req, res, next) => {
  * Document routes
  */
 /* View all documents accessible by session user */
-router.post('/documents', db.User.apiAuth, (req, res) => {
-    const regularExpression = new RegExp(".*" + req.session.email + ".*");
+router.post('/documents', db.User.apiAuth, docAuth, (req, res) => {
+    const regularExpression = new RegExp(".*" + req.session.userId + ".*");
     db.Doc.find( {$or: [{owners: regularExpression}, {collabs: regularExpression}]})
         .then((results) => { // returns empty array if no results
                 res.status(200)
@@ -97,7 +96,7 @@ router.post('/documents/create', db.User.apiAuth, (req, res) => {
 });
 
 /* Individual document post */
-router.post('/documents/:id', db.User.apiAuth, (req, res) => {
+router.post('/documents/:id', db.User.apiAuth, docAuth, (req, res) => {
     var documentId = req.params.id;
     if (isOwner || isCollab) {
     db.Doc.findOne({_id: documentId})
@@ -127,22 +126,20 @@ router.post('/documents/:id', db.User.apiAuth, (req, res) => {
     }
 });
 
+<<<<<<< HEAD
+/* Update Route for Document includes everything except adding and removing collaborators */
+=======
 /* Update Route for Document:
 Made some modifications, making add_collab and remove_collab false and then planning to use the Ajax request to turn these true based on event.  isOwner and isCollab will take care of docAuthorization but it is async so it will need to be passed via callback function  */
+>>>>>>> c5c96047f2499c950de4f23fbece480bf79baffe
 router.post('/documents/update/:id', db.User.apiAuth, docAuth, (req, res) => {
     var documentId = req.params.id;
-    var add_collab = false;
-    var remove_collab = false;
     if (isCollab) {
     db.Doc.findOne({_id: documentId})
         .then((docToUpdate) => {
             if (docToUpdate) {
                 if (req.body.contents) {
                     docToUpdate.contents = req.body.contents;
-                }
-                if (remove_collab) {
-                    var index = docToUpdate.collabs.indexOf(req.session.userId);
-                    docToUpdate.collabs = docToUpdate.collabs.splice(index,1);
                 }
 
                 docToUpdate.save()
@@ -152,7 +149,6 @@ router.post('/documents/update/:id', db.User.apiAuth, docAuth, (req, res) => {
                                 "message": "Updated document",
                                 "data": {
                                     "contents": updatedDoc.contents,
-                                    "collabs": updatedCollab.collabs,
                                     "lastModified": updatedDoc.lastModified
                                 },
                                 "success": true
@@ -200,13 +196,6 @@ router.post('/documents/update/:id', db.User.apiAuth, docAuth, (req, res) => {
                     if (req.body.contents) {
                         docToUpdate.contents = req.body.contents;
                     }
-                    if (add_collab) {
-                        docToUpdate.collabs = docToUpdate.collabs.push(req.body.collabs);
-                    }
-                    if (remove_collab) {
-                            var index = docToUpdate.collabs.indexOf(req.body.collabs);
-                            docToUpdate.collabs = docToUpdate.collabs.splice(index,1);
-                    }
 
                     docToUpdate.save()
                         .then((updatedDoc) => {
@@ -216,7 +205,6 @@ router.post('/documents/update/:id', db.User.apiAuth, docAuth, (req, res) => {
                                     "data": {
                                         "docName": updatedDoc.docName,
                                         "contents": updatedDoc.contents,
-                                        "collabs": updatedDoc.collabs,
                                         "lastModified": updatedDoc.lastModified
                                     },
                                     "success": true
@@ -252,6 +240,94 @@ router.post('/documents/update/:id', db.User.apiAuth, docAuth, (req, res) => {
 
 
     }
+});
+
+/*  Add collaborator route */
+router.post('/documents/update/:id/add_collab', db.User.apiAuth, docAuth, (req, res) => {
+    var documentId = req.params.id;
+    if (isOwner) {
+    db.User.findOne({email: req.body.email}).exec(function(err,user){
+        console.log(user)
+        var collab_id = user._id.toString();
+        console.log(collab_id);
+        db.Doc.findOne({_id: documentId})
+            .then((docToUpdate) => {
+                if (docToUpdate) {
+                        docToUpdate.collabs.push(collab_id);
+                    docToUpdate.save()
+                        .then((updatedDoc) => {
+                            res.status(200)
+                                .json({
+                                    "message": "Updated document",
+                                    "data": {
+                                        "collabs": updatedDoc.collabs,
+                                        "lastModified": updatedDoc.lastModified
+                                    },
+                                    "success": true
+                                });
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                            res.status(500)
+                                .json({
+                                    "message": "Server error - document update failed",
+                                    "data": err,
+                                    "success": false
+                                });
+                        });
+                }
+
+
+})
+});
+}
+});
+
+/*  Add collaborator route */
+router.post('/documents/update/:id/remove_collab', db.User.apiAuth, docAuth, (req, res) => {
+    var documentId = req.params.id;
+    db.User.findOne({email: req.body.email}).exec(function(err,user){
+        console.log(user)
+        var collab_id = user._id.toString();
+        db.Doc.findOne({_id: documentId})
+            .then((docToUpdate) => {
+                if (docToUpdate) {
+                    console.log(collab_id);
+                    console.log(typeof collab_id);
+                    if (isOwner) {
+                        var index = docToUpdate.collabs.indexOf(collab_id);
+                        docToUpdate.collabs.splice(index,1);
+                    }
+                    if (isCollab) {
+                        var index = docToUpdate.collabs.indexOf(collab_id);
+                        docToUpdate.collabs.splice(index,1);
+                    }
+                        docToUpdate.save()
+                        .then((updatedDoc) => {
+                            res.status(200)
+                                .json({
+                                    "message": "Updated document",
+                                    "data": {
+                                        "collabs": updatedDoc.collabs,
+                                        "lastModified": updatedDoc.lastModified
+                                    },
+                                    "success": true
+                                });
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                            res.status(500)
+                                .json({
+                                    "message": "Server error - document update failed",
+                                    "data": err,
+                                    "success": false
+                                });
+                        });
+                }
+
+
+})
+});
 });
 
 router.post('/documents/remove/:id', db.User.apiAuth, docAuth, (req, res) => {

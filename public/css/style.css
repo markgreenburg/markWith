@@ -60,11 +60,13 @@ textarea#text-pad {
 .navbar-brand {
   margin-left: 30px; }
 
+#document-live {
+  margin-top: 0; }
+
 .navbar-text {
-  color: #b7b7b7;
+  color: #363636;
   font-style: italic;
-  text-align: center;
-  padding-right: 5vw; }
+  z-index: 1001; }
 
 div.header-row {
   height: 10%;
@@ -96,7 +98,7 @@ a {
 .main-header {
   padding: 5px 0 5px 65px;
   color: white;
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   transition: all 0.3s ease;
@@ -178,12 +180,12 @@ a {
 .right-header {
   padding: 5px 0 5px 65px;
   color: white;
-  position: fixed;
+  position: absolute;
   width: 100%;
   top: 0;
   right: 0;
   transition: all 0.3s ease;
-  z-index: 100; }
+  z-index: 1001; }
 
 .right-header a {
   position: absolute;
@@ -297,6 +299,9 @@ i a:hover {
 .btn-primary {
   background-color: #333;
   border: 1px solid #333; }
+
+#user-documents {
+  padding: 20px 40px 40px 40px; }
 
 #messages-list {
   display: none;
