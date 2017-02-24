@@ -126,6 +126,27 @@ window.onload = () => {
             error: (err) => {
                 console.log(err);
             }
-        })
-    })
+        });
+    });
+
+    // Add Collaborator
+    $("form#add-collab-form").submit((event) => {
+        event.preventDefault();
+        $.ajax({
+            type: "POST",
+            url: "/api/documents/update/" + docId + "/add_collab",
+            data: {
+                "email": $("input#add-collab").val()
+            },
+            encode: true,
+            success: (res) => {
+                $("ul#collab-list").append(
+                    "<li class='remove-collab'><a href='#'><i class='fa"
+                    + "fa-minus' aria-hidden='true'></i>" + res.data.email
+                    + "</a></li>"
+                );
+            },
+            error: (err) => console.log(err)
+        });
+    });
 }
