@@ -1,6 +1,5 @@
 window.onload = () => {
     $("form.login").submit((event) => {
-        console.log("Form submit fired");
         event.preventDefault();
         const formData = {
             "email": $("input#email-login").val(),
@@ -12,11 +11,9 @@ window.onload = () => {
             "data": formData,
             "encode": true,
             success: (response) => {
-                console.log(response);
                 if (response.success === true) {
                     window.location.replace("/documents");
                 } else {
-                    console.log(response);
                     showLoginError();
                 }
             },
