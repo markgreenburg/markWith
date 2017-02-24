@@ -337,13 +337,20 @@ router.post("/user/update", db.User.apiAuth, (req, res) => {
     db.User.findOne({_id: req.session.userId})
         .then((userToUpdate) => {
             if (userToUpdate) {
-                if (req.body.fName) {
+                if (req.body.fName 
+                        && req.body.fName != userToUpdate.fName
+                        && req.body.fName.length > 0) {
                     userToUpdate.fName = req.body.fName;
-                } if (req.body.lName) {
+                } if (req.body.lName
+                        && req.body.lName != userToUpdate.lName
+                        && req.body.lName.length > 0) {
                     userToUpdate.lName = req.body.lName;
-                } if (req.body.email) {
+                } if (req.body.email
+                        && req.body.email != userToUpdate.email
+                        && req.body.email.length >= 5) {
                     userToUpdate.email = req.body.email;
-                } if (req.body.password) {
+                } if (req.body.password
+                        && req.body.email.length >= 6) {
                     userToUpdate.password = req.body.password
                 }
                 userToUpdate.save()
