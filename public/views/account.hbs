@@ -1,1 +1,68 @@
-<div>Account Profile Goes Here!</div>
+<!-- <div class="container-fluid "> -->
+    <!-- <div class="row content-row navbar"> -->
+    <nav class="site-nav" id="site-nav">
+        <a href="/"><h2>//markWith</h2></a>
+        <a href="/account">Documents</a>
+        <a href="/account">Settings</a>
+
+        <div id="logout"><a href="#">Logout</a></div>
+      </nav>
+
+      <div class="page-wrap">
+      <header class="main-header">
+                <a href="#site-nav"><i class="fa fa-cog" aria-hidden="true"></i>
+          </a>
+                <a href="#" class="close-menu"><i class="fa fa-cog" aria-hidden="true"></i>
+          </a>
+      </header>
+
+<section id="section2">
+    <div class="header-row"><h2>Settings</h2></div>
+      <div id="user-settings">
+          <div class="row signup-form-content-row col-md-8">
+              <div class="update-form-content">
+                  <form class="update-form">
+                      <label>Edit First Name</label>
+                      <div class="form-group first-name">
+                          <input type="text" id="first-name" name="first-name" placeholder="First Name" minlength="2" required>
+                      </div>
+                      <label>Edit Last Name</label>
+                      <div class="form-group last-name">
+                          <input type="text" id="last-name" name="last-name" placeholder="Last Name" minlength="2" required>
+                      </div>
+                      <label>New Email Address</label>
+                      <div class="form-group email">
+                          <input type="email"  id="email"name="email" placeholder="Email" minlength="5" required>
+                      <label>Confirm New Email Address</label>
+                      <div class="form-group email">
+                          <input type="email"  id="email"name="email" placeholder="Email" minlength="5" required>
+                      </div>
+                      <label>New Password</label>
+                      <div class="form-group password">
+                          <input type="password" id="password" name="password" placeholder="Password" minlength="6" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$" required>
+                          <label><h5>(must use uppercase and lowercase letters, and numbers)</h5></label>
+                      </div>
+                      <label>Confirm New Password</label>
+                      <div class="form-group password-confirm">
+                          <input type="password" name="password-confirm" placeholder="Confirm Password" minlength="6" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$" oninput="check(this)" required>
+                          <script language='javascript' type='text/javascript'>
+                              function check(input) {
+                                  if (input.value != document.getElementById('password').value) {
+                                      input.setCustomValidity('Passwords must match');
+                                  } else {
+                                      input.setCustomValidity('');
+                                  }
+                              }
+                          </script>
+                      </div>
+                      <br />
+                      <button type="submit" class="btn btn-primary">Update Account</button>
+                  </form>
+              </div>
+      </div>
+    </article>
+  </section>
+</div>
+</div>
+</div>
+</div>
