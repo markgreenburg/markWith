@@ -1,12 +1,11 @@
-@import url('https://fonts.googleapis.com/css?family=Mukta+Vaani|Roboto');
 @import url('https://fonts.googleapis.com/css?family=Inconsolata');
+@import url('https://fonts.googleapis.com/css?family=Noto+Serif');
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css');
 
 $navblue: #0f4a7e;
 
 html, body, div.container-fluid {
     // height: 100%;
-    // font-family: 'Roboto', sans-serif;
     font-family: 'Inconsolata', monospace;
     background-color: #fff;
 
@@ -423,11 +422,44 @@ i {
 
 
 // ==============================
-//      S E T T I N G S
+//      D O C U M E N T S
 // ==============================
 
 #user-documents {
     padding: 20px 40px 40px 40px;
+
+    a {
+        color: #333;
+        font-family: 'Noto Serif', serif;
+        font-weight: bold;
+    }
+}
+
+
+// ==============================
+//      R E G I S T E R
+// ==============================
+
+.signup-form-content {
+    padding-left: 5vw;
+    // width: 50%;
+
+
+    h5 {
+        font-size: 0.6em;
+    }
+
+    label {
+        background: #fff;
+        font-size: 1em;
+        color: #333;
+        padding: 0;
+    }
+
+    input {
+        width: 30vw;
+    }
+
 }
 
 
@@ -437,6 +469,20 @@ i {
 
 #messages-list {
     list-style: none;
+}
+
+#account-login-container{
+    padding-top: 20px;
+}
+
+// .login-form-header {
+//     max-width: 20%;
+// }
+
+.login-form-content{
+    input {
+        width: 50%;
+    }
 }
 
 // ==============================

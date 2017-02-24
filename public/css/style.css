@@ -1,5 +1,5 @@
-@import url("https://fonts.googleapis.com/css?family=Mukta+Vaani|Roboto");
 @import url("https://fonts.googleapis.com/css?family=Inconsolata");
+@import url("https://fonts.googleapis.com/css?family=Noto+Serif");
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css");
 html, body, div.container-fluid {
   font-family: 'Inconsolata', monospace;
@@ -308,9 +308,31 @@ i a:hover {
 
 #user-documents {
   padding: 20px 40px 40px 40px; }
+  #user-documents a {
+    color: #333;
+    font-family: 'Noto Serif', serif;
+    font-weight: bold; }
+
+.signup-form-content {
+  padding-left: 5vw; }
+  .signup-form-content h5 {
+    font-size: 0.6em; }
+  .signup-form-content label {
+    background: #fff;
+    font-size: 1em;
+    color: #333;
+    padding: 0; }
+  .signup-form-content input {
+    width: 30vw; }
 
 #messages-list {
   list-style: none; }
+
+#account-login-container {
+  padding-top: 20px; }
+
+.login-form-content input {
+  width: 50%; }
 
 .jumbotron {
   color: #fff;
