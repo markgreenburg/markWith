@@ -46,6 +46,19 @@ a:hover{
     float: right;
     }
 
+#mobile-menu {
+    float: right;
+
+    button {
+        background-color: #252728;
+        color: #fff;
+        border: none;
+    }
+}
+
+.dropdown-menu {
+    right: 0;
+}
 
 div.content-row {
     height: 90%;
@@ -607,15 +620,16 @@ i {
 //             T I N Y  T Y P I N G
 // =============================================
 .typewriter-sm h2 {
-  overflow: hidden; /* Ensures the content is not revealed until the animation */
-  border-right: .15em solid orange; /* The typwriter cursor */
-  max-width: 12%;
-  white-space: nowrap; /* Keeps the content on a single line */
-  margin: 0 auto; /* Gives that scrolling effect as the typing happens */
-  letter-spacing: .15em; /* Adjust as needed */
-  animation:
-    typing-sm 3.5s steps(40),
-    blink-caret-sm .75s step-end infinite;
+    font-size: 1.8vw;
+    overflow: hidden; /* Ensures the content is not revealed until the animation */
+    border-right: .15em solid orange; /* The typwriter cursor */
+    max-width: 10vw;
+    white-space: nowrap; /* Keeps the content on a single line */
+    margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+    letter-spacing: .15em; /* Adjust as needed */
+    animation:
+        typing-sm 3.5s steps(40),
+        blink-caret-sm .75s step-end infinite;
 }
 
 /* The typing effect */
@@ -634,24 +648,8 @@ i {
 //       M O B I L E  C O N D I T I O N S
 // =============================================
 
-@media only screen and (max-width: 850px) {
-    .typewriter h2 {
-        font-size: 1em;
-    }
-
-    // .typewriter-sm {
-    //     max-width: 12%;
-    // }
-    //
-    // .typewriter-sm h2 {
-    //     font-size: 2.5vw;
-    // }
-
-    // #description {
-    //     visibility: visible;
-    // }
-    //
-    // #typewriter{
+@media only screen and (max-width: 500px) {
+    // #mynavbar-content {
     //     display: none;
     // }
 }

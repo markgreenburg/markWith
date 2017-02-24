@@ -33,6 +33,16 @@ a:hover {
 #mynavbar-content {
   float: right; }
 
+#mobile-menu {
+  float: right; }
+  #mobile-menu button {
+    background-color: #252728;
+    color: #fff;
+    border: none; }
+
+.dropdown-menu {
+  right: 0; }
+
 div.content-row {
   height: 90%; }
 
@@ -419,11 +429,12 @@ h2 {
   50% {
     border-color: orange; } }
 .typewriter-sm h2 {
+  font-size: 1.8vw;
   overflow: hidden;
   /* Ensures the content is not revealed until the animation */
   border-right: .15em solid orange;
   /* The typwriter cursor */
-  max-width: 12%;
+  max-width: 10vw;
   white-space: nowrap;
   /* Keeps the content on a single line */
   margin: 0 auto;
@@ -444,8 +455,5 @@ h2 {
     border-color: transparent; }
   50% {
     border-color: orange; } }
-@media only screen and (max-width: 850px) {
-  .typewriter h2 {
-    font-size: 1em; } }
 
 /*# sourceMappingURL=style.css.map */
