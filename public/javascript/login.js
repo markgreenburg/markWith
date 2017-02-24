@@ -1,5 +1,6 @@
 window.onload = () => {
     $("form.login").submit((event) => {
+        console.log("Form submit fired");
         event.preventDefault();
         const formData = {
             "email": $("#email-login").val(),
