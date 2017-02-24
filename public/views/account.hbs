@@ -22,29 +22,29 @@
           <div class="row signup-form-content-row col-md-8">
               <div class="update-form-content">
                   <form class="update-form">
-                      <label>Edit First Name</label>
                       <div class="form-group first-name">
+                        <label>First Name</label>
                           <input type="text" id="first-name" name="first-name" placeholder="First Name" minlength="2" required>
                       </div>
-                      <label>Edit Last Name</label>
                       <div class="form-group last-name">
+                        <label>Last Name</label>
                           <input type="text" id="last-name" name="last-name" placeholder="Last Name" minlength="2" required>
                       </div>
-                      <label>New Email Address</label>
                       <div class="form-group email">
+                        <label>Email Address</label>
                           <input type="email"  id="email"name="email" placeholder="Email" minlength="5" required>
-                      <label>Confirm New Email Address</label>
-                      <div class="form-group email">
-                          <input type="email"  id="email"name="email" placeholder="Email" minlength="5" required>
+                      <div class="form-group email-confirm">
+                        <label>Confirm New Email Address</label>
+                          <input type="email"  id="email-confirm"name="email" placeholder="Email" minlength="5" required>
                       </div>
-                      <label>New Password</label>
                       <div class="form-group password">
-                          <input type="password" id="password" name="password" placeholder="Password" minlength="6" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$" required>
+                        <label>New Password</label>
+                          <input type="password" id="password" name="password" placeholder="Leave empty to keep current password" minlength="6" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$">
                           <label><h5>(must use uppercase and lowercase letters, and numbers)</h5></label>
                       </div>
-                      <label>Confirm New Password</label>
                       <div class="form-group password-confirm">
-                          <input type="password" name="password-confirm" placeholder="Confirm Password" minlength="6" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$" oninput="check(this)" required>
+                          <label>Confirm New Password</label>
+                          <input type="password" id="password-confirm" name="password-confirm" placeholder="Confirm New Password" minlength="6" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$" oninput="check(this)">
                           <script language='javascript' type='text/javascript'>
                               function check(input) {
                                   if (input.value != document.getElementById('password').value) {
@@ -66,3 +66,4 @@
 </div>
 </div>
 </div>
+<script src="../javascript/account.js"></script>
