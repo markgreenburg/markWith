@@ -1,4 +1,4 @@
-window.onload = () => {
+const onPageLoad = () => {
     const logoutLi = $("li#user-logout-li");
     const createDocLi = $("li#create-doc-li");
     
@@ -38,3 +38,5 @@ window.onload = () => {
         });
     });
 }
+
+onPageLoad();
