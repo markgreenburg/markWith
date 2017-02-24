@@ -156,4 +156,19 @@ window.onload = () => {
             error: (err) => console.log(err)
         });
     });
+
+    $("div#delete-document").on('click', 'a', (event) => {
+        event.preventDefault();
+        $.ajax({
+            type: "POST",
+            url: "/api/documents/remove/" + docId,
+            encode: true,
+            success: (res) => {
+                if (res.success) {
+                    window.location.replace("/documents");
+                }
+            },
+            error: (err) => console.log(err)
+        });
+    });
 }
