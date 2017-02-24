@@ -1,4 +1,4 @@
-window.onload = () => {
+const templateJS = () => {
     $("form.login").submit((event) => {
         event.preventDefault();
         const formData = {

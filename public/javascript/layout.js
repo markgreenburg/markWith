@@ -1,4 +1,4 @@
-const onPageLoad = () => {
+window.onLoad = () => {
     const logoutLi = $("li#user-logout-li");
     const createDocLi = $("li#create-doc-li");
     
@@ -37,6 +37,7 @@ const onPageLoad = () => {
             error: (err) => console.log(err)
         });
     });
-}
 
-onPageLoad();
+    // Load template functions
+    templateJS();
+}

@@ -1,4 +1,4 @@
-window.onload = () => {
+const templateJS = () => {
     // Hide password and email confirmations until needed
     $("div.password-confirm").hide();
     $("div.email-confirm").hide();
