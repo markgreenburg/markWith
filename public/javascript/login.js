@@ -10,7 +10,6 @@ window.onload = () => {
             url: "/api/user/login",
             "data": formData,
             "encode": true,
-            // processData: false,
             success: (response) => {
                 if (response.success === true) {
                     window.location.replace("/documents");
@@ -24,11 +23,11 @@ window.onload = () => {
             }
         });
     });
-};
+}
 
-const showLoginError = (() => {
+const showLoginError = () => {
     const messageListItem = $("li#message");
     $("div.messages").show();
     messageListItem.empty();
     messageListItem.text("Login failed, please try again");
-});
+};
