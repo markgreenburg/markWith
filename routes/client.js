@@ -24,7 +24,7 @@ router.get('/user/login', (req, res) => {
 
 /* Account Profile */
 router.get('/user/account', db.User.clientAuth, (req, res) => {
-    res.render('account');
+    res.render('account', {userId: req.session.userId});
 });
 
 /* Documents store */
