@@ -15,6 +15,7 @@ window.onload = () => {
                 if (response.success === true) {
                     window.location.replace("/documents");
                 } else {
+                    console.log(response);
                     showLoginError();
                 }
             },
