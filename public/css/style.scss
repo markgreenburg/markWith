@@ -24,6 +24,7 @@ a:hover{
     background: #232526; /* fallback for old browsers */
     background: -webkit-linear-gradient(to left, #232526 , #414345); /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to left, #232526 , #414345); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    z-index: 1000;
 
     a {
         color: #eee;
@@ -39,10 +40,6 @@ a:hover{
     float: right;
     }
 
-// div.header-row {
-//     height: 10%;
-//     text-align: center;
-// }
 
 div.content-row {
     height: 90%;
@@ -114,10 +111,7 @@ textarea#text-pad {
 // =======================
 body {
   margin: 0;
-  // background: #eee;
   background-size: cover;
-  font-family: 'Quicksand', sans-serif;
-  // min-height: 100%;
 }
 
 h1 {
@@ -133,11 +127,11 @@ a {
   padding: 5px 0 5px 65px;
   color: white;
   position: fixed;
-  width: 100%;
+  // width: 100%;
   top:0;
   left: 0;
   transition: all 0.3s ease;
-  z-index: 100;
+  z-index: 1001;
 }
 
 .main-header a {
@@ -166,6 +160,7 @@ a {
   overflow-y: auto;
   transition: width 0.3s ease;
   white-space: nowrap;
+  z-index: 1001;
   // text-transform: uppercase;
 }
 
@@ -369,95 +364,45 @@ i {
 //     A C C O U N T  P A G E
 // ==================================
 
-//**********************
-//      tab menu
-// *********************
-.tabordion {
-  display: block;
-  font-family: arial, sans-serif;
-  margin: auto;
-  position: relative;
-  width: 100%;
-  // color: #fff;
+#section2 {
+    // position: relative;
+    // top: 10vw;
+
+    h2 {
+        color: #333;
+    }
 }
 
-.tabordion input[name="sections"] {
-  left: 0;
-  position: absolute;
-  top: 0;
-}
-
-.tabordion section {
-  display: block;
-}
-
-.tabordion label {
-  background: #333;
-  border-radius: 10px;
-  cursor: pointer;
-  display: block;
-  font-size: 1.2em;
-  font-weight: bold;
-  padding: 15px 20px;
-  position: relative;
-  width: 20vw;
-  z-index:100;
-  color: #fff;
-  }
-
-
-.tabordion section article {
-  display: none;
-  left: 20vw;
-  min-width: 300px;
-  padding: 0 0 0 21px;
-  position: absolute;
-  top: 0;
-}
-
-// .tabordion section article:after {
-//   background-color: #ccc;
-//   bottom: 0;
-//   content: "";
-//   display: block;
-//   left:-229px;
-//   position: absolute;
-//   top: 0;
-//   width: 220px;
-//   z-index:1;
-// }
-
-.tabordion input[name="sections"]:checked + label {
-  // background: #eee;
-  color: #bbb;
-}
-
-.tabordion input[name="sections"]:checked ~ article {
-  display: block;
+.update-form-content {
+    padding-left: 30vw;
 }
 
 #user-settings {
-    width: 100%;
+    padding-left: 5vw;
+    // width: 50%;
+
 
     h5 {
         font-size: 0.6em;
     }
 
     label {
-        background-color: #fff;
+        background: #fff;
         font-size: 1em;
         color: #333;
         padding: 0;
     }
 
     input {
-        width: 40vw;
+        width: 30vw;
     }
 
 }
 
-.update-form {
-    padding-left: 20px;
+.btn-primary {
+    background-color: #333;
+    border: 1px solid #333;
+
 }
 
 
