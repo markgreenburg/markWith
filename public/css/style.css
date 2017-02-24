@@ -336,6 +336,13 @@ i a:hover {
 
 .login-form-content input {
   width: 60%; }
+.login-form-content label {
+  background: #fff;
+  font-size: 1em;
+  color: #333;
+  padding: 0; }
+.login-form-content input {
+  width: 30vw; }
 
 .jumbotron {
   color: #fff;
@@ -405,6 +412,12 @@ i a:hover {
     border-color: orange; } }
 @media only screen and (max-width: 850px) {
   .typewriter h2 {
-    font-size: 1em; } }
+    font-size: 1em; }
+
+  .typewriter-sm {
+    max-width: 12%; }
+
+  .typewriter-sm h2 {
+    font-size: 2.5vw; } }
 
 /*# sourceMappingURL=style.css.map */

@@ -484,6 +484,18 @@ i {
     input {
         width: 60%;
     }
+
+    label {
+        background: #fff;
+        font-size: 1em;
+        color: #333;
+        padding: 0;
+    }
+
+    input {
+        width: 30vw;
+    }
+
 }
 
 // ==============================
@@ -567,6 +579,14 @@ i {
 @media only screen and (max-width: 850px) {
     .typewriter h2 {
         font-size: 1em;
+    }
+
+    .typewriter-sm {
+        max-width: 12%;
+    }
+
+    .typewriter-sm h2 {
+        font-size: 2.5vw;
     }
 
     // #description {
