@@ -22,7 +22,7 @@ const client = require('./routes/client');
 const api = require('./routes/api');
 
 // Set view directory and view engine to handlebars
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', __dirname + '/public/views');
 app.set('view engine', 'hbs');
 
 // Ensure session and cookie parser are both using same secret
