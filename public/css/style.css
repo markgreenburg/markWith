@@ -12,6 +12,7 @@ a:hover {
   padding: 10px;
   padding-right: 10%;
   margin-bottom: 0;
+  color: #fff;
   font-family: 'Inconsolata', monospace;
   font-size: 1.2em;
   background: #232526;
@@ -21,6 +22,8 @@ a:hover {
   background: linear-gradient(to left, #232526, #414345);
   /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   z-index: 1000; }
+  #navbar p {
+    padding-top: 13px; }
   #navbar a {
     color: #eee; }
   #navbar a:hover {
