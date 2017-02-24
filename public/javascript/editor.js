@@ -113,6 +113,7 @@ window.onload = () => {
     $("li.remove-collab").on('click', "a", (event) => {
         event.preventDefault();
         const self = $(event.target);
+        console.log(self);
         $.ajax({
             type: "POST",
             url: "/api/documents/update/" + docId + "/remove_collab",
@@ -122,6 +123,7 @@ window.onload = () => {
             encode: true,
             success: () => {
                 self.parent().hide();
+                console.log(self.parent());
             },
             error: (err) => {
                 console.log(err);
