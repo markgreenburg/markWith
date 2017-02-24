@@ -75,10 +75,10 @@ window.addEventListener('load', () => {
             }
         });
     });
-}
+    const showMessage = (msg) => {
+        const listItem = $("li#message");
+        $("div.messages").show();
+        listItem.text(msg);
+    };
+});
 
-const showMessage = (msg) => {
-    const listItem = $("li#message");
-    $("div.messages").show();
-    listItem.text(msg);
-};

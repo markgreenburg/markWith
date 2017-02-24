@@ -37,7 +37,4 @@ window.onLoad = () => {
             error: (err) => console.log(err)
         });
     });
-
-    // Load template functions
-    templateJS();
 }
