@@ -11,6 +11,7 @@ a:hover {
 #navbar {
   padding: 10px;
   padding-right: 10%;
+  margin-bottom: 0;
   font-family: 'Inconsolata', monospace;
   font-size: 1.2em;
   background: #232526;
@@ -300,11 +301,50 @@ i a:hover {
   background-color: #333;
   border: 1px solid #333; }
 
+.btn:hover {
+  background-color: #eee;
+  color: #333;
+  border: none; }
+
 #user-documents {
   padding: 20px 40px 40px 40px; }
 
 #messages-list {
-  display: none;
   list-style: none; }
+
+.jumbotron {
+  color: #fff;
+  background-color: #4c4c4c;
+  padding: 40px; }
+
+#try {
+  padding: 20px 40px 20px 40px; }
+
+.typewriter h2 {
+  overflow: hidden;
+  /* Ensures the content is not revealed until the animation */
+  border-right: .15em solid orange;
+  /* The typwriter cursor */
+  max-width: 60%;
+  white-space: nowrap;
+  /* Keeps the content on a single line */
+  margin: 0 auto;
+  /* Gives that scrolling effect as the typing happens */
+  letter-spacing: .15em;
+  /* Adjust as needed */
+  animation: typing 3.5s steps(40), blink-caret 0.75s step-end infinite; }
+
+/* The typing effect */
+@keyframes typing {
+  from {
+    width: 0; }
+  to {
+    width: 70%; } }
+/* The typewriter cursor effect */
+@keyframes blink-caret {
+  from, to {
+    border-color: transparent; }
+  50% {
+    border-color: orange; } }
 
 /*# sourceMappingURL=style.css.map */
