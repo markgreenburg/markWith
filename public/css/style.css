@@ -183,7 +183,7 @@ a {
   top: 0;
   right: 0;
   transition: all 0.3s ease;
-  z-index: 100; }
+  z-index: 1001; }
 
 .right-header a {
   position: absolute;
