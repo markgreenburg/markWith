@@ -233,6 +233,8 @@ a {
 // ==============================
 //       R I G H T  N A V
 // ==============================
+
+// vv (.right-header) is the icon that you click to pop out the right menu vv
 .right-header {
   // background: #222;
   padding: 5px 0 5px 65px;
@@ -259,6 +261,7 @@ a {
   transition: width 0.3s ease;
 }
 
+// vv .site-nav-right is the whole right menu with collaborators and stuff vv
 .site-nav-right {
     position: fixed;
     text-align: center;
@@ -275,12 +278,40 @@ a {
     background: linear-gradient(to right, #232526 , 80% #414345); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
 
+    form {
+        background-color: none;
+    }
+
+    i {
+        display: none;
+        color: #fff;
+    }
+
+    input[type="text"]{
+    border: none;
+    background: transparent;
+    color: #fff;
+    margin: auto;
+    }
+
+    input:hover {
+        text-decoration: underline;
+    }
+
+    input:hover + i {
+        display: block;
+    }
 
     h2 {
       display: block;
       border-bottom: 1px solid #666;
       color: white;
       padding: 34px;
+    }
+
+    h3 {
+        padding: 20px;
+        margin: auto;
     }
 
     h4 {
@@ -311,6 +342,10 @@ a {
     font-size: 0.9vw;
     text-align: left;
    }
+}
+
+#doc-title{
+    text-align: center;
 }
 
 i {
@@ -394,7 +429,7 @@ i {
 
 
     h5 {
-        font-size: 0.6em;
+        font-size: 0.8em;
     }
 
     label {
@@ -447,7 +482,7 @@ i {
 
 
     h5 {
-        font-size: 0.6em;
+        font-size: 0.8em;
     }
 
     label {
