@@ -33,6 +33,16 @@ a:hover {
 #mynavbar-content {
   float: right; }
 
+#mobile-menu {
+  float: right; }
+  #mobile-menu button {
+    background-color: #252728;
+    color: #fff;
+    border: none; }
+
+.dropdown-menu {
+  right: 0; }
+
 div.content-row {
   height: 90%; }
 
@@ -348,6 +358,9 @@ i a:hover {
   .signup-form-content input {
     width: 30vw; }
 
+.signup-form-header {
+  padding-top: 20px; }
+
 #messages-list {
   list-style: none; }
 
@@ -367,6 +380,9 @@ i a:hover {
 .login-form-content input {
   width: 30vw; }
 
+#about {
+  font-size: 1.2vw; }
+
 .jumbotron {
   color: #fff;
   background-color: #4c4c4c;
@@ -383,12 +399,6 @@ i a:hover {
 
 .typewriter {
   visibility: visible; }
-
-#try {
-  text-align: center; }
-  #try button {
-    margin: auto;
-    padding: 20px 200px 20px 200px; }
 
 .typewriter
 h2 {
@@ -418,12 +428,22 @@ h2 {
     border-color: transparent; }
   50% {
     border-color: orange; } }
+#try {
+  text-align: center; }
+  #try button {
+    margin: auto;
+    padding: 1vw 5vw 1vw 5vw; }
+
+#about h1 {
+  font-size: 2.2vw; }
+
 .typewriter-sm h2 {
+  font-size: 1.8vw;
   overflow: hidden;
   /* Ensures the content is not revealed until the animation */
   border-right: .15em solid orange;
   /* The typwriter cursor */
-  max-width: 12%;
+  max-width: 10vw;
   white-space: nowrap;
   /* Keeps the content on a single line */
   margin: 0 auto;
@@ -444,8 +464,5 @@ h2 {
     border-color: transparent; }
   50% {
     border-color: orange; } }
-@media only screen and (max-width: 850px) {
-  .typewriter h2 {
-    font-size: 1em; } }
 
 /*# sourceMappingURL=style.css.map */

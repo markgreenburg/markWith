@@ -46,6 +46,19 @@ a:hover{
     float: right;
     }
 
+#mobile-menu {
+    float: right;
+
+    button {
+        background-color: #252728;
+        color: #fff;
+        border: none;
+    }
+}
+
+.dropdown-menu {
+    right: 0;
+}
 
 div.content-row {
     height: 90%;
@@ -503,6 +516,9 @@ i {
 
 }
 
+.signup-form-header {
+    padding-top: 20px;
+}
 
 // ==============================
 //       L O G I N  P A G E
@@ -538,6 +554,9 @@ i {
 
 }
 
+#about {
+    font-size: 1.2vw;
+}
 // ==============================
 //       H O M E  P A G E
 // ==============================
@@ -563,17 +582,6 @@ i {
 
 .typewriter{
     visibility: visible;
-}
-
-
-#try {
-
-        text-align: center;
-
-        button {
-            margin: auto;
-            padding: 20px 200px 20px 200px;
-        }
 }
 
 .typewriter
@@ -603,19 +611,36 @@ i {
   50% { border-color: orange; }
 }
 
+#try {
+
+        text-align: center;
+
+        button {
+            margin: auto;
+            padding: 1vw 5vw 1vw 5vw;
+        }
+}
+
+#about {
+    h1 {
+        font-size: 2.2vw;
+    }
+}
+
 // =============================================
 //             T I N Y  T Y P I N G
 // =============================================
 .typewriter-sm h2 {
-  overflow: hidden; /* Ensures the content is not revealed until the animation */
-  border-right: .15em solid orange; /* The typwriter cursor */
-  max-width: 12%;
-  white-space: nowrap; /* Keeps the content on a single line */
-  margin: 0 auto; /* Gives that scrolling effect as the typing happens */
-  letter-spacing: .15em; /* Adjust as needed */
-  animation:
-    typing-sm 3.5s steps(40),
-    blink-caret-sm .75s step-end infinite;
+    font-size: 1.8vw;
+    overflow: hidden; /* Ensures the content is not revealed until the animation */
+    border-right: .15em solid orange; /* The typwriter cursor */
+    max-width: 10vw;
+    white-space: nowrap; /* Keeps the content on a single line */
+    margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+    letter-spacing: .15em; /* Adjust as needed */
+    animation:
+        typing-sm 3.5s steps(40),
+        blink-caret-sm .75s step-end infinite;
 }
 
 /* The typing effect */
@@ -634,24 +659,8 @@ i {
 //       M O B I L E  C O N D I T I O N S
 // =============================================
 
-@media only screen and (max-width: 850px) {
-    .typewriter h2 {
-        font-size: 1em;
-    }
-
-    // .typewriter-sm {
-    //     max-width: 12%;
-    // }
-    //
-    // .typewriter-sm h2 {
-    //     font-size: 2.5vw;
-    // }
-
-    // #description {
-    //     visibility: visible;
-    // }
-    //
-    // #typewriter{
+@media only screen and (max-width: 500px) {
+    // #mynavbar-content {
     //     display: none;
     // }
 }
