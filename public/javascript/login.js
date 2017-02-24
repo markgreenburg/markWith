@@ -9,7 +9,7 @@ window.onload = () => {
             type: "POST",
             url: "/api/user/login",
             "data": formData,
-            "encode": true,
+            // "encode": true,
             success: (response) => {
                 if (response.success === true) {
                     window.location.replace("/documents");
