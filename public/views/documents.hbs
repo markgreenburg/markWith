@@ -30,16 +30,21 @@
 
             </thead>
             <tbody>
-
+                {{# if docs.length}}
+                {{# each docs }}
               <tr>
+                  {{# each this }}
                 <!-- //clicking takes you to document -->
-                <td><a href="/documents/:docId">{{docs.docName}}</a></td>
-                <td></td>
-                <td></td>
+                <td><a href="/documents/{{this._id}}">{{this.docName}}</a></td>
+                <td>{{totalCollabs}}</td>
+                <td>{{this.collabs_emails}}</td>
+                <td>{{this.lastModified}}</td>
               </tr>
             </tbody>
           </table>
+          {{/each}}
         </div>
+        {{/each}}
       </div>
   </section>
 </div>
@@ -47,5 +52,5 @@
 </div>
 
 </div>
-
+{{/if}}
 <script src="/javascript/documents.js"></script>

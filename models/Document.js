@@ -25,23 +25,14 @@ const documentSchema = new Schema({
     lastModified: { type: Date, required: true, default: Date.now }
 });
 
-
-
-const getAllDocs = (callback) => {
-    const regularExpression = new RegExp(".*" + req.session.userId + ".*");
+documentSchema.statics.getAllDocs = function (userId, callback) {
+    const regularExpression = new RegExp(".*" + userId + ".*");
     this.find({$or: [{owners: regularExpression}, {collabs: regularExpression}]})
-        .then((results)=> {
-            res.json({
-                "message": "Documents rendered sucessfully",
-                "data": results,
-                "success": true,
-                callback(result);
-            });
-        });
+        .then((results) => {
+            callback(results)
+        })
         .catch((err) => {
-            mongoose.disconnect();
-            console.log(err);
-            callback();
+            callback(err)
         });
 }
 

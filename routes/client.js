@@ -37,13 +37,12 @@ router.get('/user/account', db.User.clientAuth, (req, res) => {
 
 /* Documents store */
 router.get('/documents', db.User.clientAuth, (req, res) => {
-<<<<<<< HEAD
-    Doc.getAllDocs((result) => {
-        res.render('products.hbs',{product: result, session: req.session});
-    });
-=======
-    res.render('documents', {session: req.session});
->>>>>>> 892c8d8c4f259b79a98afffcaeac04285e9fe81a
+   var userId = req.session.userId;
+   console.log(userId);
+   db.Doc.getAllDocs(userId, function(docs){
+            res.render('documents', {docs: docs, session: req.session});
+        }
+    );
 });
 
 /* Document Editor */
