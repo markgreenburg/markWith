@@ -42,7 +42,6 @@ window.addEventListener('load', () => {
 
          // Get current text once connected, bring textpad into focus
          socket.on("populate editor", (currentText) => {
-             console.log(currentText.contents);
              textPad.value = currentText.contents;
              updateMarkdown();
              textPad.focus();
