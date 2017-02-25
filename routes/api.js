@@ -42,7 +42,6 @@ const docAuth = (req, res, next) => {
                 next(); //continue, user is an owner, auth passed
             }
     })
-
     // next();
 };
 
