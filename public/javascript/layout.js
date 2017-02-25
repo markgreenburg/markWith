@@ -1,8 +1,6 @@
 window.addEventListener('load', () => {
-    console.log("content loaded");
     const logoutA = $("a#user-logout");
     const createDocA = $("a#create-doc");
-    console.log(logoutA.text());
     
     // Log user out
     logoutA.on('click', (event) => {
@@ -13,7 +11,6 @@ window.addEventListener('load', () => {
             encode: true,
             success: (res) => {
                 if (res.success) {
-                    console.log("post logout success");
                     window.location = '/';
                 } else {
                     console.log(res);
