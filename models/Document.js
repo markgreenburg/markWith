@@ -35,9 +35,9 @@ const getAllDocs = (callback) => {
                 "message": "Documents rendered sucessfully",
                 "data": results,
                 "success": true,
-                callback(result);
             });
-        });
+            callback(result);
+        })
         .catch((err) => {
             mongoose.disconnect();
             console.log(err);
