@@ -1,4 +1,4 @@
-const templateJS = () => {
+window.addEventListener('load', () => {
     $("form.login").submit((event) => {
         event.preventDefault();
         const formData = {
@@ -23,11 +23,10 @@ const templateJS = () => {
             }
         });
     });
-}
-
-const showLoginError = () => {
-    const messageListItem = $("li#message");
-    $("div.messages").show();
-    messageListItem.empty();
-    messageListItem.text("Login failed, please try again");
-};
+    const showLoginError = () => {
+        const messageListItem = $("li#message");
+        $("div.messages").show();
+        messageListItem.empty();
+        messageListItem.text("Login failed, please try again");
+    };
+});

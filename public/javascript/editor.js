@@ -1,4 +1,4 @@
-window.onload = () => {
+window.addEventListener('load', () => {
     const socket = io(); // defined in script include
     const textPad = document.getElementById("text-pad");
     const textMarkdown = document.getElementById("markdown-target");
@@ -171,4 +171,4 @@ window.onload = () => {
             error: (err) => console.log(err)
         });
     });
-}
+});
