@@ -29,7 +29,7 @@ router.get('/user/account', db.User.clientAuth, (req, res) => {
 
 /* Documents store */
 router.get('/documents', db.User.clientAuth, (req, res) => {
-    res.render('documents');
+    res.render('documents', {docs: docs});
 });
 
 /* Document Editor */

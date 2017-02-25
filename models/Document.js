@@ -11,7 +11,9 @@ const Schema = mongoose.Schema;
 const documentSchema = new Schema({
     docName: { type: String, required: true, default: "untitled" },
     owners: { type: Array, required: true },
-    collabs: { type: Array, required: true, default: "" },
+    owners_emails: { type: Array, required: true },
+    collabs: { type: Array, required: false, unique: true },
+    collabs_emails: { type: Array, required: false, unique: true },
     contents: { type: String, default: ""},
     history: {
         fDate: { type: Date, required: true, default: Date.now()  },
@@ -22,6 +24,14 @@ const documentSchema = new Schema({
     createdAt: { type: Date, required: true, default: Date.now },
     lastModified: { type: Date, required: true, default: Date.now }
 });
+
+
+// documentSchema.getOne = function(docId){
+//     this.findOne( { "_id": ObjectId(documentId))
+//         .then((results){
+//             return results;
+//         }
+// }
 
 /* Function that validates document authentication level */
 
