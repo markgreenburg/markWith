@@ -15,6 +15,8 @@ var isCollab = false;
 const docAuth = (req, res, next) => {
     var documentId = req.params.id;
     const regularExpression = new RegExp(".*" + req.session.userId + ".*");
+    console.log(documentId);
+    console.log(regularExpression);
     db.Doc.findOne({ $and: [ { "_id": ObjectId(documentId)}, {owners: regularExpression}]})
         .then((results) => {
             if (!results) {
@@ -37,7 +39,7 @@ const docAuth = (req, res, next) => {
                     })
 
             } else {
-                console.log("user should be an owners");
+                console.log("user should be an owner");
                 isOwner = true;
                 next(); //continue, user is an owner, auth passed
             }
@@ -49,7 +51,7 @@ const docAuth = (req, res, next) => {
  * Document routes
  */
 /* View all documents accessible by session user */
-router.post('/documents', db.User.apiAuth, docAuth, (req, res) => {
+router.post('/documents', db.User.apiAuth, (req, res) => {
     const regularExpression = new RegExp(".*" + req.session.userId + ".*");
     db.Doc.find( {$or: [{owners: regularExpression}, {collabs: regularExpression}]})
         .then((results) => { // returns empty array if no results
@@ -71,9 +73,23 @@ router.post('/documents', db.User.apiAuth, docAuth, (req, res) => {
         });
 });
 
+/* Documents get all route */
+router.get('/documents/getAll', db.User.apiAuth, (req, res) => {
+const regularExpression = new RegExp(".*" + req.session.userId + ".*");
+db.Doc.find({$or: [{owners: regularExpression}, {collabs: regularExpression}]})
+    .then((docs)=> {
+        res.json({
+            "message": "Documents rendered sucessfully",
+            "data": docs,
+            "success": true
+        });
+    });
+});
+
+
 /* Create new document route, will modifiy/merge just a working version */
 router.post('/documents/create', db.User.apiAuth, (req, res) => {
-    const newDoc = new db.Doc({owners: [req.session.userId]});
+    const newDoc = new db.Doc({owners: [req.session.userId], owners_emails: [req.session.email]});
     newDoc.save()
         .then((result) => {
             res.status(200)
@@ -125,8 +141,13 @@ router.get('/documents/:id', db.User.apiAuth, docAuth, (req, res) => {
     }
 });
 
+<<<<<<< HEAD
+/* Update Route for Document includes everything except adding and removing collaborators */
+
+=======
 /* Update Route for Document:
 Made some modifications, making add_collab and remove_collab false and then planning to use the Ajax request to turn these true based on event.  isOwner and isCollab will take care of docAuthorization but it is async so it will need to be passed via callback function  */
+>>>>>>> c20f7f0615a5a5d4b58fb1d98926aefc060bd23c
 router.post('/documents/update/:id', db.User.apiAuth, docAuth, (req, res) => {
     var documentId = req.params.id;
     if (isCollab) {
@@ -242,14 +263,14 @@ router.post('/documents/update/:id/add_collab', db.User.apiAuth, docAuth, (req, 
     var documentId = req.params.id;
     if (isOwner) {
     db.User.findOne({email: req.body.email}).exec(function(err,user){
-        console.log(user)
         var collab_id = user._id.toString();
         console.log(collab_id);
         db.Doc.findOne({_id: documentId})
             .then((docToUpdate) => {
                 if (docToUpdate) {
                         docToUpdate.collabs.push(collab_id);
-                    docToUpdate.save()
+                        docToUpdate.collabs_emails.push(req.body.email);
+                        docToUpdate.save()
                         .then((updatedDoc) => {
                             res.status(200)
                                 .json({
@@ -470,7 +491,6 @@ router.post("/user/update", db.User.apiAuth, (req, res) => {
 
 /* Log in existing user */
 router.post('/user/login', (req, res) => {
-    console.log(req.body);
     db.User.findOne({ email: req.body.email })
         // Found matching user
         .then((result) => {
