@@ -1,5 +1,5 @@
-@import url("https://fonts.googleapis.com/css?family=Mukta+Vaani|Roboto");
 @import url("https://fonts.googleapis.com/css?family=Inconsolata");
+@import url("https://fonts.googleapis.com/css?family=Noto+Serif");
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css");
 html, body, div.container-fluid {
   font-family: 'Inconsolata', monospace;
@@ -11,6 +11,8 @@ a:hover {
 #navbar {
   padding: 10px;
   padding-right: 10%;
+  margin-bottom: 0;
+  color: #fff;
   font-family: 'Inconsolata', monospace;
   font-size: 1.2em;
   background: #232526;
@@ -20,6 +22,8 @@ a:hover {
   background: linear-gradient(to left, #232526, #414345);
   /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   z-index: 1000; }
+  #navbar p {
+    padding-top: 13px; }
   #navbar a {
     color: #eee; }
   #navbar a:hover {
@@ -28,6 +32,16 @@ a:hover {
 
 #mynavbar-content {
   float: right; }
+
+#mobile-menu {
+  float: right; }
+  #mobile-menu button {
+    background-color: #252728;
+    color: #fff;
+    border: none; }
+
+.dropdown-menu {
+  right: 0; }
 
 div.content-row {
   height: 90%; }
@@ -65,8 +79,7 @@ textarea#text-pad {
 
 .navbar-text {
   color: #363636;
-  font-style: italic;
-  z-index: 1001; }
+  font-style: italic; }
 
 div.header-row {
   height: 10%;
@@ -202,6 +215,7 @@ a {
 .site-nav-right {
   position: fixed;
   text-align: center;
+  padding-top: 80px;
   top: 0;
   right: 0;
   width: 0;
@@ -215,11 +229,28 @@ a {
   /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to right, #232526, 80% #414345);
   /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
+  .site-nav-right form {
+    background-color: none; }
+  .site-nav-right i {
+    display: none;
+    color: #fff; }
+  .site-nav-right input[type="text"] {
+    border: none;
+    background: transparent;
+    color: #fff;
+    margin: auto; }
+  .site-nav-right input:hover {
+    text-decoration: underline; }
+  .site-nav-right input:hover + i {
+    display: block; }
   .site-nav-right h2 {
     display: block;
     border-bottom: 1px solid #666;
     color: white;
     padding: 34px; }
+  .site-nav-right h3 {
+    padding: 20px;
+    margin: auto; }
   .site-nav-right h4 {
     color: #fff;
     padding-left: 20px; }
@@ -238,6 +269,9 @@ a {
   .site-nav-right li {
     font-size: 0.9vw;
     text-align: left; }
+
+#doc-title {
+  text-align: center; }
 
 i a:hover {
   background: none; }
@@ -287,7 +321,7 @@ i a:hover {
 #user-settings {
   padding-left: 5vw; }
   #user-settings h5 {
-    font-size: 0.6em; }
+    font-size: 0.8em; }
   #user-settings label {
     background: #fff;
     font-size: 1em;
@@ -300,11 +334,135 @@ i a:hover {
   background-color: #333;
   border: 1px solid #333; }
 
+.btn:hover {
+  background-color: #eee;
+  color: #333;
+  border: none; }
+
 #user-documents {
   padding: 20px 40px 40px 40px; }
+  #user-documents a {
+    color: #333;
+    font-family: 'Noto Serif', serif;
+    font-weight: bold; }
+
+.signup-form-content {
+  padding-left: 5vw; }
+  .signup-form-content h5 {
+    font-size: 0.8em; }
+  .signup-form-content label {
+    background: #fff;
+    font-size: 1em;
+    color: #333;
+    padding: 0; }
+  .signup-form-content input {
+    width: 30vw; }
+
+.signup-form-header {
+  padding-top: 20px; }
 
 #messages-list {
-  display: none;
   list-style: none; }
+
+#account-login-container {
+  padding-top: 20px; }
+
+.login-form-header {
+  padding-bottom: 20px; }
+
+.login-form-content input {
+  width: 60%; }
+.login-form-content label {
+  background: #fff;
+  font-size: 1em;
+  color: #333;
+  padding: 0; }
+.login-form-content input {
+  width: 30vw; }
+
+#about {
+  font-size: 1.2vw; }
+
+.jumbotron {
+  color: #fff;
+  background-color: #4c4c4c;
+  padding: 40px; }
+
+#description {
+  visibility: hidden; }
+
+#intro {
+  text-align: center; }
+  #intro h1 {
+    margin: auto;
+    font-size: 4vw; }
+
+.typewriter {
+  visibility: visible; }
+
+.typewriter
+h2 {
+  overflow: hidden;
+  /* Ensures the content is not revealed until the animation */
+  font-size: 1.6vw;
+  border-right: .15em solid orange;
+  /* The typwriter cursor */
+  max-width: 38vw;
+  white-space: nowrap;
+  /* Keeps the content on a single line */
+  margin: 0 auto;
+  /* Gives that scrolling effect as the typing happens */
+  letter-spacing: .15em;
+  /* Adjust as needed */
+  animation: typing 3.5s steps(40), blink-caret 0.75s step-end infinite; }
+
+/* The typing effect */
+@keyframes typing {
+  from {
+    width: 0; }
+  to {
+    width: 70%; } }
+/* The typewriter cursor effect */
+@keyframes blink-caret {
+  from, to {
+    border-color: transparent; }
+  50% {
+    border-color: orange; } }
+#try {
+  text-align: center; }
+  #try button {
+    margin: auto;
+    padding: 1vw 5vw 1vw 5vw; }
+
+#about h1 {
+  font-size: 2.2vw; }
+
+.typewriter-sm h2 {
+  font-size: 1.8vw;
+  overflow: hidden;
+  /* Ensures the content is not revealed until the animation */
+  border-right: .15em solid orange;
+  /* The typwriter cursor */
+  max-width: 10vw;
+  white-space: nowrap;
+  /* Keeps the content on a single line */
+  margin: 0 auto;
+  /* Gives that scrolling effect as the typing happens */
+  letter-spacing: .15em;
+  /* Adjust as needed */
+  animation: typing-sm 3.5s steps(40), blink-caret-sm 0.75s step-end infinite; }
+
+/* The typing effect */
+@keyframes typing-sm {
+  from {
+    width: 0; }
+  to {
+    width: 40%; } }
+/* The typewriter cursor effect */
+@keyframes blink-caret-sm {
+  from, to {
+    border-color: transparent; }
+  50% {
+    border-color: orange; } }
 
 /*# sourceMappingURL=style.css.map */

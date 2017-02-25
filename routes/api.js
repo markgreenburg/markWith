@@ -43,7 +43,6 @@ const docAuth = (req, res, next) => {
                 isOwner = true;
                 next(); //continue, user is an owner, auth passed
             }
-
     })
 
     // next();
@@ -112,8 +111,9 @@ router.post('/documents/create', db.User.apiAuth, (req, res) => {
 });
 
 /* Individual document post */
-router.post('/documents/:id', db.User.apiAuth, docAuth, (req, res) => {
-    var documentId = req.params.id;
+router.get('/documents/:id', db.User.apiAuth, docAuth, (req, res) => {
+    const documentId = req.params.id;
+    console.log(documentId);
     if (isOwner || isCollab) {
     db.Doc.findOne({_id: documentId})
     .then((result) => { // returns empty array if no results
@@ -142,8 +142,13 @@ router.post('/documents/:id', db.User.apiAuth, docAuth, (req, res) => {
     }
 });
 
+<<<<<<< HEAD
 /* Update Route for Document includes everything except adding and removing collaborators */
 
+=======
+/* Update Route for Document:
+Made some modifications, making add_collab and remove_collab false and then planning to use the Ajax request to turn these true based on event.  isOwner and isCollab will take care of docAuthorization but it is async so it will need to be passed via callback function  */
+>>>>>>> c20f7f0615a5a5d4b58fb1d98926aefc060bd23c
 router.post('/documents/update/:id', db.User.apiAuth, docAuth, (req, res) => {
     var documentId = req.params.id;
     if (isCollab) {
@@ -425,13 +430,20 @@ router.post("/user/update", db.User.apiAuth, (req, res) => {
     db.User.findOne({_id: req.session.userId})
         .then((userToUpdate) => {
             if (userToUpdate) {
-                if (req.body.fName) {
+                if (req.body.fName 
+                        && req.body.fName != userToUpdate.fName
+                        && req.body.fName.length > 0) {
                     userToUpdate.fName = req.body.fName;
-                } if (req.body.lName) {
+                } if (req.body.lName
+                        && req.body.lName != userToUpdate.lName
+                        && req.body.lName.length > 0) {
                     userToUpdate.lName = req.body.lName;
-                } if (req.body.email) {
+                } if (req.body.email
+                        && req.body.email != userToUpdate.email
+                        && req.body.email.length >= 5) {
                     userToUpdate.email = req.body.email;
-                } if (req.body.password) {
+                } if (req.body.password
+                        && req.body.email.length >= 6) {
                     userToUpdate.password = req.body.password
                 }
                 userToUpdate.save()

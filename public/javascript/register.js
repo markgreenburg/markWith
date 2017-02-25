@@ -1,4 +1,4 @@
-window.onload = () => {
+window.addEventListener('load', () => {
     $("form.signup-form").submit((event) => {
         event.preventDefault();
         const formData = {
@@ -26,13 +26,12 @@ window.onload = () => {
             }
         });
     });
-}
-
-const showSignupError = (response) => {
-    const messageListItem = $("li#message");
-    const msg = (response.message ? response.message 
-            : "Sorry, couldn't create your account");
-    $("div.messages").show();
-    messageListItem.empty();
-    messageListItem.text(msg);
-};
+    const showSignupError = (response) => {
+        const messageListItem = $("li#message");
+        const msg = (response.message ? response.message 
+                : "Sorry, couldn't create your account");
+        $("div.messages").show();
+        messageListItem.empty();
+        messageListItem.text(msg);
+    };
+});

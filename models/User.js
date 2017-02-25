@@ -22,14 +22,15 @@ userSchema.pre('save', function (next) {
         next();
     } else {
         const saltRounds = 10;
-        bcrypt.hash(self.password, saltRounds, function (err, hash) {
-            if (err) {
-                next(err);
-            } else {
+        bcrypt.hash(self.password, saltRounds)
+            .then((hash) => {
                 self.password = hash;
                 next();
-            }
-        });
+            })
+            .catch((err) => {
+                console.log(err);
+                next(err);
+            });
     }
 });
 

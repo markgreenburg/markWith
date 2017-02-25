@@ -12,9 +12,11 @@ const port = process.env.PORT || 3000;
 
 const config = require('./config');
 const session = require('express-session');
+const timeOut = 1000 * 60 * 60 * 24; //24 hours
 const sess = {
     secret: config.sessionSecret,
-    cookie: {maxAge: 1000 * 60 * 60 * 24} //24 hours
+    maxAge: timeOut,
+    cookie: {maxAge: timeOut}
 };
 
 // Load routers

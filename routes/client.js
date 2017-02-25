@@ -9,33 +9,48 @@ const db = require("../models/db");
 
 /* Home Page */
 router.get('/', (req, res) => {
-    res.render('home');
+    res.render('home', {session: req.session});
 });
 
 /* Registration page */
 router.get('/user/register', (req, res) => {
-    res.render('register');
+    if (req.session.token) {
+        res.redirect('/user/account');
+    } else {
+        res.render('register');
+    }
   });
 
 /* Login page */
 router.get('/user/login', (req, res) => {
-    res.render('login');
+    if (req.session.token) {
+        res.redirect('/user/account');
+    } else {
+        res.render('login');
+    }
 });
 
 /* Account Profile */
 router.get('/user/account', db.User.clientAuth, (req, res) => {
-    res.render('account', {userId: req.session.userId});
+    res.render('account', {session: req.session});
 });
 
 /* Documents store */
 router.get('/documents', db.User.clientAuth, (req, res) => {
+<<<<<<< HEAD
     res.render('documents', {docs: docs});
+=======
+    res.render('documents', {session: req.session});
+>>>>>>> c20f7f0615a5a5d4b58fb1d98926aefc060bd23c
 });
 
 /* Document Editor */
 // To-Do: add docAuth to check perms for this specific doc ID
 router.get('/documents/:docId', db.User.clientAuth, (req, res) => {
-    res.render('editor', {documentId: req.params.docId});
+    res.render('editor', {
+            documentId: req.params.docId,
+            session: req.session
+    });
 });
 
 /* Demo Document Editor routes */

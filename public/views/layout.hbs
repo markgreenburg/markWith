@@ -8,36 +8,47 @@
     <link rel="stylesheet" href="../css/style.css" />
   </head>
   <body>
-      <div id="navbar" class="navbar">
+      <div id="navbar" class="navbar navbar-static-top">
           <div class="navbar-brand">
-              <a href="/">//markWith</a></div>
-                <div id="mynavbar-content">
-                    <ul class="nav navbar-nav">
-                        <li class="active">
-                            <li><a href="/">Login/Signup</a></li>
-                            <li><a href="#">FAQ</a></li>
+              <a href="/">//markWith</a>
+          </div>
+          <div id="mynavbar-content" class= "hidden-xs hidden-sm">
+                <ul class="nav navbar-nav">
+                    <li class="active">
+                        {{#if session.token}}
+                        <li  id="user-logout-li"><a href="/user/logout">Logout</a></li>
+                        <li id="create-doc-li"><a href="/documents/create"><i class="fa fa-file-o" aria-hidden="true"></i></a>
+                        {{else}}
+                        <li id="user-login-li"><a href="/user/login">Login</a></li><li>
+                            <p>/</p>
                         </li>
-                        <li><a href="#"><i class="fa fa-file-o" aria-hidden="true"></i></a></li>
-                    </ul>
-                </div>
-
+                        <li><a href="/user/register">Signup</a></li>
+                        <li id="faq"><a href="#">FAQ</a></li>
+                        </li>
+                        {{/if}}
+                    </li>
+                </ul>
+            </div>
+            <div id="mobile-menu" class="btn-group navbar-nav hidden-md hidden-lg visible-xs visible-sm">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                &#9776;
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="#">Login</a></li>
+                <li><a href="#">FAQ</a></li>
+                <li><a href="#">New Document</a></li>
+                </ul>
+            </div>
         </div>
-
 <!-- <div class="page-wrap page-wrap-right"> -->
-
     {{{body}}}
     <!-- Minified JQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <!-- Minified Marked for realtime markdown conversion -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js"></script>
-    <!-- Socket.io handler -->
-    <script src='/socket.io/socket.io.js'></script>
-    <!-- Client JS and custom Socket events -->
-    <script src="javascript/index.js"></script>
     <!-- Latest compiled and minified Bootstrap JS -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
-
+    <!-- Load layout JS -->
+    <script src="../javascript/layout.js"></script>
   </body>
-
 </html>

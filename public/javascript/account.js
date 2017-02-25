@@ -1,7 +1,8 @@
-window.onload = () => {
+window.addEventListener('load', () => {
     // Hide password and email confirmations until needed
     $("div.password-confirm").hide();
     $("div.email-confirm").hide();
+    $("div.messages").hide();
 
     // Fill in user info
     $.ajax({
@@ -18,12 +19,7 @@ window.onload = () => {
         }
     });
 
-    // Set up locals to enable POST checks
-    const fName = $("input#first-name").val();
-    const lName = $("input#last-name").val();
-    const email = $("input#email").val();
-
-    // Show & require password confirm if password changed
+    // Show & require password & confirm if change password
     $("div.password").on("input", () => {
         $("div.password-confirm").show();
         $("input#password-confirm").prop("required", true);
@@ -38,10 +34,50 @@ window.onload = () => {
     // Update user info
     $("form.update-form").submit((event) => {
         event.preventDefault();
-        // To-Do: conditional object that only POSTs what's been changed
-        $.ajax()
+        const formData = {
+            fName: $("input#first-name").val(),
+            lName: $("input#last-name").val(),
+            email: $("input#email").val()
+        };
+        $.ajax({
+            type: "POST",
+            url: "/api/user/update",
+            data: formData,
+            encode: true,
+            success: (res) => {
+                showMessage((res.message
+                        ? res.message : "info updated successfully"))
+            },
+            error: (err) => {
+                console.log(err);
+                showMessage((err.message 
+                        ? err.message : "Sorry, couldn't save your update"));
+            }
+        });
     });
-    // Create onsubmit handler to edit user info
-    // Modify PW check to trigger on input
-    // Onsubmit should replace form values ... abstract getUserInfo and call it again?
-}
+
+    // Update password
+    $("form.password-form").submit((event) => {
+        event.preventDefault();
+        const formData = {
+            password: $("input#first-name").val()
+        };
+        $.ajax({
+            type: "POST",
+            url: "/api/user/update",
+            data: formData,
+            encode: true,
+            success: (response) => showMessage(response.message),
+            error: (err) => {
+                console.log(err);
+                showMessage((err.message 
+                        ? err.message : "Sorry, couldn't save your update"));
+            }
+        });
+    });
+    const showMessage = (msg) => {
+        const listItem = $("li#message");
+        $("div.messages").show();
+        listItem.text(msg);
+    };
+});

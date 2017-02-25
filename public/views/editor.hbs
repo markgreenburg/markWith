@@ -1,12 +1,14 @@
 
 <!-- //Basically "Editing {{document.name}} as {{user.fname}} + {{user.lname}}" -->
-<div id="document-live" class="navbar-text header-row col-sm-12"><h4>Editing "Crunch Party" as Mark Otto</h4></div>
+<div id="document-live" class="navbar-text header-row col-sm-12">
+    <h4>Editing "<span id="docName">untitled</span>" as Mark Otto</h4>
+</div>
 
 <div class="container-fluid">
     <div class="row content-row">
     <nav class="site-nav" id="site-nav">
         <a href="/"><h2>//markWith</h2></a>
-        <a href="/documents">Documents</a>
+        <a href="/documents">Documents</a> 
         <a href="/user/account">Settings</a>
 
         <div id="logout"><a href="#">Logout</a></div>
@@ -34,22 +36,33 @@
         </div>
     </div>
 </div>
-    <nav class="site-nav-right" id="site-nav-right">
-        <!-- // Document Title -->
-    <a href="/"><h2>Crunch Party</h2></a>
+<nav class="site-nav-right" id="site-nav-right">
+    <!-- // Document Title -->
+    <div class="header-row">
+<form id="docName-editable-form">
+        <h3><i class="fa fa-pencil" aria-hidden="true"></i><input id="docName-editable" type="text" value="Crunch Party" minlength="1" /></h3>
+    </form></div>
     <p>
-        <ul><h4>Collaborators</h4>
-        <!-- // Add collaborators, specify Owner -->
-        <li><a href="#"><i id="remove-collab" class="fa fa-minus" aria-hidden="true"></i> markotto@whateverman.net (You)</a></li>
-        <li><a href="#"><i id="remove-collab" class="fa fa-minus" aria-hidden="true"></i> kim@radiostatssss.com</a></li>
-        <li>
-<a href="#"><i id="remove-collab" class="fa fa-minus" aria-hidden="true"></i> mikewallace@lol.com</a></li>
-        <li><a href="#"><i id="remove-collab" class="fa fa-plus" aria-hidden="true"></i> Add new collaborator</a></li>
+        <h4>Collaborators</h4>
+        <ul id="collab-list">
+            <!-- // Add collaborators, specify Owner -->
+            <li class="remove-collab">
+                <a href="#"><i class="fa fa-minus" aria-hidden="true"></i>markotto@whateverman.net (You)</a>
+            </li>
+            <li class="remove-collab">
+                <a href="#"><i class="fa fa-minus" aria-hidden="true"></i>kim@radiostatssss.com</a>
+            </li>
+            <li class="remove-collab">
+                <a href="#"><i class="fa fa-minus" aria-hidden="true"></i> mikewallace@lol.com</a>
+            </li>
+            <form id="add-collab-form">
+                <input id="add-collab" type="text" minlength="5" placeholder="Add Collaborator"/>
+            </form>
+
         </ul>
     </p>
     <div id="delete-document">
-        <a href="#"><i class="fa fa-times" aria-hidden="true"></i>
- Delete this document</a>
+        <a href="#"><i class="fa fa-times" aria-hidden="true"></i>Delete this document</a>
     </div>
   </nav>
 

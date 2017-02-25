@@ -1,14 +1,31 @@
-window.onload = () => {
+window.addEventListener('load', () => {
     const socket = io(); // defined in script include
     const textPad = document.getElementById("text-pad");
     const textMarkdown = document.getElementById("markdown-target");
-    const room = document.getElementById("docId").value;
+    const docId = document.getElementById("docId").value;
+    const room = docId;
     let emitCursorIndex = 0;
 
-     /* Markdown converter */
+    /* Updates all references to doc name */
+    const updateName = (newName) => {
+        $("span#docName").html(newName);
+        $("input#docName-editable").val(newName);
+    };
+
+    /* Markdown converter */
     const updateMarkdown = () => {
         textMarkdown.innerHTML = marked(textPad.value); // definition from CDN
     };
+
+    /* Get Doc Info */
+    $.ajax({
+        type: "GET",
+        url: "/api/documents/" + docId,
+        success: (res) => {
+            updateName(res.data.docName);
+            //To-Do: update collabs list
+        }
+    });
 
     /* Track emitter's pre-change cursor position */
     textPad.addEventListener('keydown', () => {
@@ -62,7 +79,7 @@ window.onload = () => {
              updateMarkdown();
          });
      });
-    
+
     /* Tab-to-space converter */
     textPad.addEventListener("keydown", (event) => {
         if (event.keyCode === 9) {
@@ -78,4 +95,80 @@ window.onload = () => {
             textPad.dispatchEvent(new Event("input"));
         }
     });
-}
+
+    // Update doc name in DB when renamed
+    $("form#docName-editable-form").on("submit", () => {
+        const newName = $("input#docName-editable").val();
+        $.ajax({
+            type: "POST",
+            url: "/api/documents/update/" + docId,
+            data: { "docName": newName },
+            encode: true,
+            success: (response) => updateName(response.data.docName),
+            error: (err) => console.log(err)
+        });
+    });
+
+    // Remove collaborator
+    $("li.remove-collab").on('click', "a", (event) => {
+        event.preventDefault();
+        const self = $(event.target);
+        console.log(self);
+        $.ajax({
+            type: "POST",
+            url: "/api/documents/update/" + docId + "/remove_collab",
+            data: {
+                "email": self.text()
+            },
+            encode: true,
+            success: () => {
+                self.parent().hide();
+                console.log(self.parent());
+            },
+            error: (err) => {
+                console.log(err);
+            }
+        });
+    });
+
+    // Add Collaborator
+    $("form#add-collab-form").submit((event) => {
+        event.preventDefault();
+        const newCollab = $("input#add-collab").val();
+        $.ajax({
+            type: "POST",
+            url: "/api/documents/update/" + docId + "/add_collab",
+            data: {
+                "email": newCollab
+            },
+            encode: true,
+            success: (res) => {
+                if (res.success) {
+                    $("ul#collab-list").prepend(
+                        "<li class='remove-collab'><a href='#'><i class='fa"
+                        + " fa-minus' aria-hidden='true'></i>" + newCollab
+                        + "</a></li>"
+                    );
+                } else {
+                    console.log(res);
+                }
+            },
+            error: (err) => console.log(err)
+        });
+    });
+
+    $("div#delete-document").on('click', 'a', (event) => {
+        event.preventDefault();
+        $.ajax({
+            type: "POST",
+            url: "/api/documents/remove/" + docId,
+            encode: true,
+            success: (res) => {
+                if (res.success) {
+                    window.location.replace("/documents");
+                }
+            },
+            error: (err) => console.log(err)
+        });
+    });
+});
