@@ -2,8 +2,7 @@
  * Mongoose models and classmethods for interacting with Documents
  */
 const mongoose = require('mongoose');
-// const db = require("../models/db");
-// var ObjectId = require('mongodb').ObjectID;
+const ObjectId = require('mongodb').ObjectID;
 
 const Schema = mongoose.Schema;
 
@@ -25,92 +24,112 @@ const documentSchema = new Schema({
     lastModified: { type: Date, required: true, default: Date.now }
 });
 
+<<<<<<< HEAD
 documentSchema.statics.getAllDocs = function (userId, callback) {
     const regularExpression = new RegExp(".*" + userId + ".*");
     this.find({$or: [{owners: regularExpression}, {collabs: regularExpression}]})
         .then((results) => {
             callback(results)
+=======
+/**
+ * Doc permissions checks
+ */
+const isOwner = (req) => {
+    const docId = req.params.docId || req.body.docId;
+    const likeUserId = new RegExp(".*" + req.session.userId + ".*");
+    Doc.findOne({ $and:[{ "_id": ObjectId(docId)}, {owners: likeUserId}]})
+        .then((result) => {
+            if (result) {
+                true;
+            } else {
+                return false;
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+            return false;
+        });
+};
+
+const isCollab = (req) => {
+    const docId = req.params.docId || req.body.docId;
+    const likeUserId = new RegExp(".*" + req.session.userId + ".*");
+    Doc.findOne({ $and:[{ "_id": ObjectId(docId)}, {collabs: likeUserId}]})
+        .then((result) => {
+            if (result) {
+                return true;
+            } else {
+                return false;
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+            return false;
+        });
+};
+
+/* Checks modifier against document collabs, handles API response */
+documentSchema.statics.apiCollab = (req, res, next) => {
+    if (isCollab(req) === true || isOwner(req) === true) {
+        next();
+    } else {
+        res.status(403)
+            .json({
+                "message": "Not authorized",
+                "data": {},
+                "success": false
+            });
+    }
+}
+
+/* Checks modifier against document collabs, handles client response */
+documentSchema.statics.clientCollab = (req, res, next) => {
+    if (isCollab(req) === true || isOwner(req) === true) {
+        next();
+    } else {
+        res.redirect("/user/login");
+    }
+}
+
+/* Checks modifier against document owners, handles API response */
+documentSchema.statics.apiOwner = (req, res, next) => {
+    if (isOwner(req) === true) {
+        next();
+    } else {
+        res.status(403)
+            .json({
+                "message": "Not authorized",
+                "data": {},
+                "success": false
+            });
+    }
+}
+
+/* Checks modifier against document collabs, handles client response */
+documentSchema.statics.clientOwner = (req, res, next) => {
+    if (isOwner(req) === true) {
+        next();
+    } else {
+        res.redirect("/user/login");
+    }
+}
+
+documentSchema.statics.getAllDocs = (callback) => {
+    const regularExpression = new RegExp(".*" + req.session.userId + ".*");
+    this.find({$or: [{owners: regularExpression}, {collabs: regularExpression}]})
+        .then((results)=> {
+            res.json({
+                "message": "Documents rendered sucessfully",
+                "data": results,
+                "success": true,
+            });
+            callback(result);
+>>>>>>> 0e813934cccf5fe9bcfa1f56efcbb901e0539b33
         })
         .catch((err) => {
             callback(err)
         });
 }
-
-
-
-//
-// const regularExpression = new RegExp(".*" + req.session.userId + ".*");
-// db.Doc.find({$or: [{owners: regularExpression}, {collabs: regularExpression}]})
-//     .then((docs)=> {
-//         res.json({
-//             "message": "Documents rendered sucessfully",
-//             "data": docs,
-//             "success": true
-//         });
-//     });
-
-// documentSchema.getOne = function(docId){
-//     this.findOne( { "_id": ObjectId(documentId))
-//         .then((results){
-//             return results;
-//         }
-// }
-
-/* Function that validates document authentication level */
-
-// const docAuth = (req, res, next) => {
-//     var isOwner = false;
-//     var isCollab = false;
-//     var documentId = req.params.id;
-//     const regularExpression = new RegExp(".*" + req.session.userId + ".*");
-//     console.log(documentId);
-//     Doc.findOne({ $and: [ { "_id": ObjectId(documentId)}, {owners: regularExpression}]})
-//         .then((results) => {
-//             if (!results) {
-//                 Doc.findOne({ $and: [ { "_id": ObjectId(documentId)}, {collabs: regularExpression}]})
-//                     .then((results) =>{
-//                         console.log("checking if collab");
-//                         if (results) {
-//                             console.log(isCollab);
-//                             isCollab = true;
-//                             return isCollab;
-//                             console.log(isCollab);
-//                             next();
-//                         }
-//                     })
-//                     .catch((err) => {});
-//             } else {
-//                 console.log("user should be an owners");
-//                 isOwner = true;
-//                 console.log(isOwner);
-//                 return isOwner;
-//                 return next();
-//             }
-// })
-// };
-//
-// /* Define a static method that responds to API auth confirmation requests */
-// documentSchema.statics.apiAuth = (req, res, next) => {
-//     console.log(isOwner);
-//         return isOwner;
-//         return isCollab;
-//         return next();
-//
-//     res.status(401)
-//         .json({
-//             "message": "Not authorized",
-//             "data": {},
-//             "success": false
-//         });
-// }
-//
-// /* Define a static method that responds to client auth confirmation requests */
-// documentSchema.statics.clientAuth = (req, res, next) => {
-//     if (docAuth(req) === true) {
-//         return next();
-//     }
-//     res.redirect('/api/documents');
-// }
 
 const Doc = mongoose.model('Doc', documentSchema);
 

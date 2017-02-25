@@ -1,9 +1,9 @@
-window.onLoad = () => {
-    const logoutLi = $("li#user-logout-li");
-    const createDocLi = $("li#create-doc-li");
+window.addEventListener('load', () => {
+    const logoutA = $("a#user-logout");
+    const createDocA = $("a#create-doc");
     
     // Log user out
-    logoutLi.on('click', 'a', (event) => {
+    logoutA.on('click', (event) => {
         event.preventDefault();
         $.ajax({
             type: "POST",
@@ -21,7 +21,7 @@ window.onLoad = () => {
     });
 
     // Create new doc, assign session user as owner
-    createDocLi.on('click', 'a', (event) => {
+    createDocA.on('click', (event) => {
         event.preventDefault();
         $.ajax({
             type: "POST",
@@ -37,4 +37,4 @@ window.onLoad = () => {
             error: (err) => console.log(err)
         });
     });
-}
+});

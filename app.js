@@ -9,10 +9,9 @@ const io = require('socket.io')(http);
 const path = require('path');
 const db = require("./models/db");
 const port = process.env.PORT || 3000;
-
 const config = require('./config');
 const session = require('express-session');
-const timeOut = 1000 * 60 * 60 * 24; //24 hours
+const timeOut = (1000 * 60 * 60 * 24); //24 hours
 const sess = {
     secret: config.sessionSecret,
     maxAge: timeOut,

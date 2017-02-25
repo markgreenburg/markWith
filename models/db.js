@@ -5,17 +5,8 @@ const bluebird = require('bluebird');
 const mongoose = require('mongoose');
 mongoose.Promise = bluebird;
 
-/* Define DBs that are avaialable for this app */
-const dbUri = {
-    test: "mongodb://localhost/markwithtest",
-    prod: process.env.MONGODB_URI
-};
-
-/* Specify which DB to connect to */
-const activeDb = dbUri.test;
-
+/* Define DB connection URI */
 const dbUri = process.env.MONGODB_URI || "mongodb://localhost/markwithtest";
-
 
 // Connect to the specified db
 mongoose.connect(dbUri);
