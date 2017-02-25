@@ -24,13 +24,6 @@ const documentSchema = new Schema({
     lastModified: { type: Date, required: true, default: Date.now }
 });
 
-<<<<<<< HEAD
-documentSchema.statics.getAllDocs = function (userId, callback) {
-    const regularExpression = new RegExp(".*" + userId + ".*");
-    this.find({$or: [{owners: regularExpression}, {collabs: regularExpression}]})
-        .then((results) => {
-            callback(results)
-=======
 /**
  * Doc permissions checks
  */
@@ -124,11 +117,10 @@ documentSchema.statics.getAllDocs = (callback) => {
                 "success": true,
             });
             callback(result);
->>>>>>> 0e813934cccf5fe9bcfa1f56efcbb901e0539b33
-        })
-        .catch((err) => {
+            })
+            .catch((err) => {
             callback(err)
-        });
+    });
 }
 
 const Doc = mongoose.model('Doc', documentSchema);
