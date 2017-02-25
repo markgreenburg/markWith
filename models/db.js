@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 mongoose.Promise = bluebird;
 
 /* Define DBs that are avaialable for this app */
+<<<<<<< HEAD
 const dbUri = {
     test: "mongodb://localhost/markwithtest",
     prod: process.env.MONGODB_URI
@@ -13,9 +14,12 @@ const dbUri = {
 
 /* Specify which DB to connect to */
 const activeDb = dbUri.test;
+=======
+const dbUri = process.env.MONGODB_URI || "mongodb://localhost/markwithtest";
+>>>>>>> 892c8d8c4f259b79a98afffcaeac04285e9fe81a
 
 // Connect to the specified db
-mongoose.connect(activeDb);
+mongoose.connect(dbUri);
 
 // Close connection when app is terminated
 process.on('SIGINT', () => {
@@ -27,7 +31,7 @@ process.on('SIGINT', () => {
 
 /* Error logging */
 mongoose.connection.on("connected", () => {
-    console.log("Mongoose connected to: " + activeDb);
+    console.log("Mongoose connected to: " + dbUri);
 });
 
 mongoose.connection.on('error', (err) => {
@@ -36,7 +40,7 @@ mongoose.connection.on('error', (err) => {
 });
 
 mongoose.connection.on('disconnected', () => {
-    console.log("Mongoose disconnected from: " + activeDb);
+    console.log("Mongoose disconnected from: " + dbUri);
 });
 
 const User = require('./User');
