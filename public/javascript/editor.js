@@ -122,7 +122,6 @@ window.addEventListener('load', () => {
             encode: true,
             success: () => {
                 self.parent().hide();
-                console.log(self.parent());
             },
             error: (err) => {
                 console.log(err);

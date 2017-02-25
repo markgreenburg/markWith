@@ -114,24 +114,24 @@ router.get('/documents/:id', db.User.apiAuth, docAuth, (req, res) => {
     const documentId = req.params.id;
     console.log(documentId);
     if (isOwner || isCollab) {
-    db.Doc.findOne({_id: documentId})
-    .then((result) => { // returns empty array if no results
-            res.status(200)
-                .json({
-                    "message": "Search completed successfully",
-                    "data": (result ? result : {}),
-                    "success": true
-                });
-    })
-    .catch((err) => {
-        console.log(err);
-        res.status(500)
-            .json({
-                "message": "Server error - could not complete your request",
-                "data": err,
-                "success": false
+        db.Doc.findOne({_id: documentId})
+            .then((result) => { // returns empty array if no results
+                res.status(200)
+                    .json({
+                        "message": "Search completed successfully",
+                        "data": (result ? result : {}),
+                        "success": true
+                    });
+            })
+            .catch((err) => {
+                console.log(err);
+                res.status(500)
+                    .json({
+                        "message": "Server error - could not complete your request",
+                        "data": err,
+                        "success": false
+                    });
             });
-    });
     } else {
         res.json({
             "message": "Sorry, you are not authorized to view this file",
