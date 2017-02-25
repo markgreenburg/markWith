@@ -37,11 +37,7 @@ router.get('/user/account', db.User.clientAuth, (req, res) => {
 
 /* Documents store */
 router.get('/documents', db.User.clientAuth, (req, res) => {
-<<<<<<< HEAD
-    res.render('documents', {docs: docs});
-=======
     res.render('documents', {session: req.session});
->>>>>>> c20f7f0615a5a5d4b58fb1d98926aefc060bd23c
 });
 
 /* Document Editor */
