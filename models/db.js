@@ -12,7 +12,7 @@ const dbUri = {
 };
 
 /* Specify which DB to connect to */
-const activeDb = dbUri.prod;
+const activeDb = dbUri.test;
 
 // Connect to the specified db
 mongoose.connect(activeDb);

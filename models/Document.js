@@ -26,6 +26,38 @@ const documentSchema = new Schema({
 });
 
 
+
+const getAllDocs = (callback) => {
+    const regularExpression = new RegExp(".*" + req.session.userId + ".*");
+    this.find({$or: [{owners: regularExpression}, {collabs: regularExpression}]})
+        .then((results)=> {
+            res.json({
+                "message": "Documents rendered sucessfully",
+                "data": results,
+                "success": true,
+                callback(result);
+            });
+        });
+        .catch((err) => {
+            mongoose.disconnect();
+            console.log(err);
+            callback();
+        });
+}
+
+
+
+//
+// const regularExpression = new RegExp(".*" + req.session.userId + ".*");
+// db.Doc.find({$or: [{owners: regularExpression}, {collabs: regularExpression}]})
+//     .then((docs)=> {
+//         res.json({
+//             "message": "Documents rendered sucessfully",
+//             "data": docs,
+//             "success": true
+//         });
+//     });
+
 // documentSchema.getOne = function(docId){
 //     this.findOne( { "_id": ObjectId(documentId))
 //         .then((results){
