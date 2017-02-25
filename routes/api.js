@@ -9,6 +9,82 @@ const uuid = require("uuid/v4");
 const config = require("../config");
 var ObjectId = require('mongodb').ObjectID;
 
+const isOwner = (req) => {
+    const docId = req.params.docId || req.body.docId;
+    const likeUserId = new RegExp(".*" + req.session.userId + ".*");
+    db.Doc.findOne({ $and:[{ "_id": ObjectId(docId)}, {owners: likeUserId}]})
+        .then((result) => {
+            if (result) {
+                true;
+            } else {
+                return false;
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+            return false;
+        });
+};
+
+const isCollab = (req) => {
+    const docId = req.params.docId || req.body.docId;
+    const likeUserId = new RegExp(".*" + req.session.userId + ".*");
+    db.Doc.findOne({ $and:[{ "_id": ObjectId(docId)}, {collabs: likeUserId}]})
+        .then((result) => {
+            if (result) {
+                return true;
+            } else {
+                return false;
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+            return false;
+        });
+};
+
+const apiCollab = (req, res, next) => {
+    if (isCollab(req) === true || isOwner === true) {
+        next();
+    } else {
+        res.status(403)
+            .json({
+                "message": "Not authorized",
+                "data": {},
+                "success": false
+            });
+    }
+};
+
+const clientCollab = (req, res, next) => {
+    if (isCollab(req) === true || isOwner === true) {
+        next();
+    } else {
+        res.redirect("/user/login");
+    }
+};
+
+const apiOwner = (req, res, next) => {
+    if (isOwner(req) === true) {
+        next();
+    } else {
+        res.status(403)
+            .json({
+                "message": "Not authorized",
+                "data": {},
+                "success": false
+            });
+    }
+};
+
+const clientOwner = (req, res, next) => {
+    if (isOwner(req) === true) {
+        next();
+    } else {
+        res.redirect("/user/login");
+    }
+};
+
 /* Doc checker, sets permission levels */
 var isOwner = false;
 var isCollab = false;
@@ -306,11 +382,11 @@ router.post('/documents/update/:id/remove_collab', db.User.apiAuth, docAuth, (re
                     console.log(collab_id);
                     console.log(typeof collab_id);
                     if (isOwner) {
-                        var index = docToUpdate.collabs.indexOf(collab_id);
+                        const index = docToUpdate.collabs.indexOf(collab_id);
                         docToUpdate.collabs.splice(index,1);
                     }
                     if (isCollab) {
-                        var index = docToUpdate.collabs.indexOf(collab_id);
+                        const index = docToUpdate.collabs.indexOf(collab_id);
                         docToUpdate.collabs.splice(index,1);
                     }
                         docToUpdate.save()
