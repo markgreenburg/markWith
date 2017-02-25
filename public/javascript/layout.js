@@ -11,7 +11,7 @@ window.onLoad = () => {
             encode: true,
             success: (res) => {
                 if (res.success) {
-                    window.location.replace('/');
+                    window.location = '/';
                 } else {
                     console.log(res);
                 }
@@ -29,7 +29,7 @@ window.onLoad = () => {
             encode: true,
             success: (res) => {
                 if (res.success) {
-                    window.location.replace('/documents/' + res.data._id);
+                    window.location = '/documents/' + res.data._id;
                 } else {
                     console.log(res);
                 }
