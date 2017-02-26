@@ -111,10 +111,9 @@ router.post('/documents/update/:docId/contents', db.User.apiAuth, db.Doc.apiColl
 /* Allow updating a document's name */
 router.post('/documents/update/:docId/name', db.User.apiAuth, db.Doc.apiOwner,
         (req, res) => {
-    const newName = req.body.name || null;
-    if (newName) {
+    if (req.body.docName) {
         db.Doc.findByIdAndUpdate(req.params.docId,
-                { $set: { docName: newName }}, { new: true })
+                { $set: { docName: req.body.docName }}, { new: true })
             .then((updatedDoc) => {
                 res.status(200)
                     .json({
