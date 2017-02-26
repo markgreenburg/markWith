@@ -12,6 +12,11 @@ router.get('/', (req, res) => {
     res.render('home', {session: req.session});
 });
 
+/* FAQ Page */
+router.get('/faq', (req, res) => {
+    res.render('faq', {session:req.session});
+});
+
 /* Registration page */
 router.get('/user/register', (req, res) => {
     if (req.session.token) {

@@ -85,8 +85,13 @@ div.header-row {
   height: 10%;
   text-align: center; }
 
+div.sub-header {
+  height: 6%;
+  text-align: center; }
+
 div.content-row {
-  height: 90%; }
+  height: 80%;
+  text-align: center; }
 
 div.text-pad {
   height: 100%; }
@@ -436,6 +441,8 @@ h2 {
 
 #about h1 {
   font-size: 2.2vw; }
+#about h4 {
+  font-size: 1.5vw; }
 
 .typewriter-sm h2 {
   font-size: 1.8vw;
