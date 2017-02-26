@@ -75,10 +75,9 @@ router.get('/documents/:docId', db.User.apiAuth, db.Doc.apiCollab, (req, res) =>
 /* Allows updating contents for a given document */
 router.post('/documents/update/:docId/contents', db.User.apiAuth, db.Doc.apiCollab,
         (req, res) => {
-    const newContents = req.body.contents || null;
-    if (newContents) {
+    if (req.body.contents) {
         db.Doc.findByIdAndUpdate(req.params.docId,
-                { $set: { contents: newContents }}, { new: true })
+                { $set: { contents: req.body.contents }}, { new: true })
             .then((updatedDoc) => {
                 res.status(200)
                     .json({
@@ -146,14 +145,13 @@ router.post('/documents/update/:docId/name', db.User.apiAuth, db.Doc.apiOwner,
 /*  Add collaborator to document */
 router.post('/documents/update/:docId/add_collab', db.User.apiAuth,
         db.Doc.apiOwner, (req, res) => {
-    const userEmail = req.body.email || null;
-    if (userEmail) {
-        db.User.findOne({email: userEmail})
+    if (req.body.email) {
+        db.User.findOne({email: req.body.email})
             .then((newUser) => {
                 if (newUser) {
                     const userId = newUser._id.toString();
                     db.Doc.findByIdAndUpdate(req.params.docId,
-                            { $push: {"collabs": userId, "collabs_emails": userEmail} },
+                            { $push: {"collabs": userId, "collabs_emails": req.body.email} },
                             { new: true })
                         .then((updatedDoc) => {
                             res.status(200)
@@ -206,9 +204,8 @@ router.post('/documents/update/:docId/add_collab', db.User.apiAuth,
 
 /*  Remove collaborator from document */
 router.post('/documents/update/:docId/remove_collab', db.User.apiAuth,
-        db.Doc.apiSelfCollab, (req, res, next) => {
-    const userEmail = req.body.email || null;
-    if (!userEmail) {
+        db.Doc.apiSelfCollab, (req, res) => {
+    if (!req.body.email) {
         const err = new Error("No user email");
         console.log(err);
         res.status(500)
@@ -218,14 +215,14 @@ router.post('/documents/update/:docId/remove_collab', db.User.apiAuth,
                 "success": false
             });
     } else {
-        db.User.findOne({email: userEmail})
+        db.User.findOne({email: req.body.email})
             .then((newUser) => {
                 if (newUser) {
                     const userId = newUser._id.toString();
                     db.Doc.findByIdAndUpdate(req.params.docId,
                             { $pull: 
                                     {"collabs": userId,
-                                    "collabs_emails": userEmail}
+                                    "collabs_emails": req.body.email}
                             },
                             { new: true })
                         .then((updatedDoc) => {
