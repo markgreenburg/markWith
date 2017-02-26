@@ -100,7 +100,7 @@ window.addEventListener('load', () => {
         const newName = $("input#docName-editable").val();
         $.ajax({
             type: "POST",
-            url: "/api/documents/update/" + docId,
+            url: "/api/documents/update/" + docId + "/name",
             data: { "docName": newName },
             encode: true,
             success: (response) => updateName(response.data.docName),
