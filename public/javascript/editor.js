@@ -12,6 +12,17 @@ window.addEventListener('load', () => {
         $("input#docName-editable").val(newName);
     };
 
+    /* Populates list of collabs in right nav */
+    const populateCollabs = (emailArray) => {
+        emailArray.forEach((email) => {
+            $("ul#collab-list").prepend(
+                    "<li><a class='remove-collab' href='#'><i class='fa"
+                    + " fa-minus' aria-hidden='true'></i>" + email
+                    + "</a></li>"
+            );
+        });
+    }
+
     /* Markdown converter */
     const updateMarkdown = () => {
         textMarkdown.innerHTML = marked(textPad.value); // definition from CDN
@@ -23,7 +34,7 @@ window.addEventListener('load', () => {
         url: "/api/documents/" + docId,
         success: (res) => {
             updateName(res.data.docName);
-            //To-Do: update collabs list
+            populateCollabs(res.data.collabs_emails);
         }
     });
 
@@ -143,7 +154,7 @@ window.addEventListener('load', () => {
             success: (res) => {
                 if (res.success) {
                     $("ul#collab-list").prepend(
-                        "<li class='remove-collab'><a href='#'><i class='fa"
+                        "<li><a class='remove-collab' href='#'><i class='fa"
                         + " fa-minus' aria-hidden='true'></i>" + newCollab
                         + "</a></li>"
                     );
