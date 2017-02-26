@@ -109,7 +109,7 @@ window.addEventListener('load', () => {
     });
 
     // Remove collaborator
-    $("li.remove-collab").on('click', "a", (event) => {
+    $("ul#collab-list").on("click", "a", (event) => {
         event.preventDefault();
         const self = $(event.target);
         console.log(self);
