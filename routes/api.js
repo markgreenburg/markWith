@@ -151,7 +151,10 @@ router.post('/documents/update/:docId/add_collab', db.User.apiAuth,
                 if (newUser) {
                     const userId = newUser._id.toString();
                     db.Doc.findByIdAndUpdate(req.params.docId,
-                            { $push: {"collabs": userId, "collabs_emails": req.body.email} },
+                            { $addToSet: {
+                                "collabs": userId,
+                                "collabs_emails": req.body.email
+                            }},
                             { new: true })
                         .then((updatedDoc) => {
                             res.status(200)
@@ -220,7 +223,7 @@ router.post('/documents/update/:docId/remove_collab', db.User.apiAuth,
                 if (newUser) {
                     const userId = newUser._id.toString();
                     db.Doc.findByIdAndUpdate(req.params.docId,
-                            { $pull: 
+                            { $pullAll: 
                                     {"collabs": userId,
                                     "collabs_emails": req.body.email}
                             },

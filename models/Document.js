@@ -2,7 +2,6 @@
  * Mongoose models and classmethods for interacting with Documents
  */
 const mongoose = require('mongoose');
-const ObjectId = require('mongodb').ObjectID;
 
 const Schema = mongoose.Schema;
 
@@ -184,8 +183,8 @@ documentSchema.statics.getAllDocs = (req, callback) => {
         };
         callback(results);
     } else {
-        const regularExpression = new RegExp(".*" + req.session.userId + ".*");
-        Doc.find({$or: [{owners: regularExpression}, {collabs: regularExpression}]})
+        const likeUserId = new RegExp(".*" + req.session.userId + ".*");
+        Doc.find({$or: [{owners: likeUserId}, {collabs: likeUserId}]})
             .then((docArray)=> {
                 const results = {
                     "message": "Search completed sucessfully",
