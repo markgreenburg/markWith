@@ -12,45 +12,23 @@ const config = require("../config");
  * Document routes
  */
 /* View all documents accessible by session user */
-router.post('/documents', db.User.apiAuth, (req, res) => {
-    const regularExpression = new RegExp(".*" + req.session.userId + ".*");
-    db.Doc.find( {$or: [{owners: regularExpression}, {collabs: regularExpression}]})
-        .then((results) => { // returns empty array if no results
-                res.status(200)
-                    .json({
-                        "message": "Document search succeeded",
-                        "data": results,
-                        "success": true
-                    });
-        })
-        .catch((err) => {
-            console.log(err);
+router.get('/documents', db.User.apiAuth, (req, res) => {
+    db.Doc.getAllDocs(req, (results) => {
+        if (results.success) {
+            res.status(200)
+                .send(results);
+        } else {
             res.status(500)
-                .json({
-                    "message": "Server error - could not complete your request",
-                    "data": err,
-                    "success": false
-                });
-        });
-});
-
-/* Documents get all route */
-router.get('/documents/getAll', db.User.apiAuth, (req, res) => {
-const regularExpression = new RegExp(".*" + req.session.userId + ".*");
-db.Doc.find({$or: [{owners: regularExpression}, {collabs: regularExpression}]})
-    .then((docs)=> {
-        res.json({
-            "message": "Documents rendered sucessfully",
-            "data": docs,
-            "success": true
-        });
+                .send(results);
+        }
     });
 });
 
-
 /* Create new document route, will modifiy/merge just a working version */
 router.post('/documents/create', db.User.apiAuth, (req, res) => {
-    const newDoc = new db.Doc({owners: [req.session.userId], owners_emails: [req.session.email]});
+    const newDoc = new db.Doc({
+            owners: [req.session.userId], owners_emails: [req.session.email]
+    });
     newDoc.save()
         .then((result) => {
             res.status(200)
@@ -71,8 +49,8 @@ router.post('/documents/create', db.User.apiAuth, (req, res) => {
 });
 
 /* Get specific document */
-router.get('/documents/:id', db.User.apiAuth, db.Doc.apiCollab, (req, res) => {
-        db.Doc.findOne({_id: req.params.id})
+router.get('/documents/:docId', db.User.apiAuth, db.Doc.apiCollab, (req, res) => {
+        db.Doc.findOne({_id: req.params.docId})
             .then((result) => { // returns empty array if no results
                 res.status(200)
                     .json({
@@ -85,88 +63,103 @@ router.get('/documents/:id', db.User.apiAuth, db.Doc.apiCollab, (req, res) => {
                 console.log(err);
                 res.status(500)
                     .json({
-                        "message": "Server error - could not complete your" +           "request",
+                        "message": "Server error - could not complete your"
+                                + "request",
                         "data": err,
                         "success": false
                     });
             });
 });
 
-/* Update Route for Document includes everything except adding and removing collaborators */
-router.post('/documents/update/:id', db.User.apiAuth, db.Doc.apiCollab,
+/* Allows updating contents for a given document */
+router.post('/documents/update/:docId/contents', db.User.apiAuth, db.Doc.apiCollab,
         (req, res) => {
-    if (isCollab) {
-    db.Doc.findOne({_id: req.params.id})
-        .then((docToUpdate) => {
-            if (docToUpdate) {
-                if (req.body.contents) {
-                    docToUpdate.contents = req.body.contents;
-                }
-
-                docToUpdate.save()
-                    .then((updatedDoc) => {
-                        res.status(200)
-                            .json({
-                                "message": "Updated document",
-                                "data": {
-                                    "contents": updatedDoc.contents,
-                                    "lastModified": updatedDoc.lastModified
-                                },
-                                "success": true
-                            });
-                    })
-                    .catch((err) => {
-                        console.log(err);
-                        res.status(500)
-                            .json({
-                                "message": "Server error - document update failed",
-                                "data": err,
-                                "success": false
-                            });
-                    });
-            } else {
+    const newContents = req.body.contents || null;
+    if (newContents) {
+        db.Doc.findByIdAndUpdate(req.params.docId,
+                { $set: { contents: newContents }}, { new: true })
+            .then((updatedDoc) => {
                 res.status(200)
                     .json({
-                        "message": "Could not find document",
-                        "data": {},
+                        "message": "Updated document",
+                        "data": updatedDoc,
+                        "success": true
+                    });
+            })
+            .catch((err) => {
+                console.log(err);
+                res.status(500)
+                    .json({
+                        "message": "Document update failed",
+                        "data": err,
                         "success": false
                     });
-            }
-        })
-        .catch((err) => {
-            console.log(err);
-            res.status(500)
-                .json({
-
-                    "message": "Server error - document update failed",
-                    "message": "Server error - could not complete your request",
-                    "data": err,
-                    "success": false
-                });
-        });
+            });
+    } else {
+        const err = new Error("No contents provided");
+        console.log(err);
+        res.status(500)
+            .json({
+                "message": "Document update failed",
+                "data": err,
+                "success": false
+            });
     }
+});
 
-    else if (isOwner) {
-        db.Doc.findOne({_id: documentId})
-            .then((docToUpdate) => {
-                if (docToUpdate) {
-                    if (req.body.docName) {
-                        docToUpdate.docName = req.body.docName;
-                    }
-                    if (req.body.contents) {
-                        docToUpdate.contents = req.body.contents;
-                    }
+/* Allow updating a document's name */
+router.post('/documents/update/:docId/name', db.User.apiAuth, db.doc.apiOwner,
+        (req, res) => {
+    const newName = req.body.name || null;
+    if (newName) {
+        db.Doc.findByIdAndUpdate(req.params.docId,
+                { $set: { docName: newName }}, { new: true })
+            .then((updatedDoc) => {
+                res.status(200)
+                    .json({
+                        "message": "Updated document",
+                        "data": updatedDoc,
+                        "success": true
+                    });
+            })
+            .catch((err) => {
+                console.log(err);
+                res.status(500)
+                    .json({
+                        "message": "Document update failed",
+                        "data": err,
+                        "success": false
+                    });
+            });
+    } else {
+        const err = new Error("No name provided");
+        console.log(err);
+        res.status(500)
+            .json({
+                "message": "Document update failed",
+                "data": err,
+                "success": false
+            });
+    }
+});
 
-                    docToUpdate.save()
+/*  Add collaborator to document */
+router.post('/documents/update/:docId/add_collab', db.User.apiAuth,
+        db.Doc.apiOwner, (req, res) => {
+    const userEmail = req.body.email || null;
+    if (userEmail) {
+        db.User.findOne({email: userEmail})
+            .then((newUser) => {
+                if (newUser) {
+                    const userId = newUser._id.toString();
+                    db.Doc.findByIdAndUpdate(req.params.docId,
+                            { $push: {"collabs": userId, "collabs_emails": userEmail} },
+                            { new: true })
                         .then((updatedDoc) => {
                             res.status(200)
                                 .json({
-                                    "message": "Updated user",
-                                    "data": {
-                                        "docName": updatedDoc.docName,
-                                        "contents": updatedDoc.contents,
-                                        "lastModified": updatedDoc.lastModified
-                                    },
+                                    "message": "Updated document",
+                                    "data": updatedDoc,
                                     "success": true
                                 });
                         })
@@ -174,16 +167,18 @@ router.post('/documents/update/:id', db.User.apiAuth, db.Doc.apiCollab,
                             console.log(err);
                             res.status(500)
                                 .json({
-                                    "message": "Server error - document update failed",
+                                    "message": "Document update failed",
                                     "data": err,
                                     "success": false
                                 });
                         });
                 } else {
-                    res.status(200)
+                    const err = new Error("User not found");
+                    console.log(err);
+                    res.status(500)
                         .json({
-                            "message": "Could not find document",
-                            "data": {},
+                            "message": "Document update failed",
+                            "data": err,
                             "success": false
                         });
                 }
@@ -192,37 +187,52 @@ router.post('/documents/update/:id', db.User.apiAuth, db.Doc.apiCollab,
                 console.log(err);
                 res.status(500)
                     .json({
-                        "message": "Server error - document update failed",
+                        "message": "Document update failed",
                         "data": err,
                         "success": false
                     });
             });
-
-
+    } else {
+        const err = new Error("Collaborator name or email not provided");
+        console.log(err);
+        res.status(500)
+            .json({
+                "message": "Document update failed",
+                "data": err,
+                "success": false
+            });
     }
 });
 
-/*  Add collaborator route */
-router.post('/documents/update/:id/add_collab', db.User.apiAuth, docAuth, (req, res) => {
-    var documentId = req.params.id;
-    if (isOwner) {
-    db.User.findOne({email: req.body.email}).exec(function(err,user){
-        var collab_id = user._id.toString();
-        console.log(collab_id);
-        db.Doc.findOne({_id: documentId})
-            .then((docToUpdate) => {
-                if (docToUpdate) {
-                        docToUpdate.collabs.push(collab_id);
-                        docToUpdate.collabs_emails.push(req.body.email);
-                        docToUpdate.save()
+/*  Remove collaborator from document */
+router.post('/documents/update/:docId/remove_collab', db.User.apiAuth,
+        db.Doc.apiSelfCollab, (req, res, next) => {
+    const userEmail = req.body.email || null;
+    if (!userEmail) {
+        const err = new Error("No user email");
+        console.log(err);
+        res.status(500)
+            .json({
+                "message": "Removing collaborator failed",
+                "data": err,
+                "success": false
+            });
+    } else {
+        db.User.findOne({email: userEmail})
+            .then((newUser) => {
+                if (newUser) {
+                    const userId = newUser._id.toString();
+                    db.Doc.findByIdAndUpdate(req.params.docId,
+                            { $pull: 
+                                    {"collabs": userId,
+                                    "collabs_emails": userEmail}
+                            },
+                            { new: true })
                         .then((updatedDoc) => {
                             res.status(200)
                                 .json({
                                     "message": "Updated document",
-                                    "data": {
-                                        "collabs": updatedDoc.collabs,
-                                        "lastModified": updatedDoc.lastModified
-                                    },
+                                    "data": updatedDoc,
                                     "success": true
                                 });
                         })
@@ -230,84 +240,56 @@ router.post('/documents/update/:id/add_collab', db.User.apiAuth, docAuth, (req, 
                             console.log(err);
                             res.status(500)
                                 .json({
-                                    "message": "Server error - document update failed",
+                                    "message": "Document update failed",
                                     "data": err,
                                     "success": false
                                 });
                         });
-                }
-
-
-})
-});
-}
-});
-
-/*  Add collaborator route */
-router.post('/documents/update/:id/remove_collab', db.User.apiAuth, docAuth, (req, res) => {
-    var documentId = req.params.id;
-    db.User.findOne({email: req.body.email}).exec(function(err,user){
-        console.log(user)
-        var collab_id = user._id.toString();
-        db.Doc.findOne({_id: documentId})
-            .then((docToUpdate) => {
-                if (docToUpdate) {
-                    console.log(collab_id);
-                    console.log(typeof collab_id);
-                    if (isOwner) {
-                        const index = docToUpdate.collabs.indexOf(collab_id);
-                        docToUpdate.collabs.splice(index,1);
-                    }
-                    if (isCollab) {
-                        const index = docToUpdate.collabs.indexOf(collab_id);
-                        docToUpdate.collabs.splice(index,1);
-                    }
-                        docToUpdate.save()
-                        .then((updatedDoc) => {
-                            res.status(200)
-                                .json({
-                                    "message": "Updated document",
-                                    "data": {
-                                        "collabs": updatedDoc.collabs,
-                                        "lastModified": updatedDoc.lastModified
-                                    },
-                                    "success": true
-                                });
-                        })
-                        .catch((err) => {
-                            console.log(err);
-                            res.status(500)
-                                .json({
-                                    "message": "Server error - document update failed",
-                                    "data": err,
-                                    "success": false
-                                });
+                } else {
+                    const err = new Error("User not found");
+                    console.log(err);
+                    res.status(500)
+                        .json({
+                            "message": "Document update failed",
+                            "data": err,
+                            "success": false
                         });
                 }
-
-
-})
+            })
+            .catch((err) => {
+                console.log(err);
+                res.status(500)
+                    .json({
+                        "message": "Document update failed",
+                        "data": err,
+                        "success": false
+                    });
+                });
+    }
 });
-});
 
-router.post('/documents/remove/:id', db.User.apiAuth, docAuth, (req, res) => {
-    var documentId = req.params.id;
-    if (isOwner) {
-        db.Doc.findOne({_id: documentId}).remove().exec()
-                res.json({
-                        "message": "Document sucessfully deleted",
-                        "success": true
-    });
-}
-    else {
-        res.json({
-            "message": "Sorry, you are not authorized to delete this file",
-            "success": false
+router.post('/documents/remove/:docId', db.User.apiAuth, db.Doc.apiOwner,
+        (req, res) => {
+    const documentId = req.params.docId;
+    db.Doc.findByIdAndRemove(documentId)
+        .then((removedDoc) => {
+            res.status(200)
+                .json({
+                    "message": "Document sucessfully deleted",
+                    "data": removedDoc,
+                    "success": true
+                });
         })
-    }
-
+        .catch((err) => {
+            console.log(err);
+            res.status(500)
+                .json({
+                    "message": "Document remove failed",
+                    "data": err,
+                    "success": false
+                });
+        });
 });
-
 
 /**
  * User / account routes

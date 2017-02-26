@@ -84,6 +84,44 @@ documentSchema.statics.clientCollab = (req, res, next) => {
     }
 }
 
+/* Elevated 'self' privilege for collaborators, handles API response */
+documentSchema.statics.apiSelfCollab = (req, res, next) => {
+    const bodyEmail = req.body.email || null;
+    const sessionEmail = req.session.email || null;
+    if (!bodyEmail || !sessionEmail) {
+        res.status(500)
+            .json({
+                "message": "Not authorized",
+                "data": {},
+                "success": false
+            });
+    } else if ((isCollab(req) === true && req.body.email === req.session.email)
+            || isOwner(req) === true) {
+        next();
+    } else {
+        res.status(403)
+            .json({
+                "message": "Not authorized",
+                "data": {},
+                "success": false
+            });
+    }
+}
+
+/* Elevated 'self' privilege for collaborators, handles client response */
+documentSchema.statics.clientSelfCollab = (req, res, next) => {
+    const bodyEmail = req.body.email || null;
+    const sessionEmail = req.session.email || null;
+    if (!bodyEmail || !sessionEmail) {
+        res.redirect("/user/login");
+    } else if ((isCollab(req) === true && req.body.email === req.session.email)
+            || isOwner(req) === true) {
+        next();
+    } else {
+        res.redirect("/user/login");
+    }
+}
+
 /* Checks modifier against document owners, handles API response */
 documentSchema.statics.apiOwner = (req, res, next) => {
     if (isOwner(req) === true) {
@@ -107,19 +145,25 @@ documentSchema.statics.clientOwner = (req, res, next) => {
     }
 }
 
-documentSchema.statics.getAllDocs = (callback) => {
+
+documentSchema.statics.getAllDocs = (req, callback) => {
     const regularExpression = new RegExp(".*" + req.session.userId + ".*");
     this.find({$or: [{owners: regularExpression}, {collabs: regularExpression}]})
-        .then((results)=> {
-            res.json({
-                "message": "Documents rendered sucessfully",
-                "data": results,
-                "success": true,
-            });
-            callback(result);
-            })
-            .catch((err) => {
-            callback(err)
+        .then((docArray)=> {
+            const results = {
+                "message": "Search completed sucessfully",
+                "data": docArray,
+                "success": true
+            };
+            callback(results);
+        })
+        .catch((err) => {
+            const results = {
+                "message": "Server error",
+                "data": err,
+                "success": false
+            }
+            callback(results);
     });
 }
 
