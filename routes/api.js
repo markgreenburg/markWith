@@ -368,7 +368,7 @@ router.post("/user/update", db.User.apiAuth, (req, res) => {
                         && req.body.email.length >= 5) {
                     userToUpdate.email = req.body.email;
                 } if (req.body.password
-                        && req.body.email.length >= 6) {
+                        && req.body.password.length >= 6) {
                     userToUpdate.password = req.body.password
                 }
                 userToUpdate.save()

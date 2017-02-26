@@ -60,14 +60,14 @@ window.addEventListener('load', () => {
     $("form.password-form").submit((event) => {
         event.preventDefault();
         const formData = {
-            password: $("input#first-name").val()
+            password: $("input#password").val()
         };
         $.ajax({
             type: "POST",
             url: "/api/user/update",
             data: formData,
             encode: true,
-            success: (response) => showMessage(response.message),
+            success: (res) => showMessage(res.message),
             error: (err) => {
                 console.log(err);
                 showMessage((err.message 
