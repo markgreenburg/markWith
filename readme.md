@@ -12,7 +12,11 @@ markWith started as a concept to build a collaborative markdown editor.  markWit
 ![alt tag](https://github.com/Dvshah13/markWith-Screens/blob/master/Screen%20Shot%202017-02-26%20at%203.33.40%20PM.png?raw=true)
 
 
-<b>Challenges faced & Solutions used:</b>
+<b>Features:</b>
+* Simultaneously edit text file with others (on / route)
+* See Markdown rendered from your text files in real-time
+* Changes propagated to all other clients in real-time  
+* Changes saved to in-app memory so it's fast
 
 ### Collaborative text editor with real-time Markdown rendering ###
 
