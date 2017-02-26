@@ -17,11 +17,13 @@
                     <li class="active">
                         {{#if session.token}}
                         <li  id="user-logout-li"><a id="user-logout" href="/user/logout">Logout</a></li>
+                        <li><p>/</p></li>
+                        <li  id="user-account-li"><a id="user-account" href="/user/account">Account</a></li>
+                        <li  id="user-docs-li"><a id="user-docs" href="/documents">Documents</a></li>
                         <li id="create-doc-li"><a id="create-doc" href="/documents/create"><i class="fa fa-file-o" aria-hidden="true"></i></a>
                         {{else}}
-                        <li id="user-login-li"><a href="/user/login">Login</a></li><li>
-                            <p>/</p>
-                        </li>
+                        <li id="user-login-li"><a href="/user/login">Login</a></li>
+                        <li><p>/</p></li>
                         <li><a href="/user/register">Signup</a></li>
                         <li id="faq"><a href="#">FAQ</a></li>
                         </li>
