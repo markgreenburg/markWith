@@ -269,7 +269,7 @@ router.post('/documents/update/:docId/remove_collab', db.User.apiAuth,
     }
 });
 
-router.post('/documents/remove/:docId', db.User.apiAuth, db.Doc.apiOwner,
+router.post('/documents/delete/:docId', db.User.apiAuth, db.Doc.apiOwner,
         (req, res) => {
     const documentId = req.params.docId;
     db.Doc.findByIdAndRemove(documentId)

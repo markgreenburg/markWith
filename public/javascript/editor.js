@@ -159,11 +159,11 @@ window.addEventListener('load', () => {
         event.preventDefault();
         $.ajax({
             type: "POST",
-            url: "/api/documents/remove/" + docId,
+            url: "/api/documents/delete/" + docId,
             encode: true,
             success: (res) => {
                 if (res.success) {
-                    window.location.replace("/documents");
+                    window.location.assign("/documents");
                 }
             },
             error: (err) => console.log(err)
