@@ -224,8 +224,8 @@ router.post('/documents/update/:docId/remove_collab', db.User.apiAuth,
                     const userId = newUser._id.toString();
                     db.Doc.findByIdAndUpdate(req.params.docId,
                             { $pullAll: 
-                                    {"collabs": userId,
-                                    "collabs_emails": req.body.email}
+                                    {"collabs": [userId],
+                                    "collabs_emails": [req.body.email]}
                             },
                             { new: true })
                         .then((updatedDoc) => {
