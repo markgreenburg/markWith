@@ -20,37 +20,33 @@
     <div class="header-row"><h2>Documents + Collaborations</h2></div>
 <div class="container">
       <div id="user-documents"><table class="table table-condensed">
-            <thead>
-              <tr>
-                <th>Document</th>
-                <th># Collaborators</th>
-                <th>Collaborators</th>
-                <th>Last Modified</th>
-              </tr>
-
-            </thead>
-            <tbody>
-                {{# if docs.length}}
-                {{# each docs }}
-              <tr>
-                  {{# each this }}
-                <!-- //clicking takes you to document -->
-                <td><a href="/documents/{{this._id}}">{{this.docName}}</a></td>
-                <td>{{totalCollabs }}</td>
-                <td>{{this.collabs_emails}}</td>
-                <td>{{this.lastModified}}</td>
-              </tr>
-            </tbody>
-          </table>
-          {{/each}}
+          <thead>
+            <tr>
+              <th>Document</th>
+              <th># Collaborators</th>
+              <th>Collaborators</th>
+              <th>Last Modified</th>
+            </tr>
+          </thead>
+          {{# if docs.length}}
+          <tbody>
+              {{# each docs }}
+            <tr>
+              <!-- //clicking takes you to document -->
+              <td> <a href="/documents/{{this._id}}">{{this.docName}}</a></td>
+              <td>{{this.collabs.length}}</td>
+              <td> {{this.owners_emails}} {{ this.collabs_emails }} </td>
+              <td>{{this.lastModified}}</td>
+            </tr>
+               {{/each}}
+          </tbody>
+          {{/if}}
+        </table>
         </div>
-        {{/each}}
       </div>
   </section>
 </div>
-
+</div>
 </div>
 
-</div>
-{{/if}}
 <script src="/javascript/documents.js"></script>
