@@ -37,25 +37,21 @@ router.get('/user/account', db.User.clientAuth, (req, res) => {
 
 /* Documents store */
 router.get('/documents', db.User.clientAuth, (req, res) => {
-   var userId = req.session.userId;
-   console.log(userId);
-   db.Doc.getAllDocs(userId, function(docs){
-            res.render('documents', {docs: docs, session: req.session});
-        }
-    );
+   db.Doc.getAllDocs(req, (docs) => {
+        res.render('documents', {docs: docs.data, session: req.session});
+    });
 });
 
 /* Document Editor */
-// To-Do: add docAuth to check perms for this specific doc ID
-router.get('/documents/:docId', db.User.clientAuth, (req, res) => {
+router.get('/documents/:docId', db.User.clientAuth, db.Doc.clientCollab,
+        (req, res) => {
     res.render('editor', {
             documentId: req.params.docId,
             session: req.session
     });
 });
 
-/* Demo Document Editor routes */
-// To-Do: add docAuth to check perms for this specific doc ID
+/* Demo Document Editor */
 router.get('/demo', (req, res) => {
     // To-Do: update test user for prod
     const newTestDoc = new db.Doc({owners: [config.testUser._id]});

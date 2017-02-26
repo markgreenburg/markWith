@@ -29,7 +29,7 @@ window.addEventListener('load', () => {
             encode: true,
             success: (res) => {
                 if (res.success) {
-                    window.location = '/documents/' + res.data._id;
+                    window.location.assign('/documents/' + res.data._id);
                 } else {
                     console.log(res);
                 }

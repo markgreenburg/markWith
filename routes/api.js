@@ -39,6 +39,7 @@ router.post('/documents/create', db.User.apiAuth, (req, res) => {
                 });
         })
         .catch((err) => {
+            console.log(err);
             res.status(500)
                 .json({
                     "message": "Server error - could not create document",
@@ -108,7 +109,7 @@ router.post('/documents/update/:docId/contents', db.User.apiAuth, db.Doc.apiColl
 });
 
 /* Allow updating a document's name */
-router.post('/documents/update/:docId/name', db.User.apiAuth, db.doc.apiOwner,
+router.post('/documents/update/:docId/name', db.User.apiAuth, db.Doc.apiOwner,
         (req, res) => {
     const newName = req.body.name || null;
     if (newName) {

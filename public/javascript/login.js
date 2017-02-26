@@ -12,7 +12,7 @@ window.addEventListener('load', () => {
             "encode": true,
             success: (response) => {
                 if (response.success === true) {
-                    window.location.replace("/documents");
+                    window.location.assign("/documents");
                 } else {
                     showLoginError();
                 }
