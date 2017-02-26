@@ -11,8 +11,8 @@ const documentSchema = new Schema({
     docName: { type: String, required: true, default: "untitled" },
     owners: { type: Array, required: true },
     owners_emails: { type: Array, required: true },
-    collabs: { type: Array, required: false, unique: true },
-    collabs_emails: { type: Array, required: false, unique: true },
+    collabs: { type: Array, required: false },
+    collabs_emails: { type: Array, required: false },
     contents: { type: String, default: ""},
     history: {
         fDate: { type: Date, required: true, default: Date.now()  },
