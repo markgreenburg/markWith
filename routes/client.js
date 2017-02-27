@@ -58,10 +58,16 @@ router.get('/documents/:docId', db.User.clientAuth, db.Doc.clientCollab,
 
 /* Demo Document Editor */
 router.get('/demo', (req, res) => {
-    // To-Do: update test user for prod
-    const newTestDoc = new db.Doc({owners: [config.testUser._id]});
+    const newTestDoc = new db.Doc({
+        docName: config.testDoc.docName,
+        owners: [config.testDoc.owner],
+        owners_emails: [config.testDoc.owner_email],
+        contents: config.testDoc.contents
+    });
     newTestDoc.save()
         .then((result) => {
+            console.log("Logging New Doc:");
+            console.log(result);
             const uri = '/demo/' + result._id;
             res.redirect(uri);
         })
@@ -71,20 +77,20 @@ router.get('/demo', (req, res) => {
         })
 });
 
-/* Demo document editor shareable link for existing docs */
-router.get('/demo/:id', (req, res) => {
-    db.Doc.findOne({_id: req.params.id})
+/* Demo document editor shareable link for existing demo docs */
+router.get('/demo/:docId', (req, res) => {
+    db.Doc.findOne({
+        $and: [{_id: req.params.docId}, 
+                {owners_emails: config.testDoc.owner},
+                {owners: config.testDoc.owner}]
+    })
         .then((result) => {
-        // To-Do: more robust test user stuff for production
             if (result) {
-                result.owners.forEach((owner) => {
-                    if (owner == config.testUser._id) {
-                        res.render('demo_editor',
-                                {documentId: req.params.documentId});
-                    }
-                });
+                console.log("doc found, loading demo editor");
+                res.render('demo_editor', {documentId: req.params.docId});
+            } else {
+                res.redirect('/');
             }
-            res.redirect('/');
         })
         .catch((err) => {
             console.log(err);
