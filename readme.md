@@ -12,8 +12,8 @@ markWith started as a concept to build a collaborative markdown editor.  markWit
 <b>Features:</b>
 <li>Simultaneously edit text file with others (on / route)</li>
 <li>See Markdown rendered from your text files in real-time</li>
-<li>Changes propagated to all other clients in real-time</li>  
-<li>Changes saved to in-app memory so it's fast</li>
+<li>Changes propagated to all other clients in real-time</li>
+<li>Changes saved to an in-app memory so it's fast</li>
 <br>
 <b>Challenges faced & Solutions used:</b>
 <br>1. One of the earliest challenges the team faced how to design each socket so that we could construct a new socket to handle a new document and not disturb the other socket connections. The solution we implemented was assign by id a new room with socket connection and then new documents were created for them to be assigned new sockets.  Thus any room now had an id attachment to reference.<br>
