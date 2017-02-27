@@ -274,8 +274,10 @@ a {
     text-align: center;
     max-width: 2vw; }
   .site-nav-right li {
-    font-size: 0.9vw;
     text-align: left; }
+
+#add-collab-form {
+  padding-left: 15px; }
 
 #doc-title {
   text-align: center; }
@@ -320,6 +322,10 @@ i a:hover {
   visibility: visible; }
 
 .remove-collab span {
+  padding-right: 5px; }
+
+.fa-plus-circle span {
+  color: #fff;
   padding-right: 5px; }
 
 #delete-document {

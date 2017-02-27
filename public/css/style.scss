@@ -367,9 +367,13 @@ a {
     }
 
     li {
-    font-size: 0.9vw;
+    // font-size: 0.9vw;
     text-align: left;
    }
+}
+
+#add-collab-form {
+    padding-left: 15px;
 }
 
 #doc-title{
@@ -438,6 +442,13 @@ i {
 
 .remove-collab {
     span {
+        padding-right: 5px;
+    }
+}
+
+.fa-plus-circle {
+    span {
+        color: #fff;
         padding-right: 5px;
     }
 }
