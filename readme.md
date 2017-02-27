@@ -61,6 +61,7 @@ Given the back end intensive nature of our project and async issues that could a
 <br><b>Stetch Goals</b><br>
 <li>Add a demo to landing page so users can test markWith before signing up.</li>
 <li>Build a documents store so documents can be rendered and accessed easily by users.</li>
+<li>Add more mobile responsive features</li>
 <b><br>Contribution we'd like to be added:</b><br>
 <li>Invite system so collaborators can be informed they've been added to a document.</li>
 <li>Chat room in each document so collaborators can communicate with each other.</li>
