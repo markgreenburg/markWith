@@ -14,7 +14,27 @@ window.addEventListener('load', () => {
             encode: true,
             success: (response) => {
                 if (response.success === true) {
-                    window.location.replace("/user/login");
+                    const formData = {
+                        "email": $("input#email").val(),
+                        "password": $("input#password").val()
+                    }
+                    $.ajax({
+                        type: "POST",
+                        url: "/api/user/login",
+                        data: formData,
+                        encode: true,
+                        success: (response) => {
+                            if (response.success === true) {
+                                window.location.assign('/documents');
+                            } else {
+                                window.location.assign('/user/login');
+                            }
+                        },
+                        error: (err) => {
+                            console.log(err);
+                            window.location.assign('/user/login');
+                        }
+                    });
                 } else {
                     $("div.messages").show();
                     showSignupError(response);
