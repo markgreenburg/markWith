@@ -16,8 +16,8 @@ window.addEventListener('load', () => {
     const populateCollabs = (emailArray) => {
         emailArray.forEach((email) => {
             $("ul#collab-list").prepend(
-                    "<li><a class='remove-collab' href='#'><i class='fa"
-                    + " fa-minus' aria-hidden='true'></i>" + email
+                    "<li><a class='remove-collab' href='#'><span class='fa"
+                    + " fa-minus-circle' aria-hidden='true'></span>" + email
                     + "</a></li>"
             );
         });
@@ -154,9 +154,9 @@ window.addEventListener('load', () => {
             success: (res) => {
                 if (res.success) {
                     $("ul#collab-list").prepend(
-                        "<li><a class='remove-collab' href='#'><i class='fa"
-                        + " fa-minus' aria-hidden='true'></i>" + newCollab
-                        + "</a></li>"
+                        "<li><a class='remove-collab' href='#'><span class='fa"
+                        + " fa-minus-circle' aria-hidden='true'></span>"
+                        + newCollab + "</a></li>"
                     );
                 } else {
                     console.log(res);
