@@ -26,6 +26,7 @@ markWith started as a concept to build a collaborative markdown editor.  markWit
 <br>![alt tag](https://github.com/Dvshah13/markWith-Screens/blob/master/CS4.png?raw=true)
 <br><b>Error handling/Troubleshooting:</b></br>
 Given the back end intensive nature of our project and async issues that could arise, we faced our fair share of delicate troubleshooting issues which we eventually worked out and wanted to share what we learned from each issue.
+<br>
 <br>1. Just in general given that there could be a potential error at every stage of the process, we had to have fail-safes to handle any of those issues.  On the document side, we had to deal with async issues and then have callbacks that would spit out errors as necessary.  An example of this is as follows:
 ![alt tag](https://github.com/Dvshah13/markWith-Screens/blob/master/EH1.png?raw=true)
 <br>2. On the user side, we used a lot of nested conditionals to verify and error handle.  It was done very similarly to the document code shown above (callbacks to keep sync issues in check).  Here is an example of updating a user, using nested conditionals to check at each stage.<br>
