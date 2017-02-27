@@ -74,8 +74,10 @@ textarea#text-pad {
 .navbar-brand {
   margin-left: 30px; }
 
-#document-live {
+#docName {
   margin-top: 0; }
+  #docName h4 {
+    font-size: 1.2vw; }
 
 .navbar-text {
   color: #363636;
@@ -309,6 +311,9 @@ i a:hover {
   width: 80%;
   left: 20%; }
 
+.remove-collab span {
+  padding-right: 5px; }
+
 #delete-document {
   position: fixed;
   padding-left: 2vw;
@@ -483,5 +488,12 @@ h2 {
     border-color: transparent; }
   50% {
     border-color: orange; } }
+@media only screen and (max-width: 800px) {
+  #about {
+    font-size: 12px; }
+    #about h1 {
+      font-size: 18px; }
+    #about h4 {
+      font-size: 16px; } }
 
 /*# sourceMappingURL=style.css.map */

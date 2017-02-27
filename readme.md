@@ -44,7 +44,7 @@ markWith started as a concept to build a collaborative markdown editor.  markWit
 <br><b>Error handling/Troubleshooting:</b></br>
 Given the back end intensive nature of our project and async issues that could arise, we faced our fair share of delicate troubleshooting issues which we eventually worked out and wanted to share what we learned from each issue.
 <br>
-<br>1. Just in general given that there could be a potential error at every stage of the process, we had to have fail-safes to handle any of those issues.  On the document side, we had to deal with async issues and then have callbacks that would spit out errors as necessary.  An example of this is as follows:
+<br>1. Just in general given that there could be a potential error at every stage of the process, we had to have fail-safes to handle any of those issues.  On the document side, we had to deal with async issues and then have callbacks that would spit out errors as necessary.  An example of this is as follows: <br>
 <img src="https://github.com/Dvshah13/markWith-Screens/blob/master/EH1.png?raw=true" height="250">
 
 <br>2. On the user side, we used a lot of nested conditionals to verify and error handle.  It was done very similarly to the document code shown above (callbacks to keep sync issues in check).  Here is an example of updating a user, using nested conditionals to check at each stage.<br>
@@ -61,6 +61,7 @@ Given the back end intensive nature of our project and async issues that could a
 <br><b>Stetch Goals</b><br>
 <li>Add a demo to landing page so users can test markWith before signing up.</li>
 <li>Build a documents store so documents can be rendered and accessed easily by users.</li>
+<li>Add more mobile responsive features</li>
 <b><br>Contribution we'd like to be added:</b><br>
 <li>Invite system so collaborators can be informed they've been added to a document.</li>
 <li>Chat room in each document so collaborators can communicate with each other.</li>
