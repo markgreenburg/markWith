@@ -107,7 +107,8 @@ window.addEventListener('load', () => {
     });
 
     // Update doc name in DB when renamed
-    $("form#docName-editable-form").on("submit", () => {
+    $("form#docName-editable-form").on("submit", (event) => {
+        event.preventDefault();
         const newName = $("input#docName-editable").val();
         $.ajax({
             type: "POST",
@@ -141,7 +142,7 @@ window.addEventListener('load', () => {
     });
 
     // Add Collaborator
-    $("form#add-collab-form").submit((event) => {
+    $("form#add-collab-form").on("submit", (event) => {
         event.preventDefault();
         const newCollab = $("input#add-collab").val();
         $.ajax({
