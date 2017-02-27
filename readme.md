@@ -37,15 +37,15 @@ Given the back end intensive nature of our project and async issues that could a
 <br>
 <br><b>MVP and Stretch Goals:</b>
 <br><b>MVP (Minimum Viable Product)</b><br>
-1. Build a markdown editor, that could be accessed by multiple users at the same time.
-2. Allow for live editing and a dynamically generated output.
-3. Store content and document information so it can be accessed by users later on.
+* Build a markdown editor, that could be accessed by multiple users at the same time.
+* Allow for live editing and a dynamically generated output.
+* Store content and document information so it can be accessed by users later on.
 
 <br><br><b>Stetch Goals</b><br>
-1. Add a demo to landing page so users can test markWith before signing up.
-2. Build a documents store so documents can be rendered and accessed easily by users.
+* Add a demo to landing page so users can test markWith before signing up.
+* Build a documents store so documents can be rendered and accessed easily by users.
 
 <b><br>Contribution we'd like to be added:</b><br>
-1. Invite system so collaborators can be informed they've been added to a document.
-2. Chat room in each document so collaborators can communicate with each other.
+* Invite system so collaborators can be informed they've been added to a document.
+* Chat room in each document so collaborators can communicate with each other.
 
