@@ -34,37 +34,18 @@ Given the back end intensive nature of our project and async issues that could a
 ![alt tag](https://github.com/Dvshah13/markWith-Screens/blob/master/EH1.png?raw=true)
 <br><br>2. On the user side, we used a lot of nested conditionals to verify and error handle.  It was done very similarly to the document code shown above (callbacks to keep sync issues in check).  Here is an example of updating a user, using nested conditionals to check at each stage.<br>
 ![alt tag](https://github.com/Dvshah13/markWith-Screens/blob/master/EH1.png?raw=true)
-<br><br>
 <br>
 <br><b>MVP and Stretch Goals:</b>
 <br><b>MVP (Minimum Viable Product)</b><br>
+1. Build a markdown editor, that could be accessed by multiple users at the same time.
+2. Allow for live editing and a dynamically generated output.
+3. Store content and document information so it can be accessed by users later on.
 
 <br><br><b>Stetch Goals</b><br>
+1. Add a demo to landing page so users can test markWith before signing up.
+2. Build a documents store so documents can be rendered and accessed easily by users.
 
 <b><br>Contribution we'd like to be added:</b><br>
+1. Invite system so collaborators can be informed they've been added to a document.
+2. Chat room in each document so collaborators can communicate with each other.
 
-
-### Collaborative text editor with real-time Markdown rendering ###
-
-Currently a bare-bones, proof-of-concept implementation of an Express app that
-supports real-time collaboration on Markdown.
-
-#### Features ####
-* Simultaneously edit text file with others (on / route)
-* See Markdown rendered from your text files in real-time
-* Changes propagated to all other clients in real-time  
-* Changes saved to in-app memory so it's fast
-
-#### Setup ####
-* Git Clone / download files, extract to directory of choice, run `NPM install`
-to take care of dependencies
-* Start app locally with `node app.js`
-
-#### To-Do ####
-Lots of things on the to-do list. Eventually will include:
-* [Mark] Take care of routing with namespaces
-* Share documents with collaborators
-* Save documents (likely using Mongo on the backend)
-* Periodic document auto-save
-* Private document stores
-* User accounts, document sharing management, etc.
