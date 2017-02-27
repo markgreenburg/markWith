@@ -444,6 +444,11 @@ h2 {
 #about h4 {
   font-size: 1.5vw; }
 
+#github {
+  text-align: center; }
+  #github h4 {
+    font-size: 1.5vw; }
+
 .typewriter-sm h2 {
   font-size: 1.8vw;
   overflow: hidden;
