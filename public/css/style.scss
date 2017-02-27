@@ -472,6 +472,15 @@ i {
 .btn-primary {
     background-color: #333;
     border: 1px solid #333;
+
+    a {
+        color: #fff;
+    }
+
+    a:hover{
+        background-color: #eee;
+        color: #333;
+    }
 }
 
 .btn:hover {
@@ -644,6 +653,20 @@ i {
     h4 {
         font-size: 1.5vw;
     }
+
+    .btn{
+        padding: 1vw 4vw 1vw 4vw;
+    }
+
+    //
+    // a {
+    //     color: #333;
+    // }
+    //
+    // a:hover {
+    //     text-decoration: underline;
+    //     background: none;
+    // }
 }
 
 

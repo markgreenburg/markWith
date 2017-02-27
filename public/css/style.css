@@ -338,6 +338,11 @@ i a:hover {
 .btn-primary {
   background-color: #333;
   border: 1px solid #333; }
+  .btn-primary a {
+    color: #fff; }
+  .btn-primary a:hover {
+    background-color: #eee;
+    color: #333; }
 
 .btn:hover {
   background-color: #eee;
@@ -448,6 +453,8 @@ h2 {
   text-align: center; }
   #github h4 {
     font-size: 1.5vw; }
+  #github .btn {
+    padding: 1vw 4vw 1vw 4vw; }
 
 .typewriter-sm h2 {
   font-size: 1.8vw;
