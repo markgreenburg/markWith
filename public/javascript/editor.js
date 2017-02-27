@@ -158,6 +158,7 @@ window.addEventListener('load', () => {
                         + " fa-minus-circle' aria-hidden='true'></span>"
                         + newCollab + "</a></li>"
                     );
+                    $("input#add-collab").val("");
                 } else {
                     console.log(res);
                 }
