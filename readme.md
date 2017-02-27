@@ -15,6 +15,12 @@ markWith started as a concept to build a collaborative markdown editor.  markWit
 <li>Changes propagated to all other clients in real-time</li>
 <li>Changes saved to an in-app memory so it's fast</li>
 <br>
+
+####From Concept to Reality:
+<img src="https://github.com/markgreenburg/markwith/blob/master/public/mockups/Homepage.png" height="100"> <img src="https://github.com/markgreenburg/markwith/blob/master/public/mockups/Signup.png" height="100"> <img src="https://github.com/markgreenburg/markwith/blob/master/public/mockups/Document.png?raw=true" height="100"> <img src="https://github.com/markgreenburg/markwith/blob/master/public/mockups/Open%20Sidebars.png" height="100">
+
+***
+
 <b>Challenges faced & Solutions used:</b>
 <br>1. One of the earliest challenges the team faced how to design each socket so that we could construct a new socket to handle a new document and not disturb the other socket connections. The solution we implemented was assign by id a new room with socket connection and then new documents were created for them to be assigned new sockets.  Thus any room now had an id attachment to reference.<br>
 ![alt tag](https://github.com/Dvshah13/markWith-Screens/blob/master/CS1.png?raw=true)
