@@ -2,10 +2,10 @@
 
 <b>Link to live site:</b> <a href='http://markwith.herokuapp.com/'>markWith</a><br><br>
 <b>Contributors:</b> <br>
-Mark Greenberg, Nedra Mevoli, and Deepak Shah 
+Mark Greenburg, Nedra Mevoli, and Deepak Shah 
 <br><br>
 <b>Technologies, Frameworks and Programming Languages:</b><br>
-SocketIO, MongoDb, Express, Node JS, Javascript, jQuery, HTML, CSS, Heroku
+SocketIO, MongoDb, Express, Node JS, Javascript, jQuery, HTML, Sass CSS, Heroku
 <br><br><b>Overview of Project:</b><br>
 markWith started as a concept to build a collaborative markdown editor.  markWith allows users to create and invite collaborators to edit Markdown in real-time.
 ![alt tag](https://github.com/Dvshah13/markWith-Screens/blob/master/Screen%20Shot%202017-02-26%20at%203.33.40%20PM.png?raw=true)
