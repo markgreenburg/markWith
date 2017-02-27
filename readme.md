@@ -8,7 +8,6 @@ Mark Greenberg, Nedra Ferguson and Deepak Shah 
 SocketIO, MongoDb, Express, Node JS, Javascript, jQuery, HTML, CSS
 <br><br><b>Overview of Project:</b><br>
 markWith started as a concept to build a collaborative markdown editor.  markWith allows users to create and invite collaborators to edit Markdown in real-time.
-
 ![alt tag](https://github.com/Dvshah13/markWith-Screens/blob/master/Screen%20Shot%202017-02-26%20at%203.33.40%20PM.png?raw=true)
 <b>Features:</b>
 <li>Simultaneously edit text file with others (on / route)</li>
@@ -37,11 +36,9 @@ Given the back end intensive nature of our project and async issues that could a
 <li>Build a markdown editor, that could be accessed by multiple users at the same time.</li>
 <li>Allow for live editing and a dynamically generated output.</li>
 <li>Store content and document information so it can be accessed by users later on.</li>
-
 <br><br><b>Stetch Goals</b><br>
 <li>Add a demo to landing page so users can test markWith before signing up.</li>
 <li>Build a documents store so documents can be rendered and accessed easily by users.</li>
-
 <b><br>Contribution we'd like to be added:</b><br>
 <li>Invite system so collaborators can be informed they've been added to a document.</li>
 <li>Chat room in each document so collaborators can communicate with each other.</li>
