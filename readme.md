@@ -2,7 +2,7 @@
 
 <b>Link to live site:</b> <a href='http://markwith.herokuapp.com/'>markWith</a><br><br>
 <b>Contributors:</b> <br>
-Mark Greenberg, Nedra Ferguson and Deepak Shah 
+Mark Greenberg, Nedra Mevoli and Deepak Shah 
 <br><br>
 <b>Technologies, Frameworks and Programming Languages:</b><br>
 SocketIO, MongoDb, Express, Node JS, Javascript, jQuery, HTML, CSS, Heroku
