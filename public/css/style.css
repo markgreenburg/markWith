@@ -311,6 +311,14 @@ i a:hover {
   width: 80%;
   left: 20%; }
 
+#edit-title span {
+  color: red;
+  visibility: hidden; }
+
+#edit-title:hover span {
+  color: #fff;
+  visibility: visible; }
+
 .remove-collab span {
   padding-right: 5px; }
 
