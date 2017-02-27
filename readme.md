@@ -30,13 +30,13 @@ Given the back end intensive nature of our project and async issues that could a
 ![alt tag](https://github.com/Dvshah13/markWith-Screens/blob/master/EH1.png?raw=true)
 <br>2. On the user side, we used a lot of nested conditionals to verify and error handle.  It was done very similarly to the document code shown above (callbacks to keep sync issues in check).  Here is an example of updating a user, using nested conditionals to check at each stage.<br>
 ![alt tag](https://github.com/Dvshah13/markWith-Screens/blob/master/EH1.png?raw=true)
-<br><b>MVP and Stretch Goals:</b>
+<b>MVP and Stretch Goals:</b>
 <br>
 <br><b>MVP (Minimum Viable Product)</b><br>
 <li>Build a markdown editor, that could be accessed by multiple users at the same time.</li>
 <li>Allow for live editing and a dynamically generated output.</li>
 <li>Store content and document information so it can be accessed by users later on.</li>
-<br><br><b>Stetch Goals</b><br>
+<br><b>Stetch Goals</b><br>
 <li>Add a demo to landing page so users can test markWith before signing up.</li>
 <li>Build a documents store so documents can be rendered and accessed easily by users.</li>
 <b><br>Contribution we'd like to be added:</b><br>
