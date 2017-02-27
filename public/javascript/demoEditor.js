@@ -6,37 +6,10 @@ window.addEventListener('load', () => {
     const room = docId;
     let emitCursorIndex = 0;
 
-    /* Updates all references to doc name */
-    const updateName = (newName) => {
-        $("span#docName").html(newName);
-        $("input#docName-editable").val(newName);
-    };
-
-    /* Populates list of collabs in right nav */
-    const populateCollabs = (emailArray) => {
-        emailArray.forEach((email) => {
-            $("ul#collab-list").prepend(
-                    "<li><a class='remove-collab' href='#'><i class='fa"
-                    + " fa-minus' aria-hidden='true'></i>" + email
-                    + "</a></li>"
-            );
-        });
-    }
-
     /* Markdown converter */
     const updateMarkdown = () => {
         textMarkdown.innerHTML = marked(textPad.value); // definition from CDN
     };
-
-    /* Get Doc Info */
-    $.ajax({
-        type: "GET",
-        url: "/api/documents/" + docId,
-        success: (res) => {
-            updateName(res.data.docName);
-            populateCollabs(res.data.collabs_emails);
-        }
-    });
 
     /* Track emitter's pre-change cursor position */
     textPad.addEventListener('keydown', () => {
@@ -104,80 +77,5 @@ window.addEventListener('load', () => {
             // Fire the input eventListener
             textPad.dispatchEvent(new Event("input"));
         }
-    });
-
-    // Update doc name in DB when renamed
-    $("form#docName-editable-form").on("submit", () => {
-        const newName = $("input#docName-editable").val();
-        $.ajax({
-            type: "POST",
-            url: "/api/documents/update/" + docId + "/name",
-            data: { "docName": newName },
-            encode: true,
-            success: (response) => updateName(response.data.docName),
-            error: (err) => console.log(err)
-        });
-    });
-
-    // Remove collaborator
-    $("ul#collab-list").on("click", "a", (event) => {
-        event.preventDefault();
-        const self = $(event.target);
-        console.log(self);
-        $.ajax({
-            type: "POST",
-            url: "/api/documents/update/" + docId + "/remove_collab",
-            data: {
-                "email": self.text()
-            },
-            encode: true,
-            success: () => {
-                self.parent().hide();
-            },
-            error: (err) => {
-                console.log(err);
-            }
-        });
-    });
-
-    // Add Collaborator
-    $("form#add-collab-form").submit((event) => {
-        event.preventDefault();
-        const newCollab = $("input#add-collab").val();
-        $.ajax({
-            type: "POST",
-            url: "/api/documents/update/" + docId + "/add_collab",
-            data: {
-                "email": newCollab
-            },
-            encode: true,
-            success: (res) => {
-                if (res.success) {
-                    $("ul#collab-list").prepend(
-                        "<li><a class='remove-collab' href='#'><i class='fa"
-                        + " fa-minus' aria-hidden='true'></i>" + newCollab
-                        + "</a></li>"
-                    );
-                } else {
-                    console.log(res);
-                }
-            },
-            error: (err) => console.log(err)
-        });
-    });
-
-    $("div#delete-document").on('click', 'a', (event) => {
-        event.preventDefault();
-        $.ajax({
-            type: "POST",
-            url: "/api/documents/delete/" + docId,
-            encode: true,
-            success: (res) => {
-                if (res.success) {
-                    window.location.assign("/documents");
-                }
-            },
-            error: (err) => console.log(err)
-        });
     });
 });
