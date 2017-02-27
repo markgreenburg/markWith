@@ -1,6 +1,6 @@
 #//markWith#
 
-<b>Link to live site:</b> <a href='https://markwith-test.herokuapp.com/'>markWith</a><br><br>
+<b>Link to live site:</b> <a href='http://markwith.herokuapp.com/'>markWith</a><br><br>
 <b>Contributors:</b> <br>
 Mark Greenberg, Nedra Ferguson and Deepak Shah 
 <br><br>
