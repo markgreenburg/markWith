@@ -74,8 +74,10 @@ textarea#text-pad {
 .navbar-brand {
   margin-left: 30px; }
 
-#document-live {
+#docName {
   margin-top: 0; }
+  #docName h4 {
+    font-size: 1.2vw; }
 
 .navbar-text {
   color: #363636;
@@ -308,6 +310,9 @@ i a:hover {
 #site-nav-right:target + .page-wrap-right .right-header {
   width: 80%;
   left: 20%; }
+
+.remove-collab span {
+  padding-right: 5px; }
 
 #delete-document {
   position: fixed;

@@ -97,8 +97,12 @@ textarea#text-pad {
     margin-left: 30px;
 }
 
-#document-live {
+#docName {
     margin-top: 0;
+
+    h4 {
+        font-size: 1.2vw;
+    }
 }
 
 .navbar-text {
@@ -417,6 +421,13 @@ i {
   width: 80%;
   left: 20%;
 }
+
+.remove-collab {
+    span {
+        padding-right: 5px;
+    }
+}
+
 
 #delete-document {
     position: fixed;
