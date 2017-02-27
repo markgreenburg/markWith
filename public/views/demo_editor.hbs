@@ -1,0 +1,21 @@
+<div id="document-live" class="navbar-text header-row col-sm-12">
+    <h4>Editing "<span id="docName">untitled</span>" as Anonymous</h4>
+</div>
+<div class="container-fluid">
+    <div class="row content-row">
+        <div class="page-wrap">
+            <input id="docId" value="{{documentId}}" style="display: none" />
+            <div class="col-sm-6 text-pad">
+                <textarea id="text-pad"></textarea>
+            </div>
+            <div class="col-sm-6 markdown">
+                <div id="markdown-target"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Socket.io handler -->
+<script src='/socket.io/socket.io.js'></script>
+<!-- Client JS and custom Socket events -->
+<script src="/javascript/demoEditor.js"></script>
