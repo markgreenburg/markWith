@@ -703,8 +703,16 @@ i {
 //       M O B I L E  C O N D I T I O N S
 // =============================================
 
-@media only screen and (max-width: 500px) {
-    // #mynavbar-content {
-    //     display: none;
-    // }
+@media only screen and (max-width: 800px) {
+    #about {
+        font-size: 12px;
+
+        h1 {
+            font-size: 18px;
+        }
+
+        h4 {
+            font-size: 16px;
+        }
+    }
 }
