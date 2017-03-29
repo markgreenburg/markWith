@@ -19,26 +19,25 @@ const userSchema = new Schema({
 userSchema.pre('save', function (next) {
     const self = this;
     if (!self.isModified('password')) {
-        next();
-    } else {
-        const saltRounds = 10;
-        bcrypt
-            .hash(self.password, saltRounds)
-            .then((hash) => {
-                self.password = hash;
-                next();
-            }).catch((err) => {
-                console.log(err);
-                next(err);
-            });
+        return next();
     }
+    const saltRounds = 10;
+    bcrypt
+        .hash(self.password, saltRounds)
+        .then((hash) => {
+            self.password = hash;
+            return next();
+        }).catch((err) => {
+            console.log(err);
+            return next(err);
+        });
 });
 
 /* Define middleware for updating lastUpdated timestamps */
 userSchema.pre('save', function (next) {
     const self = this;
     self.lastModified = Date.now();
-    next();
+    return next();
 });
 
 /* Define a method for comparing plaintext password to stored hash */
@@ -47,7 +46,7 @@ userSchema.methods.comparePassword = function (typedPassword, callback) {
             if (err) {
                 return callback(err);
             }
-            callback(null, match);
+            return callback(null, match);
         });
 }
 
@@ -71,7 +70,7 @@ const authChecker = (req) => {
 
 /* Define a static method that responds to API auth confirmation requests */
 userSchema.statics.apiAuth = (req, res, next) => {
-    if (authChecker(req) === true) {
+    if (authChecker(req)) {
         return next();
     }
     res
@@ -85,7 +84,7 @@ userSchema.statics.apiAuth = (req, res, next) => {
 
 /* Define a static method that responds to client auth confirmation requests */
 userSchema.statics.clientAuth = (req, res, next) => {
-    if (authChecker(req) === true) {
+    if (authChecker(req)) {
         return next();
     }
     res.redirect('/user/login');

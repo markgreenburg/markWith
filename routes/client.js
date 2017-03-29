@@ -2,6 +2,7 @@
 const router = require('express').Router();
 const config = require("../config");
 const db = require("../models/db");
+const Promise = require('bluebird');
 
 /**
  * Client-side routes; mounted at / (root)
@@ -19,20 +20,20 @@ router.get('/faq', (req, res) => {
 
 /* Registration page */
 router.get('/user/register', (req, res) => {
-    if (req.session.token) {
-        res.redirect('/user/account');
-    } else {
+    if (!req.session.token) {
         res.render('register');
+        return;
     }
+    res.redirect('/user/account');
   });
 
 /* Login page */
 router.get('/user/login', (req, res) => {
-    if (req.session.token) {
-        res.redirect('/user/account');
-    } else {
+    if (!req.session.token) {
         res.render('login');
+        return;
     }
+    res.redirect('/user/account');
 });
 
 /* Account Profile */
@@ -67,8 +68,6 @@ router.get('/demo', (req, res) => {
     newTestDoc
         .save()
         .then((result) => {
-            console.log("Logging New Doc:");
-            console.log(result);
             const uri = '/demo/' + result._id;
             res.redirect(uri);
         }).catch((err) => {
@@ -85,12 +84,10 @@ router.get('/demo/:docId', (req, res) => {
                     {owners_emails: config.testDoc.owner},
                     {owners: config.testDoc.owner}]
         }).then((result) => {
-            if (result) {
-                console.log("doc found, loading demo editor");
-                res.render('demo_editor', {documentId: req.params.docId});
-            } else {
-                res.redirect('/');
+            if (!result) {
+                return Promise.reject(new Error("Document not found"));
             }
+            res.render('demo_editor', {documentId: req.params.docId});
         }).catch((err) => {
             console.log(err);
             res.redirect('/');
