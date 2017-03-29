@@ -49,7 +49,8 @@ io.on("connection", (socket) => {
     socket.on("room", (room) => {
         socket.join(room, () => {
             // Send new connection the current doc content
-            db.Doc.findOne({_id: room})
+            db.Doc
+                .findOne({_id: room})
                 .then((result) => {
                     let text = {};
                     if (result) {
@@ -64,8 +65,7 @@ io.on("connection", (socket) => {
                         };
                     }
                     socket.emit("populate editor", text);
-                })
-                .catch((err) => {
+                }).catch((err) => {
                     console.log(err);
                     const text = {
                         docName: "",
@@ -84,7 +84,8 @@ io.on("connection", (socket) => {
         const room = data.docId;
         // Copy the changes to db
         // To-Do: Write old content to history?
-        db.Doc.findByIdAndUpdate(data.docId, 
+        db.Doc
+            .findByIdAndUpdate(data.docId, 
                 { $set: { contents: data.newText}},
                 { new: true })
             // send updated doc back to other sockets in same room
@@ -93,8 +94,7 @@ io.on("connection", (socket) => {
                     newText: newDocument.contents,
                     cursor: data.cursor
                 });
-            })
-            .catch((err) => {
+            }).catch((err) => {
                 socket.to(room).broadcast.emit("text changed", {
                     newText: "Warning - last change not saved. Please reload" 
                             + "your browser. Err: " + err,

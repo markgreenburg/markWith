@@ -64,35 +64,34 @@ router.get('/demo', (req, res) => {
         owners_emails: [config.testDoc.owner_email],
         contents: config.testDoc.contents
     });
-    newTestDoc.save()
+    newTestDoc
+        .save()
         .then((result) => {
             console.log("Logging New Doc:");
             console.log(result);
             const uri = '/demo/' + result._id;
             res.redirect(uri);
-        })
-        .catch((err) => {
+        }).catch((err) => {
             console.log(err);
             res.redirect('/');
-        })
+        });
 });
 
 /* Demo document editor shareable link for existing demo docs */
 router.get('/demo/:docId', (req, res) => {
-    db.Doc.findOne({
-        $and: [{_id: req.params.docId}, 
-                {owners_emails: config.testDoc.owner},
-                {owners: config.testDoc.owner}]
-    })
-        .then((result) => {
+    db.Doc
+        .findOne({
+            $and: [{_id: req.params.docId}, 
+                    {owners_emails: config.testDoc.owner},
+                    {owners: config.testDoc.owner}]
+        }).then((result) => {
             if (result) {
                 console.log("doc found, loading demo editor");
                 res.render('demo_editor', {documentId: req.params.docId});
             } else {
                 res.redirect('/');
             }
-        })
-        .catch((err) => {
+        }).catch((err) => {
             console.log(err);
             res.redirect('/');
         });

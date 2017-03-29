@@ -22,12 +22,12 @@ userSchema.pre('save', function (next) {
         next();
     } else {
         const saltRounds = 10;
-        bcrypt.hash(self.password, saltRounds)
+        bcrypt
+            .hash(self.password, saltRounds)
             .then((hash) => {
                 self.password = hash;
                 next();
-            })
-            .catch((err) => {
+            }).catch((err) => {
                 console.log(err);
                 next(err);
             });
@@ -74,7 +74,8 @@ userSchema.statics.apiAuth = (req, res, next) => {
     if (authChecker(req) === true) {
         return next();
     }
-    res.status(401)
+    res
+        .status(401)
         .json({
             "message": "Not authorized",
             "data": {},
